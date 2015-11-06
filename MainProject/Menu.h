@@ -1,0 +1,32 @@
+#include <iostream>
+using namespace std;
+
+#ifndef MENU
+#define MENU
+
+class Menu
+{
+public:
+	Menu();
+	void Menu::Load();
+	void Menu::SetUp();
+	void Menu::Draw(sf::RenderWindow& window);
+	void Menu::Update(sf::RenderWindow& window);
+	void Menu::Select(sf::RenderWindow& window);
+
+	//GameStateManager stateManager;
+
+private:
+	sf::Texture menuBG_img;
+	sf::Texture playGame_img;
+	sf::Texture options_img;
+	sf::Texture quit_img;
+	sf::Texture crosshair_img;
+
+	sf::Sprite menuBG_spr;
+	sf::Sprite playGame_spr;
+	sf::Sprite options_spr;
+	sf::Sprite quit_spr;
+	sf::Sprite crosshair_spr;
+};
+#endif 
