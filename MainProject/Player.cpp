@@ -15,7 +15,7 @@ Player::Player()
 	mousePressed = true;
 	recoilActive = false;
 	recoilDirection = sf::Vector2f(0, 5 / sqrt(26));
-	recoilSpeed = 0;
+	recoilSpeed = 500;
 	recoilTime = 0;
 	offset = sf::Vector2f(0, 0);
 
@@ -65,7 +65,7 @@ void Player::Update(sf::RenderWindow& window, float frameTime)
 	{
 		mousePressed = false;
 	}
-	if (sf::Mouse::isButtonPressed(sf::Mouse::Left))// && mousePressed == false)
+	if (sf::Mouse::isButtonPressed(sf::Mouse::Left) && mousePressed == false)
 	{
 		mousePressed = true;
 		Shoot(window);
