@@ -10,6 +10,12 @@
 
 Target target;
 
+//! (Brief desc)
+/*!
+\(Detailed desc)
+\return
+\sa
+*/
 Player::Player()
 {
 	mousePressed = true;
@@ -28,27 +34,57 @@ Player::~Player()
 
 }
 
+//! (Brief desc)
+/*!
+\(Detailed desc)
+\return
+\sa
+*/
 void Player::Init(sf::RenderWindow& window)
 {
 	crosshairSprite.setPosition(sf::Vector2f(window.getSize().x / 2, window.getSize().y / 2));
 }
 
+//! (Brief desc)
+/*!
+\(Detailed desc)
+\return
+\sa
+*/
 void Player::Load()
 {
 	crosshairImage.loadFromFile("crosshair.png");
 }
 
+//! (Brief desc)
+/*!
+\(Detailed desc)
+\return
+\sa
+*/
 void Player::SetUp()
 {
 	crosshairSprite.setOrigin(75, 75);
 	crosshairSprite.setTexture(crosshairImage, true);
 }
 
+//! (Brief desc)
+/*!
+\(Detailed desc)
+\return
+\sa
+*/
 void Player::Draw(sf::RenderWindow& window)
 {
 	window.draw(crosshairSprite);
 }
 
+//! (Brief desc)
+/*!
+\(Detailed desc)
+\return
+\sa
+*/
 void Player::Update(sf::RenderWindow& window, float frameTime)
 {
 	float randomXSway = rand() % 1000;
@@ -76,6 +112,12 @@ void Player::Update(sf::RenderWindow& window, float frameTime)
 	}
 }
 
+//! (Brief desc)
+/*!
+\(Detailed desc)
+\return
+\sa
+*/
 void Player::Shoot(sf::RenderWindow& window)
 {
 	cout << "Shot Fired" << endl;
@@ -89,6 +131,12 @@ void Player::Shoot(sf::RenderWindow& window)
 	BulletManager::GetInstance()->AddBullets(1, crosshairSprite.getPosition());
 }
 
+//! (Brief desc)
+/*!
+\(Detailed desc)
+\return
+\sa
+*/
 void Player::Recoil(sf::RenderWindow& window, float frameTime)
 {
 	sf::Vector2f myOffset = recoilDirection * recoilSpeed * frameTime;
@@ -110,6 +158,12 @@ void Player::Recoil(sf::RenderWindow& window, float frameTime)
 	}
 }
 
+//! (Brief desc)
+/*!
+\(Detailed desc)
+\return
+\sa
+*/
 sf::Vector2f Player::Normalize(sf::Vector2i NormaliseMe)
 {
 	float length;
@@ -123,6 +177,12 @@ sf::Vector2f Player::Normalize(sf::Vector2i NormaliseMe)
 	return normalisedV;
 }
 
+//! (Brief desc)
+/*!
+\(Detailed desc)
+\return
+\sa
+*/
 float Player::getVectorLength(sf::Vector2i vec)
 {
 	return sqrtf(powf(vec.x, 2) + powf(vec.y, 2));

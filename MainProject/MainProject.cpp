@@ -8,6 +8,12 @@
 #include "GameStateManager.h"
 #include "BulletManager.h"
 
+//! (Brief desc)
+/*!
+\(Detailed desc)
+\return
+\sa
+*/
 int main()
 {
 	sf::RenderWindow window(sf::VideoMode(1200, 700), "Main Project");

@@ -10,18 +10,12 @@ BulletHole::BulletHole()
 
 }
 
-//void BulletHole::SetUp()
-//{
-//	bulletMetalSprite.setTexture(bulletMetalImage, true);
-//	bulletWoodSprite.setTexture(bulletWoodImage, true);
-//
-//	bulletMetalSprite.setOrigin(bulletMetalSprite.getGlobalBounds().width / 2, bulletMetalSprite.getGlobalBounds().height / 2);
-//	bulletWoodSprite.setOrigin(bulletWoodSprite.getGlobalBounds().width / 2, bulletWoodSprite.getGlobalBounds().height / 2);
-//
-//	bulletMetalSprite.setScale(0.5, 0.5);
-//	bulletWoodSprite.setScale(0.5, 0.5);
-//}
-
+//! (Brief desc)
+/*!
+\(Detailed desc)
+\return
+\sa
+*/
 void BulletHole::SetUp(int textureType, sf::Vector2f bulletPos, sf::Texture* bulletMetalImage, sf::Texture* bulletWoodImage)
 {
 	if (textureType == 1)
@@ -34,6 +28,12 @@ void BulletHole::SetUp(int textureType, sf::Vector2f bulletPos, sf::Texture* bul
 	bulletHoleSprite.setScale(0.38, 0.38);
 }
 
+//! (Brief desc)
+/*!
+\(Detailed desc)
+\return
+\sa
+*/
 void BulletHole::Draw(sf::RenderWindow& window)
 {
 	window.draw(bulletHoleSprite);

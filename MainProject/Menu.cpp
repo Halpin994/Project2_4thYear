@@ -12,6 +12,12 @@ Menu::Menu()
 	SetUp();
 }
 
+//! (Brief desc)
+/*!
+\(Detailed desc)
+\return
+\sa
+*/
 void Menu::Load()
 {
 	menuBG_img.loadFromFile("menuBG_img.png");
@@ -21,6 +27,12 @@ void Menu::Load()
 	crosshair_img.loadFromFile("crosshair.png");
 }
 
+//! (Brief desc)
+/*!
+\(Detailed desc)
+\return
+\sa
+*/
 void Menu::SetUp()
 {
 	crosshair_spr.setOrigin(75, 75);
@@ -37,6 +49,12 @@ void Menu::SetUp()
 	quit_spr.setPosition(100, 450);
 }
 
+//! (Brief desc)
+/*!
+\(Detailed desc)
+\return
+\sa
+*/
 void Menu::Draw(sf::RenderWindow& window)
 {
 	window.draw(menuBG_spr);
@@ -46,12 +64,24 @@ void Menu::Draw(sf::RenderWindow& window)
 	window.draw(crosshair_spr);
 }
 
+//! (Brief desc)
+/*!
+\(Detailed desc)
+\return
+\sa
+*/
 void Menu::Update(sf::RenderWindow& window)
 {
 	crosshair_spr.setPosition(sf::Mouse::getPosition(window).x, sf::Mouse::getPosition(window).y);
 	Menu::Select(window);
 }
 
+//! (Brief desc)
+/*!
+\(Detailed desc)
+\return
+\sa
+*/
 void Menu::Select(sf::RenderWindow& window)
 {
 	if (sf::Mouse::isButtonPressed(sf::Mouse::Left))

@@ -4,13 +4,6 @@ using namespace std;
 #ifndef GAMESTATEMANAGER
 #define GAMESTATEMANAGER
 
-
-//!  GetInstance returns pointer to GameStateManager (singleton) 
-/*!
-more detail here
-and yet more
-etc
-*/
 class GameStateManager
 {
 public:
@@ -36,8 +29,6 @@ private:
 	static GameStateManager* instance;
 
 	GameStates gameState;
-
-
 
 };
 #endif 
