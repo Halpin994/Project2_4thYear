@@ -16,7 +16,7 @@ public:
 	float Target::GetHeight();
 
 private:
-	sf::Texture targetImage;
+	sf::Texture targetTexture;
 	sf::Sprite targetSprite;
 
 };

@@ -21,7 +21,7 @@ Player::Player()
 	mousePressed = true;
 	recoilActive = false;
 	recoilDirection = sf::Vector2f(0, 5 / sqrt(26));
-	recoilSpeed = 500;
+	recoilSpeed = 100;
 	recoilTime = 0;
 	offset = sf::Vector2f(0, 0);
 
@@ -34,10 +34,10 @@ Player::~Player()
 
 }
 
-//! (Brief desc)
+//! Initialise the player position
 /*!
-\(Detailed desc)
-\return
+\Initialise the crosshair position to the centre of the window
+\return none
 \sa
 */
 void Player::Init(sf::RenderWindow& window)
@@ -45,10 +45,10 @@ void Player::Init(sf::RenderWindow& window)
 	crosshairSprite.setPosition(sf::Vector2f(window.getSize().x / 2, window.getSize().y / 2));
 }
 
-//! (Brief desc)
+//! Load in assets
 /*!
-\(Detailed desc)
-\return
+\Loads in the crosshair image(s) and assigns it to texture crosshairImage
+\return none
 \sa
 */
 void Player::Load()
@@ -56,10 +56,10 @@ void Player::Load()
 	crosshairImage.loadFromFile("crosshair.png");
 }
 
-//! (Brief desc)
+//! Setup the player crosshair sprite
 /*!
-\(Detailed desc)
-\return
+\Set the sprites origin to the centre of the sprite. Sets the texture for the sprite
+\return none
 \sa
 */
 void Player::SetUp()
@@ -68,10 +68,10 @@ void Player::SetUp()
 	crosshairSprite.setTexture(crosshairImage, true);
 }
 
-//! (Brief desc)
+//! Draw the player
 /*!
-\(Detailed desc)
-\return
+\Draw the player's crosshair sprite relative to the window
+\return none
 \sa
 */
 void Player::Draw(sf::RenderWindow& window)
@@ -79,18 +79,19 @@ void Player::Draw(sf::RenderWindow& window)
 	window.draw(crosshairSprite);
 }
 
-//! (Brief desc)
+//! Update the Player
 /*!
-\(Detailed desc)
-\return
+\Updates the player's crosshair position, creates a random X axis sway for the gun recoil(move to gun manager class later)
+\Checks for a mouse click, allows the player to shoot and allows for the application of the recoil.
+\return none
 \sa
 */
 void Player::Update(sf::RenderWindow& window, float frameTime)
 {
 	float randomXSway = rand() % 1000;
 	randomXSway = (randomXSway / 200) - 2.5;
-	//cout << randomXSway << endl;
-	recoilDirection = sf::Vector2f(randomXSway / sqrt(26), 5 / sqrt(26));
+	recoilDirection = sf::Vector2f(randomXSway, 5);
+	Normalize(recoilDirection); //Make recoilDirection a unit vector
 
 	if (sf::Mouse::getPosition(window).x > 175 && sf::Mouse::getPosition(window).x < 1030 && sf::Mouse::getPosition(window).y < 590)
 	{
@@ -112,10 +113,11 @@ void Player::Update(sf::RenderWindow& window, float frameTime)
 	}
 }
 
-//! (Brief desc)
+//! Shoot bullets
 /*!
-\(Detailed desc)
-\return
+\Draws a bullet hole at the crosshair position when the player shoots.
+\This is done by passing a bullet hole type and the position of the crosshair.
+\return none
 \sa
 */
 void Player::Shoot(sf::RenderWindow& window)
@@ -131,10 +133,10 @@ void Player::Shoot(sf::RenderWindow& window)
 	BulletManager::GetInstance()->AddBullets(1, crosshairSprite.getPosition());
 }
 
-//! (Brief desc)
+//! Applys recoil to the crosshair sprite
 /*!
-\(Detailed desc)
-\return
+\ Creates a recoil offset
+\return none
 \sa
 */
 void Player::Recoil(sf::RenderWindow& window, float frameTime)
@@ -158,13 +160,13 @@ void Player::Recoil(sf::RenderWindow& window, float frameTime)
 	}
 }
 
-//! (Brief desc)
+//! Normalize a vector passed on call
 /*!
-\(Detailed desc)
-\return
+\When this method is called a vector of type float must be passed. This method then normalises it (creates a unit vector)
+\return Vector2f
 \sa
 */
-sf::Vector2f Player::Normalize(sf::Vector2i NormaliseMe)
+sf::Vector2f Player::Normalize(sf::Vector2f NormaliseMe)
 {
 	float length;
 	sf::Vector2f normalisedV(0, 0);
@@ -177,10 +179,11 @@ sf::Vector2f Player::Normalize(sf::Vector2i NormaliseMe)
 	return normalisedV;
 }
 
-//! (Brief desc)
+//! Returns a vector's length
 /*!
-\(Detailed desc)
-\return
+\When called, this method must be passed a vector of type int. It then calculates the length of this vector
+\This is currently not used/needed
+\return float
 \sa
 */
 float Player::getVectorLength(sf::Vector2i vec)

@@ -12,36 +12,36 @@ Menu::Menu()
 	SetUp();
 }
 
-//! (Brief desc)
+//! Load in assets
 /*!
-\(Detailed desc)
-\return
+\Loads in the menu background image, menu selection images, and crosshair image then assigns it to their respective textures
+\return none
 \sa
 */
 void Menu::Load()
 {
-	menuBG_img.loadFromFile("menuBG_img.png");
-	playGame_img.loadFromFile("playGame_img.png");
-	options_img.loadFromFile("options_img.png");
-	quit_img.loadFromFile("quit_img.png");
-	crosshair_img.loadFromFile("crosshair.png");
+	menuBG_tex.loadFromFile("menuBG_img.png");
+	playGame_tex.loadFromFile("playGame_img.png");
+	options_tex.loadFromFile("options_img.png");
+	quit_tex.loadFromFile("quit_img.png");
+	crosshair_tex.loadFromFile("crosshair.png");
 }
 
-//! (Brief desc)
+//! Setup the sprites
 /*!
-\(Detailed desc)
-\return
+\Sets the crosshair sprites origin to the centre of the sprite. Sets the texture for each sprite and the position.
+\return none
 \sa
 */
 void Menu::SetUp()
 {
 	crosshair_spr.setOrigin(75, 75);
-	crosshair_spr.setTexture(crosshair_img);
+	crosshair_spr.setTexture(crosshair_tex);
 
-	menuBG_spr.setTexture(menuBG_img);
-	playGame_spr.setTexture(playGame_img);
-	options_spr.setTexture(options_img);
-	quit_spr.setTexture(quit_img);
+	menuBG_spr.setTexture(menuBG_tex);
+	playGame_spr.setTexture(playGame_tex);
+	options_spr.setTexture(options_tex);
+	quit_spr.setTexture(quit_tex);
 
 	menuBG_spr.setPosition(0, 0);
 	playGame_spr.setPosition(100, 150);
@@ -49,10 +49,10 @@ void Menu::SetUp()
 	quit_spr.setPosition(100, 450);
 }
 
-//! (Brief desc)
+//! Draw the menu
 /*!
-\(Detailed desc)
-\return
+\Draw the menu sprites relative to the window
+\return none
 \sa
 */
 void Menu::Draw(sf::RenderWindow& window)
@@ -64,10 +64,10 @@ void Menu::Draw(sf::RenderWindow& window)
 	window.draw(crosshair_spr);
 }
 
-//! (Brief desc)
+//! Update the menu cursor
 /*!
-\(Detailed desc)
-\return
+\Updates the menu cursor relative to the position of the mouse on the window.
+\return none
 \sa
 */
 void Menu::Update(sf::RenderWindow& window)
@@ -76,10 +76,10 @@ void Menu::Update(sf::RenderWindow& window)
 	Menu::Select(window);
 }
 
-//! (Brief desc)
+//! Select Option
 /*!
-\(Detailed desc)
-\return
+\Determines which option is being selected in the menu using box collision. Sets the game state depending on which collision is detected
+\return none
 \sa
 */
 void Menu::Select(sf::RenderWindow& window)

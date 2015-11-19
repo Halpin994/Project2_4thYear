@@ -16,7 +16,7 @@ public:
 	void Shoot(sf::RenderWindow& window);
 	void Recoil(sf::RenderWindow& window, float);
 	void Update(sf::RenderWindow& window, float);
-	sf::Vector2f Normalize(sf::Vector2i);
+	sf::Vector2f Normalize(sf::Vector2f);
 	float getVectorLength(sf::Vector2i vec);
 
 private:

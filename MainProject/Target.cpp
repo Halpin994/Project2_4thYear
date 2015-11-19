@@ -11,33 +11,33 @@ Target::Target()
 	SetUp();
 }
 
-//! (Brief desc)
+//! Load the target
 /*!
-\(Detailed desc)
-\return
+\Load in the target image and assign it to its relative texture
+\return none
 \sa
 */
 void Target::Load()
 {
-	targetImage.loadFromFile("target.png");
+	targetTexture.loadFromFile("target.png");
 }
 
-//! (Brief desc)
+//! Set up the target sprite
 /*!
-\(Detailed desc)
-\return
+\Sets the texture and position for the target sprite
+\return none
 \sa
 */
 void Target::SetUp()
 {
-	targetSprite.setTexture(targetImage, true);
+	targetSprite.setTexture(targetTexture, true);
 	targetSprite.setPosition(600 - targetSprite.getGlobalBounds().width / 2, 180);
 }
 
-//! (Brief desc)
+//! Draw the target
 /*!
-\(Detailed desc)
-\return
+\Draws the target Sprite on the window
+\return none
 \sa
 */
 void Target::Draw(sf::RenderWindow& window)
@@ -45,10 +45,10 @@ void Target::Draw(sf::RenderWindow& window)
 	window.draw(targetSprite);
 }
 
-//! (Brief desc)
+//! Get the target position
 /*!
-\(Detailed desc)
-\return
+\Returns the target sprite's position when called
+\return Vector2f
 \sa
 */
 sf::Vector2f Target::GetPosition()
@@ -56,10 +56,10 @@ sf::Vector2f Target::GetPosition()
 	return targetSprite.getPosition();
 }
 
-//! (Brief desc)
+//! Get target width
 /*!
-\(Detailed desc)
-\return
+\Returns the target sprite's width
+\return float
 \sa
 */
 float Target::GetWidth()
@@ -67,10 +67,10 @@ float Target::GetWidth()
 	return targetSprite.getGlobalBounds().width;
 }
 
-//! (Brief desc)
+//! Get target height
 /*!
-\(Detailed desc)
-\return
+\Returns the target sprite's height
+\return float
 \sa
 */
 float Target::GetHeight()

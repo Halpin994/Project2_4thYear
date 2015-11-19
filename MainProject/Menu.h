@@ -17,11 +17,11 @@ public:
 	//GameStateManager stateManager;
 
 private:
-	sf::Texture menuBG_img;
-	sf::Texture playGame_img;
-	sf::Texture options_img;
-	sf::Texture quit_img;
-	sf::Texture crosshair_img;
+	sf::Texture menuBG_tex;
+	sf::Texture playGame_tex;
+	sf::Texture options_tex;
+	sf::Texture quit_tex;
+	sf::Texture crosshair_tex;
 
 	sf::Sprite menuBG_spr;
 	sf::Sprite playGame_spr;

@@ -10,10 +10,10 @@ BulletHole::BulletHole()
 
 }
 
-//! (Brief desc)
+//! Setup each bullet hole sprite
 /*!
-\(Detailed desc)
-\return
+\When called, sets the texture type, position(crosshair pos), origin (to centre of sprite)
+\return none
 \sa
 */
 void BulletHole::SetUp(int textureType, sf::Vector2f bulletPos, sf::Texture* bulletMetalImage, sf::Texture* bulletWoodImage)
@@ -28,10 +28,10 @@ void BulletHole::SetUp(int textureType, sf::Vector2f bulletPos, sf::Texture* bul
 	bulletHoleSprite.setScale(0.38, 0.38);
 }
 
-//! (Brief desc)
+//! Draw the bullet holes
 /*!
-\(Detailed desc)
-\return
+\Draws the bullet holes on to the window
+\return none
 \sa
 */
 void BulletHole::Draw(sf::RenderWindow& window)

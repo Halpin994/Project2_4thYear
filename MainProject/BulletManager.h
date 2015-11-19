@@ -25,13 +25,13 @@ private:
 	BulletManager()
 	{
 		bulletHoles = list<BulletHole>();
-		bulletMetalImage.loadFromFile("bulletHole_metal.png");
-		bulletWoodImage.loadFromFile("bulletHole_wood.png");
+		bulletMetalTexture.loadFromFile("bulletHole_metal.png");
+		bulletWoodTexture.loadFromFile("bulletHole_wood.png");
 	}
 	static bool instanceFlag;
 	static BulletManager* instance;
-	sf::Texture bulletMetalImage;
-	sf::Texture bulletWoodImage;
+	sf::Texture bulletMetalTexture;
+	sf::Texture bulletWoodTexture;
 	list<BulletHole> bulletHoles;
 
 };

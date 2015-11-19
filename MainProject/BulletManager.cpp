@@ -39,7 +39,7 @@ BulletManager* BulletManager::GetInstance()
 void BulletManager::AddBullets(int bulletType, sf::Vector2f bulletHPos)
 {
 	BulletHole b;
-	b.SetUp(bulletType, bulletHPos, &bulletMetalImage,  &bulletWoodImage);
+	b.SetUp(bulletType, bulletHPos, &bulletMetalTexture,  &bulletWoodTexture);
 	bulletHoles.push_back(b);
 }
 

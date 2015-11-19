@@ -5,10 +5,10 @@
 #include <iostream>
 #include "Level.h"
 
-//! (Brief desc)
+//! Default Constructor
 /*!
-\(Detailed desc)
-\return
+\When called, this sets its self up through calling the load and set up functions
+\return none
 \sa
 */
 Level::Level()
@@ -17,32 +17,32 @@ Level::Level()
 	SetUp();
 }
 
-//! (Brief desc)
+//! Load in assets
 /*!
-\(Detailed desc)
-\return
+\Loads in the background image and assigns it to texture rangeImage
+\return none
 \sa
 */
 void Level::Load()
 {
-	rangeImage.loadFromFile("basicRange.png");
+	rangeTexture.loadFromFile("basicRange.png");
 }
 
-//! (Brief desc)
+//! Setup the level's range sprite
 /*!
-\(Detailed desc)
-\return
+\Set the sprites texture to the rangeImage loaded in the load() function.
+\return none
 \sa
 */
 void Level::SetUp()
 {
-	rangeSprite.setTexture(rangeImage, true);
+	rangeSprite.setTexture(rangeTexture, true);
 }
 
-//! (Brief desc)
+//! Draw the level
 /*!
-\(Detailed desc)
-\return
+\Draw the level range sprite relative to the window
+\return none
 \sa
 */
 void Level::Draw(sf::RenderWindow& window)
