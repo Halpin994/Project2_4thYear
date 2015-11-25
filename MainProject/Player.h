@@ -29,6 +29,10 @@ private:
 	float recoilSpeed;
 	sf::Vector2f offset;
 	float random;
+	int recoilType;
+	float recoilDistance;
+	bool recoilCalculated;
+	sf::Vector2f myOffset;
 
 };
 

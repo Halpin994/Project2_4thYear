@@ -20,10 +20,12 @@ Player::Player()
 {
 	mousePressed = true;
 	recoilActive = false;
-	recoilDirection = sf::Vector2f(0, 5 / sqrt(26));
-	recoilSpeed = 100;
+	//recoilDirection = sf::Vector2f(0, 5 / sqrt(26));
+	recoilSpeed = 50;
 	recoilTime = 0;
 	offset = sf::Vector2f(0, 0);
+	recoilType = 1;
+	recoilCalculated = false;
 
 	Load();
 	SetUp();
@@ -90,7 +92,10 @@ void Player::Update(sf::RenderWindow& window, float frameTime)
 {
 	float randomXSway = rand() % 1000;
 	randomXSway = (randomXSway / 200) - 2.5;
+	float randomYSway = rand() % 1000;
+	randomYSway = (randomYSway / 200) - 2.5;
 	recoilDirection = sf::Vector2f(randomXSway, 5);
+	//recoilDirection = sf::Vector2f(2, 5);
 	Normalize(recoilDirection); //Make recoilDirection a unit vector
 
 	if (sf::Mouse::getPosition(window).x > 175 && sf::Mouse::getPosition(window).x < 1030 && sf::Mouse::getPosition(window).y < 590)
@@ -141,22 +146,49 @@ void Player::Shoot(sf::RenderWindow& window)
 */
 void Player::Recoil(sf::RenderWindow& window, float frameTime)
 {
-	sf::Vector2f myOffset = recoilDirection * recoilSpeed * frameTime;
-
-	//recoilTime += frameTime;
-	//if (recoilTime < 0.06)
-	if (offset.y > -20)
+	if (recoilCalculated == false)
 	{
-		offset.x += myOffset.x;
-		offset.y -= myOffset.y;
-		//cout << "After offset: " << offset.y << endl;
+		myOffset = recoilDirection * recoilSpeed * frameTime;
+		recoilCalculated = true;
 	}
-	else
+
+	recoilDistance = sqrtf(powf(0 - offset.x, 2) + powf(0 - offset.y, 2));
+
+	if (recoilType == 1)
 	{
-		sf::Mouse::setPosition(sf::Vector2i(crosshairSprite.getPosition().x, crosshairSprite.getPosition().y), window);
-		offset = sf::Vector2f(0, 0);
-		recoilActive = false;
-		recoilTime = 0;
+		//if (offset.y > -20)
+		if (recoilDistance < 10)
+		{
+			offset.x += myOffset.x;
+			offset.y -= myOffset.y;
+		}
+		else
+		{
+			sf::Mouse::setPosition(sf::Vector2i(crosshairSprite.getPosition().x, crosshairSprite.getPosition().y), window);
+			offset = sf::Vector2f(0, 0);
+			recoilCalculated = false;
+			recoilActive = false;
+			recoilTime = 0;
+		}
+	}
+	if (recoilType == 2)
+	{
+		if (offset.y > -20)
+		{
+			offset.x += myOffset.x;
+			offset.y -= myOffset.y;
+			//cout << "After offset: " << offset.y << endl;
+		}
+		else
+		{
+			offset.x -= myOffset.x;
+			offset.y += myOffset.y;
+		}
+		if(offset.x < 0 && offset.y > 0)
+		{
+			recoilActive = false;
+			recoilTime = 0;
+		}
 	}
 }
 
