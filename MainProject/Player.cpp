@@ -55,7 +55,7 @@ void Player::Init(sf::RenderWindow& window)
 */
 void Player::Load()
 {
-	crosshairImage.loadFromFile("crosshair.png");
+	crosshairImage.loadFromFile("Assets/Images/crosshair.png");
 }
 
 //! Setup the player crosshair sprite
@@ -66,7 +66,7 @@ void Player::Load()
 */
 void Player::SetUp()
 {
-	crosshairSprite.setOrigin(75, 75);
+	crosshairSprite.setOrigin(75, 75 );
 	crosshairSprite.setTexture(crosshairImage, true);
 }
 

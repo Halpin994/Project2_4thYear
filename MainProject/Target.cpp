@@ -19,7 +19,7 @@ Target::Target()
 */
 void Target::Load()
 {
-	targetTexture.loadFromFile("target.png");
+	targetTexture.loadFromFile("Assets/Images/Game/target.png");
 }
 
 //! Set up the target sprite

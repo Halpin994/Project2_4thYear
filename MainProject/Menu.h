@@ -13,12 +13,14 @@ public:
 	void Menu::Draw(sf::RenderWindow& window);
 	void Menu::Update(sf::RenderWindow& window);
 	void Menu::Select(sf::RenderWindow& window);
+	void Menu::Highlight(sf::RenderWindow& window);
 
 	//GameStateManager stateManager;
 
 private:
 	sf::Texture menuBG_tex;
 	sf::Texture playGame_tex;
+	sf::Texture playGameHighlight_tex;
 	sf::Texture options_tex;
 	sf::Texture quit_tex;
 	sf::Texture crosshair_tex;

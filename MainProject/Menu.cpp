@@ -20,11 +20,12 @@ Menu::Menu()
 */
 void Menu::Load()
 {
-	menuBG_tex.loadFromFile("menuBG_img.png");
-	playGame_tex.loadFromFile("playGame_img.png");
-	options_tex.loadFromFile("options_img.png");
-	quit_tex.loadFromFile("quit_img.png");
-	crosshair_tex.loadFromFile("crosshair.png");
+	menuBG_tex.loadFromFile("Assets/Images/Menu/menuBG_img.png");
+	playGame_tex.loadFromFile("Assets/Images/Menu/playGame_img.png");
+	playGameHighlight_tex.loadFromFile("Assets/Images/Menu/playGameHighlight_img.png");
+	options_tex.loadFromFile("Assets/Images/Menu/options_img.png");
+	quit_tex.loadFromFile("Assets/Images/Menu/quit_img.png");
+	crosshair_tex.loadFromFile("Assets/Images/crosshair.png");
 }
 
 //! Setup the sprites
@@ -73,7 +74,8 @@ void Menu::Draw(sf::RenderWindow& window)
 void Menu::Update(sf::RenderWindow& window)
 {
 	crosshair_spr.setPosition(sf::Mouse::getPosition(window).x, sf::Mouse::getPosition(window).y);
-	Menu::Select(window);
+	Select(window);
+	Highlight(window);
 }
 
 //! Select Option
@@ -97,5 +99,18 @@ void Menu::Select(sf::RenderWindow& window)
 		{
 			GameStateManager::GetInstance()->SetGameState(GameStateManager::GameStates::QUIT);
 		}
+	}
+}
+
+void Menu::Highlight(sf::RenderWindow& window)
+{
+	if (sf::Mouse::getPosition(window).x > playGame_spr.getPosition().x && sf::Mouse::getPosition(window).x < playGame_spr.getPosition().x + playGame_spr.getGlobalBounds().width
+		&& sf::Mouse::getPosition(window).y > playGame_spr.getPosition().y && sf::Mouse::getPosition(window).y < playGame_spr.getPosition().y + playGame_spr.getGlobalBounds().height)
+	{
+		playGame_spr.setTexture(playGameHighlight_tex);
+	}
+	else
+	{
+		playGame_spr.setTexture(playGame_tex);
 	}
 }

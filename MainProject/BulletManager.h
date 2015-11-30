@@ -25,8 +25,8 @@ private:
 	BulletManager()
 	{
 		bulletHoles = list<BulletHole>();
-		bulletMetalTexture.loadFromFile("bulletHole_metal.png");
-		bulletWoodTexture.loadFromFile("bulletHole_wood.png");
+		bulletMetalTexture.loadFromFile("Assets/Images/Game/bulletHole_metal.png");
+		bulletWoodTexture.loadFromFile("Assets/Images/Game/bulletHole_wood.png");
 	}
 	static bool instanceFlag;
 	static BulletManager* instance;
