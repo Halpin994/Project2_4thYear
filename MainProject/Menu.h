@@ -22,7 +22,9 @@ private:
 	sf::Texture playGame_tex;
 	sf::Texture playGameHighlight_tex;
 	sf::Texture options_tex;
+	sf::Texture optionsHighlight_tex;
 	sf::Texture quit_tex;
+	sf::Texture quitHighlight_tex;
 	sf::Texture crosshair_tex;
 
 	sf::Sprite menuBG_spr;

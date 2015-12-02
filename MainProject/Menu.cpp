@@ -24,7 +24,9 @@ void Menu::Load()
 	playGame_tex.loadFromFile("Assets/Images/Menu/playGame_img.png");
 	playGameHighlight_tex.loadFromFile("Assets/Images/Menu/playGameHighlight_img.png");
 	options_tex.loadFromFile("Assets/Images/Menu/options_img.png");
+	optionsHighlight_tex.loadFromFile("Assets/Images/Menu/optionsHighlight_img.png");
 	quit_tex.loadFromFile("Assets/Images/Menu/quit_img.png");
+	quitHighlight_tex.loadFromFile("Assets/Images/Menu/quitHighlight_img.png");
 	crosshair_tex.loadFromFile("Assets/Images/crosshair.png");
 }
 
@@ -112,5 +114,23 @@ void Menu::Highlight(sf::RenderWindow& window)
 	else
 	{
 		playGame_spr.setTexture(playGame_tex);
+	}
+	if (sf::Mouse::getPosition(window).x > options_spr.getPosition().x && sf::Mouse::getPosition(window).x < options_spr.getPosition().x + options_spr.getGlobalBounds().width
+		&& sf::Mouse::getPosition(window).y > options_spr.getPosition().y && sf::Mouse::getPosition(window).y < options_spr.getPosition().y + options_spr.getGlobalBounds().height)
+	{
+		options_spr.setTexture(optionsHighlight_tex);
+	}
+	else
+	{
+		options_spr.setTexture(options_tex);
+	}
+	if (sf::Mouse::getPosition(window).x > quit_spr.getPosition().x && sf::Mouse::getPosition(window).x < quit_spr.getPosition().x + quit_spr.getGlobalBounds().width
+		&& sf::Mouse::getPosition(window).y > quit_spr.getPosition().y && sf::Mouse::getPosition(window).y < quit_spr.getPosition().y + quit_spr.getGlobalBounds().height)
+	{
+		quit_spr.setTexture(quitHighlight_tex);
+	}
+	else
+	{
+		quit_spr.setTexture(quit_tex);
 	}
 }
