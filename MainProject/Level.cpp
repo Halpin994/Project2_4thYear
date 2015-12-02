@@ -4,6 +4,7 @@
 
 #include <iostream>
 #include "Level.h"
+#include "TargetManager.h"
 
 //! Default Constructor
 /*!
@@ -26,6 +27,7 @@ Level::Level()
 void Level::Load()
 {
 	rangeTexture.loadFromFile("Assets/Images/Game/basicRange.png");
+
 }
 
 //! Setup the level's range sprite
@@ -37,6 +39,8 @@ void Level::Load()
 void Level::SetUp()
 {
 	rangeSprite.setTexture(rangeTexture, true);
+	TargetManager::GetInstance()->AddTargets(sf::Vector2f(600, 180));
+	TargetManager::GetInstance()->AddTargets(sf::Vector2f(810, 180));
 }
 
 //! Draw the level

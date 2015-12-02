@@ -7,19 +7,7 @@
 
 Target::Target()
 {
-	Load();
-	SetUp();
-}
 
-//! Load the target
-/*!
-\Load in the target image and assign it to its relative texture
-\return none
-\sa
-*/
-void Target::Load()
-{
-	targetTexture.loadFromFile("Assets/Images/Game/target.png");
 }
 
 //! Set up the target sprite
@@ -28,10 +16,11 @@ void Target::Load()
 \return none
 \sa
 */
-void Target::SetUp()
+void Target::SetUp(sf::Vector2f targetPos, sf::Texture* targetImage)
 {
-	targetSprite.setTexture(targetTexture, true);
-	targetSprite.setPosition(600 - targetSprite.getGlobalBounds().width / 2, 180);
+	targetSprite.setTexture(*targetImage, true);
+	targetSprite.setPosition(targetPos.x - targetSprite.getGlobalBounds().width / 2, targetPos.y);
+	//targetSprite.setScale(0.05,0.05);
 }
 
 //! Draw the target

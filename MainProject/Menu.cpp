@@ -48,8 +48,8 @@ void Menu::SetUp()
 
 	menuBG_spr.setPosition(0, 0);
 	playGame_spr.setPosition(100, 150);
-	options_spr.setPosition(100, 300);
-	quit_spr.setPosition(100, 450);
+	options_spr.setPosition(100, 200);
+	quit_spr.setPosition(100, 250);
 }
 
 //! Draw the menu

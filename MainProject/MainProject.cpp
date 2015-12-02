@@ -7,6 +7,7 @@
 #include "Target.h"
 #include "GameStateManager.h"
 #include "BulletManager.h"
+#include "TargetManager.h"
 
 //! (Brief desc)
 /*!
@@ -30,7 +31,7 @@ int main()
 	player.Init(window);
 	Menu menu;
 	Level level;
-	Target target;
+	//Target target;
 
 	while (window.isOpen())
 	{
@@ -63,7 +64,8 @@ int main()
 
 			window.clear(); //clear the previous screen
 			level.Draw(window);
-			target.Draw(window);
+			//target.Draw(window);
+			TargetManager::GetInstance()->Draw(window);
 			BulletManager::GetInstance()->Draw(window);
 			player.Draw(window);
 			window.display(); //display the updated screen

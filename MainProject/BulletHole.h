@@ -9,7 +9,6 @@ class BulletHole
 {
 public:
 	BulletHole();
-	void Load();
 	void SetUp(int textureType, sf::Vector2f, sf::Texture* bulletMetalImage,sf::Texture* bulletWoodImage);
 	void Draw(sf::RenderWindow& window);
 

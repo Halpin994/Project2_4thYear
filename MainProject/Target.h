@@ -8,8 +8,7 @@ class Target
 {
 public:
 	Target();
-	void Load();
-	void SetUp();
+	void SetUp(sf::Vector2f, sf::Texture* targetImage);
 	void Draw(sf::RenderWindow& window);
 	sf::Vector2f Target::GetPosition();
 	float Target::GetWidth();
