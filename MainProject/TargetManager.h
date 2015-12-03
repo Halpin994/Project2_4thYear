@@ -20,6 +20,7 @@ public:
 
 	void TargetManager::Draw(sf::RenderWindow& window);
 	void TargetManager::AddTargets(sf::Vector2f targetPos);
+	list<Target> TargetManager::GetListOfTargets();
 
 private:
 	TargetManager()

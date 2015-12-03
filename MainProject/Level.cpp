@@ -27,7 +27,6 @@ Level::Level()
 void Level::Load()
 {
 	rangeTexture.loadFromFile("Assets/Images/Game/basicRange.png");
-
 }
 
 //! Setup the level's range sprite

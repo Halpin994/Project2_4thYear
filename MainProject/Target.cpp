@@ -20,7 +20,6 @@ void Target::SetUp(sf::Vector2f targetPos, sf::Texture* targetImage)
 {
 	targetSprite.setTexture(*targetImage, true);
 	targetSprite.setPosition(targetPos.x - targetSprite.getGlobalBounds().width / 2, targetPos.y);
-	//targetSprite.setScale(0.05,0.05);
 }
 
 //! Draw the target

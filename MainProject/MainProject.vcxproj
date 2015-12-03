@@ -91,6 +91,7 @@
   <ItemGroup>
     <ClInclude Include="BulletHole.h" />
     <ClInclude Include="BulletManager.h" />
+    <ClInclude Include="CollisionManager.h" />
     <ClInclude Include="GameStateManager.h" />
     <ClInclude Include="Level.h" />
     <ClInclude Include="Menu.h" />
@@ -103,6 +104,7 @@
   <ItemGroup>
     <ClCompile Include="BulletHole.cpp" />
     <ClCompile Include="BulletManager.cpp" />
+    <ClCompile Include="CollisionManager.cpp" />
     <ClCompile Include="GameStateManager.cpp" />
     <ClCompile Include="Level.cpp" />
     <ClCompile Include="MainProject.cpp" />

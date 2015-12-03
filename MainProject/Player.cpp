@@ -7,6 +7,7 @@
 #include "Player.h"
 #include "BulletManager.h"
 #include "Target.h"
+#include "CollisionManager.h"
 
 Target target;
 
@@ -16,6 +17,8 @@ Target target;
 \return
 \sa
 */
+
+
 Player::Player()
 {
 	mousePressed = true;
@@ -129,8 +132,15 @@ void Player::Shoot(sf::RenderWindow& window)
 {
 	cout << "Shot Fired" << endl;
 	recoilActive = true;
-	if (crosshairSprite.getPosition().x > target.GetPosition().x && crosshairSprite.getPosition().x < target.GetPosition().x + target.GetWidth()
-		&& crosshairSprite.getPosition().y > target.GetPosition().y + 10 && crosshairSprite.getPosition().y < target.GetPosition().y + target.GetHeight())
+	//if (crosshairSprite.getPosition().x > target.GetPosition().x && crosshairSprite.getPosition().x < target.GetPosition().x + target.GetWidth()
+	//	&& crosshairSprite.getPosition().y > target.GetPosition().y + 10 && crosshairSprite.getPosition().y < target.GetPosition().y + target.GetHeight())
+	//{
+	//	BulletManager::GetInstance()->AddBullets(2, crosshairSprite.getPosition());
+	//}
+	//else
+	//BulletManager::GetInstance()->AddBullets(1, crosshairSprite.getPosition());
+
+	if (CollisionManager::GetInstance()->CheckTargetCollision(sf::Vector2f(crosshairSprite.getPosition().x, crosshairSprite.getPosition().y)) == true)
 	{
 		BulletManager::GetInstance()->AddBullets(2, crosshairSprite.getPosition());
 	}

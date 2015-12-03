@@ -64,7 +64,6 @@ int main()
 
 			window.clear(); //clear the previous screen
 			level.Draw(window);
-			//target.Draw(window);
 			TargetManager::GetInstance()->Draw(window);
 			BulletManager::GetInstance()->Draw(window);
 			player.Draw(window);

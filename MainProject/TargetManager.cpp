@@ -29,10 +29,11 @@ TargetManager* TargetManager::GetInstance()
 	}
 }
 
-//! Adds bullets to a list
+//! Adds targets to a list
 /*!
-\When called, it is passed a bulletType and position when called in the Shoot() method in the bullet class
-\the bulletType and position are passed from the Player class which holds the Shoot() method and determines these variables.
+\This method is passed a vector2f position when called in the Level class SetUp() method
+\the position is then used when calling the SetUp for the target class, it is also passed the address of targetImage
+\as the SetUp requires a texture to be added to the sprite.
 \return none
 \sa
 */
@@ -43,10 +44,10 @@ void TargetManager::AddTargets(sf::Vector2f targetPos)
 	targets.push_back(t);
 }
 
-//! Draws the bullet holes
+//! Draws the targets
 /*!
-\When called, the Draw() method iterates through the list of bullets.
-\It then calls upon the Draw() method inside the BulletHole class to draw the bullets to the screen.
+\When called, the Draw() method iterates through the list of targets.
+\It then calls upon the Draw() method inside the Target class to draw the bullets to the screen.
 \return none
 \sa
 */
@@ -57,4 +58,9 @@ void TargetManager::Draw(sf::RenderWindow& window)
 	{
 		it->Draw(window);
 	}
+}
+
+list<Target> TargetManager::GetListOfTargets()
+{
+	return targets;
 }
