@@ -17,13 +17,10 @@ Target target;
 \return
 \sa
 */
-
-
 Player::Player()
 {
 	mousePressed = true;
 	recoilActive = false;
-	//recoilDirection = sf::Vector2f(0, 5 / sqrt(26));
 	recoilSpeed = 50;
 	recoilTime = 0;
 	offset = sf::Vector2f(0, 0);
@@ -69,7 +66,7 @@ void Player::Load()
 */
 void Player::SetUp()
 {
-	crosshairSprite.setOrigin(75, 75 );
+	crosshairSprite.setOrigin(75, 74);
 	crosshairSprite.setTexture(crosshairImage, true);
 }
 
@@ -98,7 +95,6 @@ void Player::Update(sf::RenderWindow& window, float frameTime)
 	float randomYSway = rand() % 1000;
 	randomYSway = (randomYSway / 200) - 2.5;
 	recoilDirection = sf::Vector2f(randomXSway, 5);
-	//recoilDirection = sf::Vector2f(2, 5);
 	Normalize(recoilDirection); //Make recoilDirection a unit vector
 
 	if (sf::Mouse::getPosition(window).x > 175 && sf::Mouse::getPosition(window).x < 1030 && sf::Mouse::getPosition(window).y < 590)
@@ -132,13 +128,6 @@ void Player::Shoot(sf::RenderWindow& window)
 {
 	cout << "Shot Fired" << endl;
 	recoilActive = true;
-	//if (crosshairSprite.getPosition().x > target.GetPosition().x && crosshairSprite.getPosition().x < target.GetPosition().x + target.GetWidth()
-	//	&& crosshairSprite.getPosition().y > target.GetPosition().y + 10 && crosshairSprite.getPosition().y < target.GetPosition().y + target.GetHeight())
-	//{
-	//	BulletManager::GetInstance()->AddBullets(2, crosshairSprite.getPosition());
-	//}
-	//else
-	//BulletManager::GetInstance()->AddBullets(1, crosshairSprite.getPosition());
 
 	if (CollisionManager::GetInstance()->CheckTargetCollision(sf::Vector2f(crosshairSprite.getPosition().x, crosshairSprite.getPosition().y)) == true)
 	{
