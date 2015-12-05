@@ -5,9 +5,12 @@
 #include <iostream>
 #include "Menu.h"
 #include "GameStateManager.h"
+#include "SoundManager.h"
 
 Menu::Menu()
 {
+	highlighted = false;
+
 	Load();
 	SetUp();
 }
@@ -78,6 +81,8 @@ void Menu::Update(sf::RenderWindow& window)
 	crosshair_spr.setPosition(sf::Mouse::getPosition(window).x, sf::Mouse::getPosition(window).y);
 	Select(window);
 	Highlight(window);
+
+	cout << highlighted << endl;
 }
 
 //! Select Option
@@ -109,28 +114,35 @@ void Menu::Highlight(sf::RenderWindow& window)
 	if (sf::Mouse::getPosition(window).x > playGame_spr.getPosition().x && sf::Mouse::getPosition(window).x < playGame_spr.getPosition().x + playGame_spr.getGlobalBounds().width
 		&& sf::Mouse::getPosition(window).y > playGame_spr.getPosition().y && sf::Mouse::getPosition(window).y < playGame_spr.getPosition().y + playGame_spr.getGlobalBounds().height)
 	{
-		playGame_spr.setTexture(playGameHighlight_tex);
+		if (highlighted == false){
+			SoundManager::GetInstance()->PlayClick();
+			playGame_spr.setTexture(playGameHighlight_tex);
+			highlighted = true;
+		}
 	}
-	else
-	{
-		playGame_spr.setTexture(playGame_tex);
-	}
-	if (sf::Mouse::getPosition(window).x > options_spr.getPosition().x && sf::Mouse::getPosition(window).x < options_spr.getPosition().x + options_spr.getGlobalBounds().width
+	else if (sf::Mouse::getPosition(window).x > options_spr.getPosition().x && sf::Mouse::getPosition(window).x < options_spr.getPosition().x + options_spr.getGlobalBounds().width
 		&& sf::Mouse::getPosition(window).y > options_spr.getPosition().y && sf::Mouse::getPosition(window).y < options_spr.getPosition().y + options_spr.getGlobalBounds().height)
 	{
-		options_spr.setTexture(optionsHighlight_tex);
+		if (highlighted == false){
+			SoundManager::GetInstance()->PlayClick();
+			options_spr.setTexture(optionsHighlight_tex);
+			highlighted = true;
+		}
 	}
-	else
-	{
-		options_spr.setTexture(options_tex);
-	}
-	if (sf::Mouse::getPosition(window).x > quit_spr.getPosition().x && sf::Mouse::getPosition(window).x < quit_spr.getPosition().x + quit_spr.getGlobalBounds().width
+	else if (sf::Mouse::getPosition(window).x > quit_spr.getPosition().x && sf::Mouse::getPosition(window).x < quit_spr.getPosition().x + quit_spr.getGlobalBounds().width
 		&& sf::Mouse::getPosition(window).y > quit_spr.getPosition().y && sf::Mouse::getPosition(window).y < quit_spr.getPosition().y + quit_spr.getGlobalBounds().height)
 	{
-		quit_spr.setTexture(quitHighlight_tex);
+		if (highlighted == false){
+			SoundManager::GetInstance()->PlayClick();
+			quit_spr.setTexture(quitHighlight_tex);
+			highlighted = true;
+		}
 	}
 	else
 	{
+		highlighted = false;
+		playGame_spr.setTexture(playGame_tex);
+		options_spr.setTexture(options_tex);
 		quit_spr.setTexture(quit_tex);
 	}
 }

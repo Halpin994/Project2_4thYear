@@ -22,16 +22,11 @@ int main()
 	window.setMouseCursorVisible(false);
 	window.setVerticalSyncEnabled(true);
 	window.setFramerateLimit(60);
-
 	GameStateManager::GetInstance()->SetGameState(GameStateManager::GameStates::MAIN_MENU);
-
 	sf::Clock clock;
-
-	Player player;
-	player.Init(window);
 	Menu menu;
 	Level level;
-	//Target target;
+	Player player;
 
 	while (window.isOpen())
 	{
@@ -60,8 +55,8 @@ int main()
 
 			break;
 		case GameStateManager::GameStates::GAME: //Game state
+			//player.Init(window);
 			player.Update(window, time);
-
 			window.clear(); //clear the previous screen
 			level.Draw(window);
 			TargetManager::GetInstance()->Draw(window);

@@ -8,6 +8,7 @@
 #include "BulletManager.h"
 #include "Target.h"
 #include "CollisionManager.h"
+#include "SoundManager.h"
 
 Target target;
 
@@ -29,6 +30,10 @@ Player::Player()
 
 	Load();
 	SetUp();
+
+	buffer.loadFromFile("Assets/Sounds/gunShot.wav");
+	sound.setBuffer(buffer);
+	
 }
 
 Player::~Player()
@@ -36,16 +41,16 @@ Player::~Player()
 
 }
 
-//! Initialise the player position
-/*!
-\Initialise the crosshair position to the centre of the window
-\return none
-\sa
-*/
-void Player::Init(sf::RenderWindow& window)
-{
-	crosshairSprite.setPosition(sf::Vector2f(window.getSize().x / 2, window.getSize().y / 2));
-}
+////! Initialise the player position
+///*!
+//\Initialise the crosshair position to the centre of the window
+//\return none
+//\sa
+//*/
+//void Player::Init(sf::RenderWindow& window)
+//{
+//	crosshairSprite.setPosition(sf::Vector2f(window.getSize().x / 2, window.getSize().y / 2));
+//}
 
 //! Load in assets
 /*!
@@ -97,10 +102,12 @@ void Player::Update(sf::RenderWindow& window, float frameTime)
 	recoilDirection = sf::Vector2f(randomXSway, 5);
 	Normalize(recoilDirection); //Make recoilDirection a unit vector
 
-	if (sf::Mouse::getPosition(window).x > 175 && sf::Mouse::getPosition(window).x < 1030 && sf::Mouse::getPosition(window).y < 590)
-	{
-		crosshairSprite.setPosition(sf::Mouse::getPosition(window).x + offset.x, sf::Mouse::getPosition(window).y + offset.y);
-	}
+	//if (sf::Mouse::getPosition(window).x > 175 && sf::Mouse::getPosition(window).x < 1030 && sf::Mouse::getPosition(window).y < 590)
+	//{
+	//	crosshairSprite.setPosition(sf::Mouse::getPosition(window).x + offset.x, sf::Mouse::getPosition(window).y + offset.y);
+	//}
+
+	crosshairSprite.setPosition(sf::Mouse::getPosition(window).x + offset.x, sf::Mouse::getPosition(window).y + offset.y);
 
 	if (!sf::Mouse::isButtonPressed(sf::Mouse::Left))
 	{
@@ -128,7 +135,7 @@ void Player::Shoot(sf::RenderWindow& window)
 {
 	cout << "Shot Fired" << endl;
 	recoilActive = true;
-
+	SoundManager::GetInstance()->PlayPistolGunShot();
 	if (CollisionManager::GetInstance()->CheckTargetCollision(sf::Vector2f(crosshairSprite.getPosition().x, crosshairSprite.getPosition().y)) == true)
 	{
 		BulletManager::GetInstance()->AddBullets(2, crosshairSprite.getPosition());

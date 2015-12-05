@@ -1,6 +1,8 @@
 #include <iostream>
 using namespace std;
 
+#include "SFML\Audio.hpp"
+
 #ifndef PLAYER
 #define PLAYER
 
@@ -34,6 +36,8 @@ private:
 	bool recoilCalculated;
 	sf::Vector2f myOffset;
 
+	sf::Sound sound;
+	sf::SoundBuffer buffer;
 };
 
 #endif 

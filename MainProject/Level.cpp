@@ -50,6 +50,6 @@ void Level::SetUp()
 */
 void Level::Draw(sf::RenderWindow& window)
 {
-	rangeSprite.setPosition(0, 0);
+	//rangeSprite.setPosition(0, 0);
 	window.draw(rangeSprite);
 }

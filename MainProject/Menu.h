@@ -32,5 +32,7 @@ private:
 	sf::Sprite options_spr;
 	sf::Sprite quit_spr;
 	sf::Sprite crosshair_spr;
+
+	bool highlighted;
 };
 #endif 
