@@ -22,26 +22,29 @@ public:
 	float getVectorLength(sf::Vector2i vec);
 	float Player::getRecoilDistance();
 	sf::Vector2f Player::getRandomSway();
+	void Player::CreateGunClip();
 
 private:
 	sf::Texture crosshairImage;
 	sf::Sprite crosshairSprite;
+	sf::Texture clipBulletImage;
+	sf::Sprite clipBulletSprite;
+
 	sf::Vector2f recoilDirection;
+	sf::Vector2f offset;
+	sf::Vector2f myOffset;
+
 	bool mousePressed;
 	bool recoilActive;
 	bool recoilTimerActive;
-	float recoilTime;
-	float recoilSpeed;
-	sf::Vector2f offset;
-	float random;
-	int recoilType;
-	float recoilDistance;
+
 	bool recoilCalculated;
 	bool recoilUp;
-	sf::Vector2f myOffset;
 
-	sf::Sound sound;
-	sf::SoundBuffer buffer;
+	float random;
+	float recoilTime;
+	float recoilSpeed;
+	float recoilDistance;
 
 	float recoilCoolDownTime;
 	float recoilCoolDown;
@@ -49,6 +52,11 @@ private:
 	float yRecoilStrength;
 	float yRecoilStrengthTemp;
 	float randomXSway;
+	float recoilMultiplier;
+
+	int recoilType;
+	int pistolClipSize;
+	int pistolClip;
 
 };
 
