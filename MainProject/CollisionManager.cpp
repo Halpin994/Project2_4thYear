@@ -38,7 +38,7 @@ bool CollisionManager::CheckTargetCollision(sf::Vector2f crosshairPos)
 		if ((crosshairPos.x > it->GetPosition().x && crosshairPos.x < it->GetPosition().x + it->GetWidth()
 			&& crosshairPos.y > it->GetPosition().y + 10 && crosshairPos.y < it->GetPosition().y + it->GetHeight()))
 		{
-			cout << "Target Hit" << endl;
+			//cout << "Target Hit" << endl;
 			return true;
 		}
 	}

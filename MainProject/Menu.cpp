@@ -82,7 +82,7 @@ void Menu::Update(sf::RenderWindow& window)
 	Select(window);
 	Highlight(window);
 
-	cout << highlighted << endl;
+	//cout << highlighted << endl;
 }
 
 //! Select Option
