@@ -55,7 +55,7 @@ Player::~Player()
 void Player::Load()
 {
 	crosshairImage.loadFromFile("Assets/Images/Game/crosshair.png");
-	clipBulletImage.loadFromFile("Assets/Images/Game/bullet.png");
+	//clipBulletImage.loadFromFile("Assets/Images/Game/bullet.png");
 }
 
 //! Setup the player crosshair sprite
@@ -68,7 +68,7 @@ void Player::SetUp()
 {
 	crosshairSprite.setOrigin(75, 74);
 	crosshairSprite.setTexture(crosshairImage, true);
-	clipBulletSprite.setTexture(clipBulletImage, true);
+	//clipBulletSprite.setTexture(clipBulletImage, true);
 }
 
 //! Draw the player
@@ -80,7 +80,7 @@ void Player::SetUp()
 void Player::Draw(sf::RenderWindow& window)
 {
 	window.draw(crosshairSprite);
-	window.draw(clipBulletSprite);
+	//window.draw(clipBulletSprite);
 }
 
 //! Update the Player
