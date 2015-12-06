@@ -23,6 +23,7 @@ public:
 
 	void SoundManager::PlayPistolGunShot();
 	void SoundManager::PlayClick();
+	void SoundManager::PlayOutOfAmmo();
 
 private:
 	SoundManager()
@@ -38,6 +39,8 @@ private:
 	sf::Sound pistolGunShot_sfx;
 	sf::SoundBuffer click_buff;
 	sf::Sound click_sfx;
+	sf::SoundBuffer noAmmo_buff;
+	sf::Sound noAmmo_sfx;
 };
 
 #endif 

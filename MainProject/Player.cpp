@@ -6,11 +6,8 @@
 #include "Math.h"
 #include "Player.h"
 #include "BulletManager.h"
-#include "Target.h"
 #include "CollisionManager.h"
 #include "SoundManager.h"
-
-Target target;
 
 //! (Brief desc)
 /*!
@@ -35,7 +32,10 @@ Player::Player()
 	yRecoilStrengthTemp = yRecoilStrength;
 	yRecoil = yRecoilStrengthTemp;
 	randomXSway = 0;
+	recoilMultiplier = 1.4;
 	
+	pistolClipSize = 12;
+	pistolClip = pistolClipSize;
 
 	Load();
 	SetUp();
@@ -46,17 +46,6 @@ Player::~Player()
 
 }
 
-////! Initialise the player position
-///*!
-//\Initialise the crosshair position to the centre of the window
-//\return none
-//\sa
-//*/
-//void Player::Init(sf::RenderWindow& window)
-//{
-//	crosshairSprite.setPosition(sf::Vector2f(window.getSize().x / 2, window.getSize().y / 2));
-//}
-
 //! Load in assets
 /*!
 \Loads in the crosshair image(s) and assigns it to texture crosshairImage
@@ -66,6 +55,7 @@ Player::~Player()
 void Player::Load()
 {
 	crosshairImage.loadFromFile("Assets/Images/Game/crosshair.png");
+	clipBulletImage.loadFromFile("Assets/Images/Game/bullet.png");
 }
 
 //! Setup the player crosshair sprite
@@ -78,6 +68,7 @@ void Player::SetUp()
 {
 	crosshairSprite.setOrigin(75, 74);
 	crosshairSprite.setTexture(crosshairImage, true);
+	clipBulletSprite.setTexture(clipBulletImage, true);
 }
 
 //! Draw the player
@@ -89,6 +80,7 @@ void Player::SetUp()
 void Player::Draw(sf::RenderWindow& window)
 {
 	window.draw(crosshairSprite);
+	window.draw(clipBulletSprite);
 }
 
 //! Update the Player
@@ -103,7 +95,6 @@ void Player::Update(sf::RenderWindow& window, float frameTime)
 	if (recoilTimerActive == true && recoilType == 2)
 	{
 		recoilCoolDown -= frameTime;
-		//cout << recoilCoolDown << endl;
 		if (recoilCoolDown <= 0)
 		{
 			yRecoilStrengthTemp = yRecoilStrength;
@@ -112,14 +103,6 @@ void Player::Update(sf::RenderWindow& window, float frameTime)
 			recoilTimerActive = false;
 		}
 	}
-	//float randomYSway = rand() % 1000;
-	//randomYSway = (randomYSway / 200) - 2.5;
-
-
-	//if (sf::Mouse::getPosition(window).x > 175 && sf::Mouse::getPosition(window).x < 1030 && sf::Mouse::getPosition(window).y < 590)
-	//{
-	//	crosshairSprite.setPosition(sf::Mouse::getPosition(window).x + offset.x, sf::Mouse::getPosition(window).y + offset.y);
-	//}
 
 	crosshairSprite.setPosition(sf::Mouse::getPosition(window).x + offset.x, sf::Mouse::getPosition(window).y + offset.y);
 
@@ -148,19 +131,13 @@ void Player::Update(sf::RenderWindow& window, float frameTime)
 void Player::Shoot(sf::RenderWindow& window)
 {
 	//cout << "Shot Fired" << endl;
-	SoundManager::GetInstance()->PlayPistolGunShot();
-	if (recoilType == 1)
-	{
-		if (CollisionManager::GetInstance()->CheckTargetCollision(sf::Vector2f(crosshairSprite.getPosition().x, crosshairSprite.getPosition().y)) == true)
-		{
-			BulletManager::GetInstance()->AddBullets(2, crosshairSprite.getPosition());
-		}
-		else
-			BulletManager::GetInstance()->AddBullets(1, crosshairSprite.getPosition());
+	if (pistolClip == 0){
+		SoundManager::GetInstance()->PlayOutOfAmmo();
 	}
-	if (recoilType == 2)
-	{
-		if (recoilCoolDown == recoilCoolDownTime)
+	if (pistolClip > 0){
+		pistolClip -= 1;
+		SoundManager::GetInstance()->PlayPistolGunShot();
+		if (recoilType == 1)
 		{
 			if (CollisionManager::GetInstance()->CheckTargetCollision(sf::Vector2f(crosshairSprite.getPosition().x, crosshairSprite.getPosition().y)) == true)
 			{
@@ -169,27 +146,39 @@ void Player::Shoot(sf::RenderWindow& window)
 			else
 				BulletManager::GetInstance()->AddBullets(1, crosshairSprite.getPosition());
 		}
-		else if (recoilCoolDown < recoilCoolDownTime)
+		if (recoilType == 2)
 		{
-			if (CollisionManager::GetInstance()->CheckTargetCollision(sf::Vector2f(crosshairSprite.getPosition().x, crosshairSprite.getPosition().y) + sf::Vector2f(getRandomSway().x, yRecoil -= yRecoilStrengthTemp)) == true)
+			if (recoilCoolDown == recoilCoolDownTime)
 			{
-				BulletManager::GetInstance()->AddBullets(2, crosshairSprite.getPosition() + sf::Vector2f(randomXSway, yRecoil));
+				if (CollisionManager::GetInstance()->CheckTargetCollision(sf::Vector2f(crosshairSprite.getPosition().x, crosshairSprite.getPosition().y)) == true)
+				{
+					BulletManager::GetInstance()->AddBullets(2, crosshairSprite.getPosition());
+				}
+				else
+					BulletManager::GetInstance()->AddBullets(1, crosshairSprite.getPosition());
 			}
-			else
+			else if (recoilCoolDown < recoilCoolDownTime)
 			{
-				BulletManager::GetInstance()->AddBullets(1, crosshairSprite.getPosition() + sf::Vector2f(randomXSway, yRecoil));
+				if (CollisionManager::GetInstance()->CheckTargetCollision(sf::Vector2f(crosshairSprite.getPosition().x, crosshairSprite.getPosition().y) + sf::Vector2f(getRandomSway().x, yRecoil -= yRecoilStrengthTemp)) == true)
+				{
+					BulletManager::GetInstance()->AddBullets(2, crosshairSprite.getPosition() + sf::Vector2f(randomXSway, yRecoil));
+				}
+				else
+				{
+					BulletManager::GetInstance()->AddBullets(1, crosshairSprite.getPosition() + sf::Vector2f(randomXSway, yRecoil));
+				}
+				yRecoilStrengthTemp *= recoilMultiplier;
+				cout << "yRecoil: " << yRecoil << endl;
 			}
-			yRecoilStrengthTemp *= 1.25;
-			cout << "yRecoil: " << yRecoil << endl;
 		}
-	}
 
-	if (recoilTimerActive == true && recoilType == 2)
-	{
-		recoilCoolDown = recoilCoolDownTime;
+		if (recoilTimerActive == true && recoilType == 2)
+		{
+			recoilCoolDown = recoilCoolDownTime;
+		}
+		recoilActive = true;
+		recoilTimerActive = true;
 	}
-	recoilActive = true;
-	recoilTimerActive = true;
 }
 
 //! Applys recoil to the crosshair sprite
