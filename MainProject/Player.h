@@ -27,8 +27,8 @@ public:
 private:
 	sf::Texture crosshairImage;
 	sf::Sprite crosshairSprite;
-	//sf::Texture clipBulletImage;
-	//sf::Sprite clipBulletSprite;
+	sf::Texture clipBulletImage;
+	sf::Sprite clipBulletSprite;
 
 	sf::Vector2f recoilDirection;
 	sf::Vector2f offset;

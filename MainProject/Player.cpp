@@ -32,9 +32,9 @@ Player::Player()
 	yRecoilStrengthTemp = yRecoilStrength;
 	yRecoil = yRecoilStrengthTemp;
 	randomXSway = 0;
-	recoilMultiplier = 1.4;
+	recoilMultiplier = 1.8;
 	
-	pistolClipSize = 12;
+	pistolClipSize = 24;
 	pistolClip = pistolClipSize;
 
 	Load();
@@ -55,7 +55,7 @@ Player::~Player()
 void Player::Load()
 {
 	crosshairImage.loadFromFile("Assets/Images/Game/crosshair.png");
-	//clipBulletImage.loadFromFile("Assets/Images/Game/bullet.png");
+	clipBulletImage.loadFromFile("Assets/Images/Game/bullet.png");
 }
 
 //! Setup the player crosshair sprite
@@ -68,7 +68,7 @@ void Player::SetUp()
 {
 	crosshairSprite.setOrigin(75, 74);
 	crosshairSprite.setTexture(crosshairImage, true);
-	//clipBulletSprite.setTexture(clipBulletImage, true);
+	clipBulletSprite.setTexture(clipBulletImage, true);
 }
 
 //! Draw the player
@@ -79,8 +79,13 @@ void Player::SetUp()
 */
 void Player::Draw(sf::RenderWindow& window)
 {
+	for (int i = 0; i < pistolClip; i++)
+	{
+		clipBulletSprite.setPosition(100 + i * 15, 650);
+		window.draw(clipBulletSprite);
+	}
 	window.draw(crosshairSprite);
-	//window.draw(clipBulletSprite);
+
 }
 
 //! Update the Player
@@ -168,6 +173,12 @@ void Player::Shoot(sf::RenderWindow& window)
 					BulletManager::GetInstance()->AddBullets(1, crosshairSprite.getPosition() + sf::Vector2f(randomXSway, yRecoil));
 				}
 				yRecoilStrengthTemp *= recoilMultiplier;
+				if (yRecoilStrengthTemp > 100)
+				{
+					yRecoilStrengthTemp = 0;
+					randomXSway = rand() % 1000;
+					randomXSway = (randomXSway / 10) - 50;
+				}
 				cout << "yRecoil: " << yRecoil << endl;
 			}
 		}
@@ -223,7 +234,7 @@ void Player::Recoil(sf::RenderWindow& window, float frameTime)
 			offset = sf::Vector2f(0, 0);
 			recoilCalculated = false;
 			recoilActive = false;
-			recoilTime = 0;
+			//recoilTime = 0;
 		}
 	}
 	if (recoilType == 2)
@@ -247,7 +258,7 @@ void Player::Recoil(sf::RenderWindow& window, float frameTime)
 			recoilUp = false;
 			recoilActive = false;
 			recoilCalculated = false;
-			recoilTime = 0;
+			//recoilTime = 0;
 		}
 	}
 }
