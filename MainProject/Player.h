@@ -16,11 +16,12 @@ public:
 	void SetUp();
 	void Draw(sf::RenderWindow& window);
 	void Shoot(sf::RenderWindow& window);
-	void Recoil(sf::RenderWindow& window, float);
+	void CrosshairRecoil(sf::RenderWindow& window, float);
+	sf::Vector2f Player::PistolBulletRecoil();
 	void Update(sf::RenderWindow& window, float);
 	sf::Vector2f Normalize(sf::Vector2f);
 	float getVectorLength(sf::Vector2i vec);
-	float Player::getRecoilDistance();
+	float Player::getcrhRecoilDistance();
 	sf::Vector2f Player::getRandomSway();
 	void Player::CreateGunClip();
 
@@ -30,31 +31,35 @@ private:
 	sf::Texture clipBulletImage;
 	sf::Sprite clipBulletSprite;
 
-	sf::Vector2f recoilDirection;
-	sf::Vector2f offset;
+	sf::Vector2f crhRecoilDirection;
+	sf::Vector2f crhOffset;
 	sf::Vector2f myOffset;
 
 	bool mousePressed;
-	bool recoilActive;
+	bool crhRecoilActive;
 	bool recoilTimerActive;
 
-	bool recoilCalculated;
-	bool recoilUp;
+	bool crhRecoilCalculated;
+	bool crhRecoilUp;
+
+	bool outOfControl;
 
 	float random;
-	float recoilTime;
-	float recoilSpeed;
-	float recoilDistance;
+	float randomXSway;
+
+	float crhRecoilSpeed;
+	float crhRecoilDistance;
 
 	float recoilCoolDownTime;
 	float recoilCoolDown;
-	float yRecoil;
-	float yRecoilStrength;
-	float yRecoilStrengthTemp;
-	float randomXSway;
-	float recoilMultiplier;
+
+	float yPistolRecoil;
+	float yPistolRecoilStrength;
+	float yPistolRecoilStrengthTemp;
+	float pistolRecoilMultiplier;
 
 	int recoilType;
+
 	int pistolClipSize;
 	int pistolClip;
 
