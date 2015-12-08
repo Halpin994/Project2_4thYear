@@ -24,6 +24,9 @@ public:
 	void SoundManager::PlayPistolGunShot();
 	void SoundManager::PlayClick();
 	void SoundManager::PlayOutOfAmmo();
+	void SoundManager::PlayFallingShell();
+	void SoundManager::PlayPistolReload();
+	void SoundManager::PlayPistolQuickReload();
 
 private:
 	SoundManager()
@@ -41,6 +44,12 @@ private:
 	sf::Sound click_sfx;
 	sf::SoundBuffer noAmmo_buff;
 	sf::Sound noAmmo_sfx;
+	sf::SoundBuffer fallingShell_buff;
+	sf::Sound fallingShell_sfx;
+	sf::SoundBuffer pistolReload_buff;
+	sf::Sound pistolReload_sfx;
+	sf::SoundBuffer pistolQuickReload_buff;
+	sf::Sound pistolQuickReload_sfx;
 };
 
 #endif 

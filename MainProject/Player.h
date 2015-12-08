@@ -24,6 +24,8 @@ public:
 	float Player::getcrhRecoilDistance();
 	sf::Vector2f Player::getRandomSway();
 	void Player::CreateGunClip();
+	void Player::Reload();
+	void Player::UpdateReloadTimes(float);
 
 private:
 	sf::Texture crosshairImage;
@@ -31,6 +33,11 @@ private:
 	sf::Texture clipBulletImage;
 	sf::Sprite clipBulletSprite;
 
+	sf::Texture reloadQuickImage;
+	sf::Sprite reloadQuickSprite;
+	sf::Texture reloadNormalImage;
+	sf::Sprite reloadNormalSprite;
+	
 	sf::Vector2f crhRecoilDirection;
 	sf::Vector2f crhOffset;
 	sf::Vector2f myOffset;
@@ -44,19 +51,28 @@ private:
 
 	bool outOfControl;
 
+	bool quickReloadActive;
+	bool normalReloadActive;
+
 	float random;
 	float randomXSway;
 
 	float crhRecoilSpeed;
 	float crhRecoilDistance;
 
-	float recoilCoolDownTime;
+	float pistolRecoilCoolDownTime;
 	float recoilCoolDown;
 
 	float yPistolRecoil;
 	float yPistolRecoilStrength;
 	float yPistolRecoilStrengthTemp;
 	float pistolRecoilMultiplier;
+
+	float quickReloadTime;
+	float quickReloadTimer;
+
+	float normalReloadTime;
+	float normalReloadTimer;
 
 	int recoilType;
 

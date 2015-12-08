@@ -19,6 +19,7 @@ public:
 	static CollisionManager* GetInstance();
 
 	bool CollisionManager::CheckTargetCollision(sf::Vector2f);
+	bool CollisionManager::CheckReloadCollision(sf::Vector2f, sf::Vector2f, sf::FloatRect);
 
 private:
 	static bool instanceFlag;

@@ -34,12 +34,18 @@ void SoundManager::Load()
 	pistolGunShot_buff.loadFromFile("Assets/Sounds/gunShot.wav");
 	click_buff.loadFromFile("Assets/Sounds/click.wav");
 	noAmmo_buff.loadFromFile("Assets/Sounds/noAmmo.wav");
+	fallingShell_buff.loadFromFile("Assets/Sounds/fallingShell.wav");
+	pistolReload_buff.loadFromFile("Assets/Sounds/pistolReload.wav");
+	pistolQuickReload_buff.loadFromFile("Assets/Sounds/pistolQuickReload.wav");
 }
 void SoundManager::SetUp()
 {
 	pistolGunShot_sfx.setBuffer(pistolGunShot_buff);
 	click_sfx.setBuffer(click_buff);
 	noAmmo_sfx.setBuffer(noAmmo_buff);
+	fallingShell_sfx.setBuffer(fallingShell_buff);
+	pistolReload_sfx.setBuffer(pistolReload_buff);
+	pistolQuickReload_sfx.setBuffer(pistolQuickReload_buff);
 }
 
 void SoundManager::PlayPistolGunShot()
@@ -57,4 +63,20 @@ void SoundManager::PlayOutOfAmmo()
 	noAmmo_sfx.setVolume(100);
 	noAmmo_sfx.play();
 }
+
+void SoundManager::PlayFallingShell()
+{
+	fallingShell_sfx.play();
+}
+
+void SoundManager::PlayPistolReload()
+{
+	pistolReload_sfx.play();
+}
+
+void SoundManager::PlayPistolQuickReload()
+{
+	pistolQuickReload_sfx.play();
+}
+
 

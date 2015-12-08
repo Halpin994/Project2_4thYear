@@ -43,9 +43,14 @@ bool CollisionManager::CheckTargetCollision(sf::Vector2f crosshairPos)
 		}
 	}
 	return false;
+}
 
-	/*for each (Target t in TargetManager::GetInstance()->GetListOfTargets())
+bool CollisionManager::CheckReloadCollision(sf::Vector2f crosshairPos, sf::Vector2f reloadPos, sf::FloatRect reloadBounds)
+{
+	if ((crosshairPos.x > reloadPos.x && crosshairPos.x < reloadPos.x + reloadBounds.width
+		&& crosshairPos.y > reloadPos.y && crosshairPos.y < reloadPos.y + reloadBounds.height))
 	{
-		t.GetPosition();
-	}*/
+		return true;
+	}
+	return false;
 }
