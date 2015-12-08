@@ -144,20 +144,23 @@ void Player::Update(sf::RenderWindow& window, float frameTime)
 	{
 		mousePressed = false;
 	}
-	if (sf::Mouse::isButtonPressed(sf::Mouse::Left) && mousePressed == false)
+	if (sf::Mouse::isButtonPressed(sf::Mouse::Left) && mousePressed == false && normalReloadActive == false)
 	{
 		mousePressed = true;
 		if (CollisionManager::GetInstance()->CheckReloadCollision(crosshairSprite.getPosition(), reloadNormalSprite.getPosition(), reloadNormalSprite.getGlobalBounds()) == true)
 		{
-			if (quickReloadActive == true)
+			if (pistolClip < pistolClipSize)
 			{
-				SoundManager::GetInstance()->PlayPistolQuickReload();
-				Reload();
-			}
-			else if (quickReloadActive == false)
-			{
-				SoundManager::GetInstance()->PlayPistolReload();
-				normalReloadActive = true;
+				if (quickReloadActive == true)
+				{
+					SoundManager::GetInstance()->PlayPistolQuickReload();
+					Reload();
+				}
+				else if (quickReloadActive == false)
+				{
+					SoundManager::GetInstance()->PlayPistolReload();
+					normalReloadActive = true;
+				}
 			}
 		}
 		else
