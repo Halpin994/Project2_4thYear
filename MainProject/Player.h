@@ -2,6 +2,7 @@
 using namespace std;
 
 #include "SFML\Audio.hpp"
+#include <sstream>
 
 #ifndef PLAYER
 #define PLAYER
@@ -37,6 +38,8 @@ private:
 	sf::Sprite reloadQuickSprite;
 	sf::Texture reloadNormalImage;
 	sf::Sprite reloadNormalSprite;
+	sf::Texture reloadUnavailableImage;
+	sf::Sprite reloadUnavailableSprite;
 	
 	sf::Vector2f crhRecoilDirection;
 	sf::Vector2f crhOffset;
@@ -78,6 +81,10 @@ private:
 
 	int pistolClipSize;
 	int pistolClip;
+
+	sf::Font font;
+	sf::Text text;
+	std::stringstream ss;
 
 };
 

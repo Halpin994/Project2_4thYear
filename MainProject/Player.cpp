@@ -71,6 +71,9 @@ void Player::Load()
 	clipBulletImage.loadFromFile("Assets/Images/Game/bullet.png");
 	reloadQuickImage.loadFromFile("Assets/Images/Game/reloadQuick.png");
 	reloadNormalImage.loadFromFile("Assets/Images/Game/reloadNormal.png");
+	reloadUnavailableImage.loadFromFile("Assets/Images/Game/reloadUnavailable.png");
+
+	font.loadFromFile("Assets/imagine_font.ttf");
 }
 
 //! Setup the player crosshair sprite
@@ -87,8 +90,15 @@ void Player::SetUp()
 
 	reloadNormalSprite.setTexture(reloadNormalImage, true);
 	reloadQuickSprite.setTexture(reloadQuickImage, true);
+	reloadUnavailableSprite.setTexture(reloadUnavailableImage, true);
 	reloadNormalSprite.setPosition(600 - reloadNormalSprite.getGlobalBounds().width/2, 650);
 	reloadQuickSprite.setPosition(600 - reloadQuickSprite.getGlobalBounds().width / 2, 650);
+	reloadUnavailableSprite.setPosition(600 - reloadQuickSprite.getGlobalBounds().width / 2, 650);
+
+	text.setFont(font);
+	text.setCharacterSize(40);
+	text.setPosition(100, 645);
+	text.setColor(sf::Color::Yellow);
 }
 
 //! Draw the player
@@ -101,17 +111,25 @@ void Player::Draw(sf::RenderWindow& window)
 {
 	for (int i = 0; i < pistolClip; i++)
 	{
-		clipBulletSprite.setPosition(100 + i * 12, 650);
+		clipBulletSprite.setPosition(150 + i * 12, 650);
 		window.draw(clipBulletSprite);
 	}
-	if (quickReloadActive == false)
+	if (pistolClip == pistolClipSize)
+	{
+		window.draw(reloadUnavailableSprite);
+	}
+	if (quickReloadActive == false && pistolClip < pistolClipSize)
 	{
 		window.draw(reloadNormalSprite);
 	}
-	else
+	if (quickReloadActive == true)
 	{
 		window.draw(reloadQuickSprite);
 	}
+	ss.str(std::string());
+	ss << pistolClip;
+	text.setString(ss.str());
+	window.draw(text);
 	window.draw(crosshairSprite);
 }
 
@@ -124,6 +142,8 @@ void Player::Draw(sf::RenderWindow& window)
 */
 void Player::Update(sf::RenderWindow& window, float frameTime)
 {
+	
+
 	if (recoilTimerActive == true && recoilType == 2)
 	{
 		recoilCoolDown -= frameTime;

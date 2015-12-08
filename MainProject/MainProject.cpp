@@ -55,7 +55,6 @@ int main()
 
 			break;
 		case GameStateManager::GameStates::GAME: //Game state
-			//player.Init(window);
 			player.Update(window, time);
 			window.clear(); //clear the previous screen
 			level.Draw(window);

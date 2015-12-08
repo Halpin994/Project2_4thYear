@@ -15,7 +15,6 @@ public:
 private:
 	sf::Texture rangeTexture;
 	sf::Sprite rangeSprite;
-
 };
 
 #endif 
