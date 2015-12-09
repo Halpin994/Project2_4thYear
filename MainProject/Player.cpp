@@ -114,11 +114,11 @@ void Player::Draw(sf::RenderWindow& window)
 		clipBulletSprite.setPosition(150 + i * 12, 650);
 		window.draw(clipBulletSprite);
 	}
-	if (pistolClip == pistolClipSize)
+	if (pistolClip == pistolClipSize || normalReloadActive == true)
 	{
 		window.draw(reloadUnavailableSprite);
 	}
-	if (quickReloadActive == false && pistolClip < pistolClipSize)
+	if (normalReloadActive == false && quickReloadActive == false && pistolClip < pistolClipSize)
 	{
 		window.draw(reloadNormalSprite);
 	}
