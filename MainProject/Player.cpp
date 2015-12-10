@@ -117,7 +117,7 @@ void Player::Draw(sf::RenderWindow& window)
 	{
 		if (crhRecoilActive)
 		{
-			clipBulletSprite.setPosition(185 + i * 12, 650); //offset to less than the bullet width to create the illusion of the bullets moving up the clip
+			clipBulletSprite.setPosition(183 + i * 12, 650); //offset to less than the bullet width to create the illusion of the bullets moving up the clip
 			window.draw(clipBulletSprite);
 		}
 		else
@@ -313,7 +313,8 @@ void Player::CrosshairRecoil(sf::RenderWindow& window, float frameTime)
 	{
 		if (recoilType == 1)
 		{
-			crhRecoilDirection = sf::Vector2f(getRandomSway().x, 5);
+			//crhRecoilDirection = sf::Vector2f(getRandomSway().x, 5);
+			crhRecoilDirection = sf::Vector2f(0, 5);
 			Normalize(crhRecoilDirection); //Make recoilDirection a unit vector
 			myOffset = crhRecoilDirection * crhRecoilSpeed * frameTime;
 			crhRecoilCalculated = true;
