@@ -33,6 +33,8 @@ private:
 	sf::Sprite crosshairSprite;
 	sf::Texture clipBulletImage;
 	sf::Sprite clipBulletSprite;
+	sf::Texture pistolClipImage;
+	sf::Sprite pistolClipSprite;
 
 	sf::Texture reloadQuickImage;
 	sf::Sprite reloadQuickSprite;

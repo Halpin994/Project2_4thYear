@@ -72,6 +72,7 @@ void Player::Load()
 	reloadQuickImage.loadFromFile("Assets/Images/Game/reloadQuick.png");
 	reloadNormalImage.loadFromFile("Assets/Images/Game/reloadNormal.png");
 	reloadUnavailableImage.loadFromFile("Assets/Images/Game/reloadUnavailable.png");
+	pistolClipImage.loadFromFile("Assets/Images/Game/pistolClip.png");
 
 	font.loadFromFile("Assets/imagine_font.ttf");
 }
@@ -95,9 +96,12 @@ void Player::SetUp()
 	reloadQuickSprite.setPosition(600 - reloadQuickSprite.getGlobalBounds().width / 2, 650);
 	reloadUnavailableSprite.setPosition(600 - reloadQuickSprite.getGlobalBounds().width / 2, 650);
 
+	pistolClipSprite.setTexture(pistolClipImage, true);
+	pistolClipSprite.setPosition(173, 648);
+
 	text.setFont(font);
-	text.setCharacterSize(40);
-	text.setPosition(100, 645);
+	text.setCharacterSize(50);
+	text.setPosition(100, 635);
 	text.setColor(sf::Color::Yellow);
 }
 
@@ -111,9 +115,18 @@ void Player::Draw(sf::RenderWindow& window)
 {
 	for (int i = 0; i < pistolClip; i++)
 	{
-		clipBulletSprite.setPosition(150 + i * 12, 650);
-		window.draw(clipBulletSprite);
+		if (crhRecoilActive)
+		{
+			clipBulletSprite.setPosition(185 + i * 12, 650); //offset to less than the bullet width to create the illusion of the bullets moving up the clip
+			window.draw(clipBulletSprite);
+		}
+		else
+		{
+			clipBulletSprite.setPosition(175 + i * 12, 650);
+			window.draw(clipBulletSprite);
+		}
 	}
+	window.draw(pistolClipSprite);
 	if (pistolClip == pistolClipSize || normalReloadActive == true)
 	{
 		window.draw(reloadUnavailableSprite);
@@ -129,6 +142,9 @@ void Player::Draw(sf::RenderWindow& window)
 	ss.str(std::string());
 	ss << pistolClip;
 	text.setString(ss.str());
+	if(pistolClip <= 3){ text.setColor(sf::Color::Red);} 
+	else{ text.setColor(sf::Color::Yellow); }
+	if (pistolClip == 0){ text.setColor(sf::Color::Black);}
 	window.draw(text);
 	window.draw(crosshairSprite);
 }
@@ -142,20 +158,6 @@ void Player::Draw(sf::RenderWindow& window)
 */
 void Player::Update(sf::RenderWindow& window, float frameTime)
 {
-	
-
-	if (recoilTimerActive == true && recoilType == 2)
-	{
-		recoilCoolDown -= frameTime;
-		if (recoilCoolDown <= 0)
-		{
-			yPistolRecoilStrengthTemp = yPistolRecoilStrength;
-			yPistolRecoil = 0;
-			recoilCoolDown = pistolRecoilCoolDownTime;
-			outOfControl = false;
-			recoilTimerActive = false;
-		}
-	}
 	UpdateReloadTimes(frameTime);
 
 	crosshairSprite.setPosition(sf::Mouse::getPosition(window).x + crhOffset.x, sf::Mouse::getPosition(window).y + crhOffset.y);
@@ -205,6 +207,19 @@ void Player::Reload()
 
 void Player::UpdateReloadTimes(float frameTime)
 {
+	if (recoilTimerActive == true && recoilType == 2)
+	{
+		recoilCoolDown -= frameTime;
+		if (recoilCoolDown <= 0)
+		{
+			yPistolRecoilStrengthTemp = yPistolRecoilStrength;
+			yPistolRecoil = 0;
+			recoilCoolDown = pistolRecoilCoolDownTime;
+			outOfControl = false;
+			recoilTimerActive = false;
+		}
+	}
+
 	if (pistolClip == 0 && quickReloadTimer > 0)
 	{
 		quickReloadTimer -= frameTime;
