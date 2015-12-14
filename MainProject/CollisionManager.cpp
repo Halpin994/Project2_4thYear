@@ -39,6 +39,8 @@ bool CollisionManager::CheckTargetCollision(sf::Vector2f crosshairPos)
 			&& crosshairPos.y > it->GetPosition().y + 10 && crosshairPos.y < it->GetPosition().y + it->GetHeight()))
 		{
 			//cout << "Target Hit" << endl;
+			cout << it->GetHealth() << endl;
+			it->SetPosition(sf::Vector2f(0,0));
 			return true;
 		}
 	}

@@ -22,6 +22,7 @@ Player::Player()
 	randomXSway = 0;
 	crhOffset = sf::Vector2f(0, 0);
 	recoilType = 2;
+	crosshairType = Crosshairs::pistol;
 
 	crhRecoilActive = false;
 	crhRecoilSpeed = 50;
@@ -44,7 +45,7 @@ Player::Player()
 	pistolClipSize = 12;
 	pistolClip = pistolClipSize;
 
-	quickReloadTime = 1;
+	quickReloadTime = 0.8;
 	quickReloadTimer = quickReloadTime;
 
 	normalReloadTime = 2.3;
@@ -67,7 +68,14 @@ Player::~Player()
 */
 void Player::Load()
 {
-	crosshairImage.loadFromFile("Assets/Images/Game/crosshair.png");
+	if (crosshairType == Crosshairs::redCircleCross){ crosshairImage.loadFromFile("Assets/Images/Game/Crosshairs/crosshair_redCricleCross.png"); }
+	else if (crosshairType == Crosshairs::greenHalfCirc){ crosshairImage.loadFromFile("Assets/Images/Game/Crosshairs/crosshair_greenHalfCirc.png"); }
+	else if (crosshairType == Crosshairs::whiteHorizon){ crosshairImage.loadFromFile("Assets/Images/Game/Crosshairs/crosshair_whiteHorizon.png"); }
+	else if (crosshairType == Crosshairs::redHorizon){ crosshairImage.loadFromFile("Assets/Images/Game/Crosshairs/crosshair_redHorizon.png"); }
+	else if (crosshairType == Crosshairs::greenHorizon){ crosshairImage.loadFromFile("Assets/Images/Game/Crosshairs/crosshair_greenHorizon.png"); }
+	else if (crosshairType == Crosshairs::clearDot){ crosshairImage.loadFromFile("Assets/Images/Game/Crosshairs/crosshair_clearDot.png"); }
+	else if (crosshairType == Crosshairs::redDot){ crosshairImage.loadFromFile("Assets/Images/Game/Crosshairs/crosshair_redDot.png"); }
+	else if (crosshairType == Crosshairs::pistol){ crosshairImage.loadFromFile("Assets/Images/Game/Crosshairs/crosshair_pistol.png"); crosshairSprite.setScale(2, 2); }
 	clipBulletImage.loadFromFile("Assets/Images/Game/bullet.png");
 	reloadQuickImage.loadFromFile("Assets/Images/Game/reloadQuick.png");
 	reloadNormalImage.loadFromFile("Assets/Images/Game/reloadNormal.png");
@@ -85,7 +93,7 @@ void Player::Load()
 */
 void Player::SetUp()
 {
-	crosshairSprite.setOrigin(75, 74);
+	crosshairSprite.setOrigin(75, 75);
 	crosshairSprite.setTexture(crosshairImage, true);
 	clipBulletSprite.setTexture(clipBulletImage, true);
 
@@ -117,7 +125,7 @@ void Player::Draw(sf::RenderWindow& window)
 	{
 		if (crhRecoilActive)
 		{
-			clipBulletSprite.setPosition(183 + i * 12, 650); //offset to less than the bullet width to create the illusion of the bullets moving up the clip
+			clipBulletSprite.setPosition(181 + i * 12, 650); //offset to less than the bullet width to create the illusion of the bullets moving up the clip
 			window.draw(clipBulletSprite);
 		}
 		else
@@ -284,6 +292,7 @@ void Player::Shoot(sf::RenderWindow& window)
 				if (CollisionManager::GetInstance()->CheckTargetCollision(sf::Vector2f(crosshairSprite.getPosition().x, crosshairSprite.getPosition().y) + PistolBulletRecoil()) == true)
 				{
 					BulletManager::GetInstance()->AddBullets(2, crosshairSprite.getPosition() + sf::Vector2f(randomXSway, yPistolRecoil));
+					//TargetManager::GetInstance()->
 				}
 				else
 				{

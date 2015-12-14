@@ -37,12 +37,14 @@ TargetManager* TargetManager::GetInstance()
 \return none
 \sa
 */
-void TargetManager::AddTargets(sf::Vector2f targetPos)
+void TargetManager::AddTargets(sf::Vector2f targetPos, float tHealth)
 {
 	Target t;
-	t.SetUp(targetPos, &targetImage);
+	t.SetUp(targetPos, &targetImage, tHealth);
 	targets.push_back(t);
 }
+
+
 
 //! Draws the targets
 /*!
@@ -56,7 +58,10 @@ void TargetManager::Draw(sf::RenderWindow& window)
 	list<Target>::iterator it = targets.begin();
 	for (it = targets.begin(); it != targets.end(); ++it)
 	{
-		it->Draw(window);
+		if (it->GetHealth() > 0)
+		{
+			it->Draw(window);
+		}
 	}
 }
 

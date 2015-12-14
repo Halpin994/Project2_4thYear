@@ -38,8 +38,8 @@ void Level::Load()
 void Level::SetUp()
 {
 	rangeSprite.setTexture(rangeTexture, true);
-	TargetManager::GetInstance()->AddTargets(sf::Vector2f(600, 180));
-	TargetManager::GetInstance()->AddTargets(sf::Vector2f(810, 180));
+	TargetManager::GetInstance()->AddTargets(sf::Vector2f(600, 180), 100);
+	TargetManager::GetInstance()->AddTargets(sf::Vector2f(810, 180), 100);
 }
 
 //! Draw the level

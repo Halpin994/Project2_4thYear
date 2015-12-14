@@ -16,8 +16,9 @@ Target::Target()
 \return none
 \sa
 */
-void Target::SetUp(sf::Vector2f targetPos, sf::Texture* targetImage)
+void Target::SetUp(sf::Vector2f targetPos, sf::Texture* targetImage, float health)
 {
+	targetHealth = health;
 	targetSprite.setTexture(*targetImage, true);
 	targetSprite.setPosition(targetPos.x - targetSprite.getGlobalBounds().width / 2, targetPos.y);
 }
@@ -44,6 +45,11 @@ sf::Vector2f Target::GetPosition()
 	return targetSprite.getPosition();
 }
 
+void Target::SetPosition(sf::Vector2f pos)
+{
+	targetSprite.setPosition(pos);
+}
+
 //! Get target width
 /*!
 \Returns the target sprite's width
@@ -64,4 +70,14 @@ float Target::GetWidth()
 float Target::GetHeight()
 {
 	return targetSprite.getGlobalBounds().height;
+}
+
+float Target::GetHealth()
+{
+	return targetHealth;
+}
+
+void Target::SetHealth()
+{
+	targetHealth = 0;
 }
