@@ -79,5 +79,5 @@ float Target::GetHealth()
 
 void Target::SetHealth()
 {
-	targetHealth = 0;
+	targetHealth -= 20;
 }

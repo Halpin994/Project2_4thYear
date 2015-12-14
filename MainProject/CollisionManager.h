@@ -7,6 +7,7 @@ using namespace std;
 #define COLLISIONMANAGER
 
 #include "TargetManager.h"
+#include "BulletManager.h"
 
 class CollisionManager
 {
@@ -20,6 +21,7 @@ public:
 
 	bool CollisionManager::CheckTargetCollision(sf::Vector2f);
 	bool CollisionManager::CheckReloadCollision(sf::Vector2f, sf::Vector2f, sf::FloatRect);
+	void CollisionManager::SetBulletTargCollision(sf::Vector2f);
 
 private:
 	static bool instanceFlag;

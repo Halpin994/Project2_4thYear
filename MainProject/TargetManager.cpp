@@ -65,7 +65,7 @@ void TargetManager::Draw(sf::RenderWindow& window)
 	}
 }
 
-list<Target> TargetManager::GetListOfTargets()
+list<Target>& TargetManager::GetListOfTargets()
 {
 	return targets;
 }

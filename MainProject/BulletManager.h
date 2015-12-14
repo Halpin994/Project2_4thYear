@@ -19,7 +19,8 @@ public:
 	static BulletManager* GetInstance();
 
 	void BulletManager::Draw(sf::RenderWindow& window);
-	void BulletManager::AddBullets(int, sf::Vector2f);
+	void BulletManager::AddBullet(int, sf::Vector2f);
+	list<BulletHole>& BulletManager::GetListOfBulletHoles();
 
 private:
 	BulletManager()

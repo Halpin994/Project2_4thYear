@@ -11,9 +11,11 @@ public:
 	BulletHole();
 	void SetUp(int textureType, sf::Vector2f, sf::Texture* bulletMetalImage,sf::Texture* bulletWoodImage);
 	void Draw(sf::RenderWindow& window);
-
+	void SetBulletTargetCollision(int);
+	sf::Vector2f BulletHole::GetBulletPosition();
+	
 private:
 	sf::Sprite bulletHoleSprite;
-
+	int targetCollided;
 };
 #endif 

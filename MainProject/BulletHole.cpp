@@ -7,7 +7,7 @@
 
 BulletHole::BulletHole()
 {
-
+	targetCollided = 0;
 }
 
 //! Setup each bullet hole sprite
@@ -36,5 +36,17 @@ void BulletHole::SetUp(int textureType, sf::Vector2f bulletPos, sf::Texture* bul
 */
 void BulletHole::Draw(sf::RenderWindow& window)
 {
+	//if (targetCollided != 0)
 	window.draw(bulletHoleSprite);
+}
+
+void BulletHole::SetBulletTargetCollision(int targetNumber)
+{
+	targetCollided = targetNumber;
+	cout << "Target Num: " << targetCollided << endl;
+}
+
+sf::Vector2f BulletHole::GetBulletPosition()
+{
+	return bulletHoleSprite.getPosition();
 }

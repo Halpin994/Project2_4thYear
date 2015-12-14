@@ -269,10 +269,10 @@ void Player::Shoot(sf::RenderWindow& window)
 		{
 			if (CollisionManager::GetInstance()->CheckTargetCollision(sf::Vector2f(crosshairSprite.getPosition().x, crosshairSprite.getPosition().y)) == true)
 			{
-				BulletManager::GetInstance()->AddBullets(2, crosshairSprite.getPosition());
+				BulletManager::GetInstance()->AddBullet(2, crosshairSprite.getPosition());
 			}
 			else
-				BulletManager::GetInstance()->AddBullets(1, crosshairSprite.getPosition());
+				BulletManager::GetInstance()->AddBullet(1, crosshairSprite.getPosition());
 		} //END Recoil Type 1
 		if (recoilType == 2)
 		{
@@ -280,23 +280,26 @@ void Player::Shoot(sf::RenderWindow& window)
 			{
 				if (CollisionManager::GetInstance()->CheckTargetCollision(sf::Vector2f(crosshairSprite.getPosition().x, crosshairSprite.getPosition().y)) == true)
 				{
-					BulletManager::GetInstance()->AddBullets(2, crosshairSprite.getPosition());
+					BulletManager::GetInstance()->AddBullet(2, crosshairSprite.getPosition());
+					CollisionManager::GetInstance()->SetBulletTargCollision(crosshairSprite.getPosition());
 				}
 				else
 				{
-					BulletManager::GetInstance()->AddBullets(1, crosshairSprite.getPosition());
+					BulletManager::GetInstance()->AddBullet(1, crosshairSprite.getPosition());
+					CollisionManager::GetInstance()->SetBulletTargCollision(crosshairSprite.getPosition());
 				}
 			}
 			else if (recoilCoolDown < pistolRecoilCoolDownTime)
 			{
 				if (CollisionManager::GetInstance()->CheckTargetCollision(sf::Vector2f(crosshairSprite.getPosition().x, crosshairSprite.getPosition().y) + PistolBulletRecoil()) == true)
 				{
-					BulletManager::GetInstance()->AddBullets(2, crosshairSprite.getPosition() + sf::Vector2f(randomXSway, yPistolRecoil));
-					//TargetManager::GetInstance()->
+					BulletManager::GetInstance()->AddBullet(2, crosshairSprite.getPosition() + sf::Vector2f(randomXSway, yPistolRecoil));
+					CollisionManager::GetInstance()->SetBulletTargCollision(crosshairSprite.getPosition() + sf::Vector2f(randomXSway, yPistolRecoil));
 				}
 				else
 				{
-					BulletManager::GetInstance()->AddBullets(1, crosshairSprite.getPosition() + sf::Vector2f(randomXSway, yPistolRecoil));
+					BulletManager::GetInstance()->AddBullet(1, crosshairSprite.getPosition() + sf::Vector2f(randomXSway, yPistolRecoil));
+					CollisionManager::GetInstance()->SetBulletTargCollision(crosshairSprite.getPosition() + sf::Vector2f(randomXSway, yPistolRecoil));
 				}
 				cout << "yRecoil: " << yPistolRecoil << endl;
 			}
