@@ -9,9 +9,12 @@ class BulletHole
 {
 public:
 	BulletHole();
-	void SetUp(int textureType, sf::Vector2f, sf::Texture* bulletMetalImage,sf::Texture* bulletWoodImage);
+	~BulletHole()
+	{
+		cout << "Bullets deleted" << endl;
+	}
+	BulletHole(sf::Vector2f, sf::Texture* bulletImage);
 	void Draw(sf::RenderWindow& window);
-	void SetBulletTargetCollision(int);
 	sf::Vector2f BulletHole::GetBulletPosition();
 	
 private:

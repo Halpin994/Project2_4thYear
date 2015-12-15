@@ -15,23 +15,30 @@ public:
 	{
 		delete instance;
 		instanceFlag = false;
+		for (Target* t : targets)
+		{
+			delete t;
+		}
 	}
 	static TargetManager* GetInstance();
 
 	void TargetManager::Draw(sf::RenderWindow& window);
 	void TargetManager::AddTargets(sf::Vector2f targetPos, float);
-	list<Target>& TargetManager::GetListOfTargets();
+	list<Target*>& TargetManager::GetListOfTargets();
 
 private:
 	TargetManager()
 	{
-		targets = list<Target>();
-		targetImage.loadFromFile("Assets/Images/Game/target.png");
+		targets = list<Target*>();
+		targetTexture.loadFromFile("Assets/Images/Game/target.png");
+		bulletWoodTexture.loadFromFile("Assets/Images/Game/bulletHole_wood.png");
 	}
 	static bool instanceFlag;
 	static TargetManager* instance;
-	sf::Texture targetImage;
-	list<Target> targets;
+	sf::Texture targetTexture;
+	list<Target*> targets;
+
+	sf::Texture bulletWoodTexture;
 
 };
 

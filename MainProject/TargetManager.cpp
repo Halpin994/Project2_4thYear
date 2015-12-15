@@ -39,8 +39,8 @@ TargetManager* TargetManager::GetInstance()
 */
 void TargetManager::AddTargets(sf::Vector2f targetPos, float tHealth)
 {
-	Target t;
-	t.SetUp(targetPos, &targetImage, tHealth);
+	Target* t = new Target();
+	t->SetUp(targetPos, &targetTexture, &bulletWoodTexture, tHealth);
 	targets.push_back(t);
 }
 
@@ -55,17 +55,13 @@ void TargetManager::AddTargets(sf::Vector2f targetPos, float tHealth)
 */
 void TargetManager::Draw(sf::RenderWindow& window)
 {
-	list<Target>::iterator it = targets.begin();
-	for (it = targets.begin(); it != targets.end(); ++it)
+	for (Target* t: targets)
 	{
-		if (it->GetHealth() > 0)
-		{
-			it->Draw(window);
-		}
+		t->Draw(window);
 	}
 }
 
-list<Target>& TargetManager::GetListOfTargets()
+list<Target*>& TargetManager::GetListOfTargets()
 {
 	return targets;
 }

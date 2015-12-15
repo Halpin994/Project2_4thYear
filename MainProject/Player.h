@@ -81,7 +81,7 @@ private:
 
 	int recoilType;
 
-	enum class Crosshairs { redCircleCross, redDot, clearDot, redHorizon, whiteHorizon, greenHorizon, greenHalfCirc, pistol};
+	enum class Crosshairs { redCircleCross, redDot, clearDot, redHorizon, whiteHorizon, greenHorizon, greenHalfCirc, pistol, smg};
 	Crosshairs crosshairType;
 
 	int pistolClipSize;

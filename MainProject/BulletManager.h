@@ -15,25 +15,26 @@ public:
 	{
 		delete instance;
 		instanceFlag = false;
+		for (BulletHole* b : bulletHoles)
+		{
+			delete b;
+		}
 	}
 	static BulletManager* GetInstance();
 
 	void BulletManager::Draw(sf::RenderWindow& window);
-	void BulletManager::AddBullet(int, sf::Vector2f);
-	list<BulletHole>& BulletManager::GetListOfBulletHoles();
+	void BulletManager::AddBullet(sf::Vector2f);
 
 private:
 	BulletManager()
 	{
-		bulletHoles = list<BulletHole>();
+		bulletHoles = list<BulletHole*>();
 		bulletMetalTexture.loadFromFile("Assets/Images/Game/bulletHole_metal.png");
-		bulletWoodTexture.loadFromFile("Assets/Images/Game/bulletHole_wood.png");
 	}
 	static bool instanceFlag;
 	static BulletManager* instance;
 	sf::Texture bulletMetalTexture;
-	sf::Texture bulletWoodTexture;
-	list<BulletHole> bulletHoles;
+	list<BulletHole*> bulletHoles;
 
 };
 

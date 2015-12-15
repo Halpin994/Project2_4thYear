@@ -36,10 +36,9 @@ BulletManager* BulletManager::GetInstance()
 \return none
 \sa
 */
-void BulletManager::AddBullet(int bulletType, sf::Vector2f bulletHPos)
+void BulletManager::AddBullet(sf::Vector2f bulletHPos)
 {
-	BulletHole b;
-	b.SetUp(bulletType, bulletHPos, &bulletMetalTexture,  &bulletWoodTexture);
+	BulletHole* b = new BulletHole(bulletHPos, &bulletMetalTexture);
 	bulletHoles.push_back(b);
 }
 
@@ -52,14 +51,8 @@ void BulletManager::AddBullet(int bulletType, sf::Vector2f bulletHPos)
 */
 void BulletManager::Draw(sf::RenderWindow& window)
 {
-	list<BulletHole>::iterator it = bulletHoles.begin();
-	for (it = bulletHoles.begin(); it != bulletHoles.end(); ++it)
+	for (BulletHole* b: bulletHoles)
 	{
-		it->Draw(window);
+		b->Draw(window);
 	}
-}
-
-list<BulletHole>& BulletManager::GetListOfBulletHoles()
-{
-	return bulletHoles;
 }

@@ -31,57 +31,29 @@ CollisionManager* CollisionManager::GetInstance()
 
 bool CollisionManager::CheckTargetCollision(sf::Vector2f crosshairPos)
 {
-	list<BulletHole>& bulletHoles = BulletManager::GetInstance()->GetListOfBulletHoles();
-	list<BulletHole>::iterator bulletHoleITER = bulletHoles.begin();
+	list<Target*>& targets = TargetManager::GetInstance()->GetListOfTargets();
+	list<Target*>::iterator targetITER = targets.begin();
 
-	list<Target>& targets = TargetManager::GetInstance()->GetListOfTargets();
-	list<Target>::iterator targetITER = targets.begin();
-	//int targetNum = 0;
-
-	for (targetITER = targets.begin(); targetITER != targets.end(); ++targetITER) 
+	for (targetITER = targets.begin(); targetITER != targets.end(); ) 
 	{
-		//targetNum++;
-		//for (bulletHoleITER = bulletHoles.begin(); bulletHoleITER != bulletHoles.end(); ++bulletHoleITER)
-		//{
-			if ((crosshairPos.x > targetITER->GetPosition().x && crosshairPos.x < targetITER->GetPosition().x + targetITER->GetWidth()
-				&& crosshairPos.y > targetITER->GetPosition().y + 10 && crosshairPos.y < targetITER->GetPosition().y + targetITER->GetHeight()))
+		if ((crosshairPos.x > (*targetITER)->GetPosition().x && crosshairPos.x < (*targetITER)->GetPosition().x + (*targetITER)->GetWidth()
+			&& crosshairPos.y >(*targetITER)->GetPosition().y + 10 && crosshairPos.y < (*targetITER)->GetPosition().y + (*targetITER)->GetHeight()))
 			{
-				//bulletHoleITER->setTargetCollision(targetNum);
-				targetITER->SetHealth();
+				(*targetITER)->SetHealth();
+				(*targetITER)->AddBullet(crosshairPos);
+				if ((*targetITER)->GetHealth() <= 0)
+				{
+					delete (*targetITER);
+					targetITER = targets.erase(targetITER);
+				}
 				return true;
 			}
-		//}
-	}
-	//targetNum = 0;
-	//bulletHoleITER->setTargetCollision(targetNum);
-	return false;
-}
-
-void CollisionManager::SetBulletTargCollision(sf::Vector2f crosshairPos)
-{
-	list<BulletHole>& bulletHoles = BulletManager::GetInstance()->GetListOfBulletHoles();
-	list<BulletHole>::iterator bulletHoleITER = bulletHoles.begin();
-
-	list<Target>& targets = TargetManager::GetInstance()->GetListOfTargets();
-	list<Target>::iterator targetITER = targets.begin();
-	int targetNum = 0;
-
-	for (targetITER = targets.begin(); targetITER != targets.end(); ++targetITER)
-	{
-		targetNum++;
-		for (bulletHoleITER = bulletHoles.begin(); bulletHoleITER != bulletHoles.end(); ++bulletHoleITER)
+		else
 		{
-			if ((crosshairPos.x > targetITER->GetPosition().x && crosshairPos.x < targetITER->GetPosition().x + targetITER->GetWidth()
-				&& crosshairPos.y > targetITER->GetPosition().y + 10 && crosshairPos.y < targetITER->GetPosition().y + targetITER->GetHeight()))
-			{
-				bulletHoleITER->SetBulletTargetCollision(targetNum);
-				return;
-			}
+			++targetITER;
 		}
 	}
-	targetNum = 0;
-	bulletHoleITER->SetBulletTargetCollision(targetNum);
-	return;
+	return false;
 }
 
 bool CollisionManager::CheckReloadCollision(sf::Vector2f crosshairPos, sf::Vector2f reloadPos, sf::FloatRect reloadBounds)

@@ -7,22 +7,18 @@
 
 BulletHole::BulletHole()
 {
-	targetCollided = 0;
+
 }
 
-//! Setup each bullet hole sprite
+//! Overload function
 /*!
 \When called, sets the texture type, position(crosshair pos), origin (to centre of sprite)
 \return none
 \sa
 */
-void BulletHole::SetUp(int textureType, sf::Vector2f bulletPos, sf::Texture* bulletMetalImage, sf::Texture* bulletWoodImage)
+BulletHole::BulletHole(sf::Vector2f bulletPos, sf::Texture* bulletImage)
 {
-	if (textureType == 1)
-		bulletHoleSprite.setTexture(*bulletMetalImage, true);
-	if (textureType == 2)
-		bulletHoleSprite.setTexture(*bulletWoodImage, true);
-
+	bulletHoleSprite.setTexture(*bulletImage, true);
 	bulletHoleSprite.setPosition(bulletPos);
 	bulletHoleSprite.setOrigin(bulletHoleSprite.getGlobalBounds().width / 2, bulletHoleSprite.getGlobalBounds().height / 2);
 	bulletHoleSprite.setScale(0.25, 0.25);
@@ -38,12 +34,6 @@ void BulletHole::Draw(sf::RenderWindow& window)
 {
 	//if (targetCollided != 0)
 	window.draw(bulletHoleSprite);
-}
-
-void BulletHole::SetBulletTargetCollision(int targetNumber)
-{
-	targetCollided = targetNumber;
-	cout << "Target Num: " << targetCollided << endl;
 }
 
 sf::Vector2f BulletHole::GetBulletPosition()
