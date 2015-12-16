@@ -27,6 +27,7 @@ public:
 	void Player::CreateGunClip();
 	void Player::Reload();
 	void Player::UpdateReloadTimes(float);
+	void Player::LoadCrosshair();
 
 private:
 	sf::Texture crosshairImage;
@@ -47,7 +48,8 @@ private:
 	sf::Vector2f crhOffset;
 	sf::Vector2f myOffset;
 
-	bool mousePressed;
+	bool rightMousePressed;
+	bool leftMousePressed;
 	bool crhRecoilActive;
 	bool recoilTimerActive;
 
@@ -79,16 +81,20 @@ private:
 	float normalReloadTime;
 	float normalReloadTimer;
 
+	float gameTime;
+
 	int recoilType;
 
 	enum class Crosshairs { redCircleCross, redDot, clearDot, redHorizon, whiteHorizon, greenHorizon, greenHalfCirc, pistol, smg};
 	Crosshairs crosshairType;
+	Crosshairs currentCrosshair;
 
 	int pistolClipSize;
 	int pistolClip;
 
 	sf::Font font;
-	sf::Text text;
+	sf::Text gunClipText;
+	sf::Text gameTimeText;
 	std::stringstream ss;
 
 };

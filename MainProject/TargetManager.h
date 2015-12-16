@@ -25,6 +25,7 @@ public:
 	void TargetManager::Draw(sf::RenderWindow& window);
 	void TargetManager::AddTargets(sf::Vector2f targetPos, float);
 	list<Target*>& TargetManager::GetListOfTargets();
+	int TargetManager::GetSizeOfTargets();
 
 private:
 	TargetManager()

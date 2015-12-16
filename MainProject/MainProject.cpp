@@ -58,8 +58,8 @@ int main()
 			player.Update(window, time);
 			window.clear(); //clear the previous screen
 			level.Draw(window);
-			TargetManager::GetInstance()->Draw(window);
 			BulletManager::GetInstance()->Draw(window);
+			TargetManager::GetInstance()->Draw(window);
 			player.Draw(window);
 			window.display(); //display the updated screen
 			break;

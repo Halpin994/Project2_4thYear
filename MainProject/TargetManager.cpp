@@ -55,6 +55,8 @@ void TargetManager::AddTargets(sf::Vector2f targetPos, float tHealth)
 */
 void TargetManager::Draw(sf::RenderWindow& window)
 {
+	//list<Target>::iterator targetITER = targets.end();
+	//for (targetITER = targets.end(); targetITER != targets.begin(); --targetITER)
 	for (Target* t: targets)
 	{
 		t->Draw(window);
@@ -64,4 +66,9 @@ void TargetManager::Draw(sf::RenderWindow& window)
 list<Target*>& TargetManager::GetListOfTargets()
 {
 	return targets;
+}
+
+int TargetManager::GetSizeOfTargets()
+{
+	return targets.size();
 }

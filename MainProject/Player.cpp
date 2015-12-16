@@ -17,12 +17,14 @@
 */
 Player::Player()
 {
-	mousePressed = true;
+	leftMousePressed = true;
+	rightMousePressed = true;
 
 	randomXSway = 0;
 	crhOffset = sf::Vector2f(0, 0);
 	recoilType = 2;
-	crosshairType = Crosshairs::smg;
+	crosshairType = Crosshairs::greenHalfCirc;
+	currentCrosshair = crosshairType;
 
 	crhRecoilActive = false;
 	crhRecoilSpeed = 50;
@@ -45,11 +47,13 @@ Player::Player()
 	pistolClipSize = 12;
 	pistolClip = pistolClipSize;
 
-	quickReloadTime = 0.8;
+	quickReloadTime = 1.2;
 	quickReloadTimer = quickReloadTime;
 
 	normalReloadTime = 2.3;
 	normalReloadTimer = normalReloadTime;
+
+	gameTime = 0;
 
 	Load();
 	SetUp();
@@ -68,15 +72,7 @@ Player::~Player()
 */
 void Player::Load()
 {
-	if (crosshairType == Crosshairs::redCircleCross){ crosshairImage.loadFromFile("Assets/Images/Game/Crosshairs/crosshair_redCricleCross.png"); }
-	else if (crosshairType == Crosshairs::greenHalfCirc){ crosshairImage.loadFromFile("Assets/Images/Game/Crosshairs/crosshair_greenHalfCirc.png"); }
-	else if (crosshairType == Crosshairs::whiteHorizon){ crosshairImage.loadFromFile("Assets/Images/Game/Crosshairs/crosshair_whiteHorizon.png"); }
-	else if (crosshairType == Crosshairs::redHorizon){ crosshairImage.loadFromFile("Assets/Images/Game/Crosshairs/crosshair_redHorizon.png"); }
-	else if (crosshairType == Crosshairs::greenHorizon){ crosshairImage.loadFromFile("Assets/Images/Game/Crosshairs/crosshair_greenHorizon.png"); }
-	else if (crosshairType == Crosshairs::clearDot){ crosshairImage.loadFromFile("Assets/Images/Game/Crosshairs/crosshair_clearDot.png"); }
-	else if (crosshairType == Crosshairs::redDot){ crosshairImage.loadFromFile("Assets/Images/Game/Crosshairs/crosshair_redDot.png"); }
-	else if (crosshairType == Crosshairs::pistol){ crosshairImage.loadFromFile("Assets/Images/Game/Crosshairs/crosshair_pistol.png"); crosshairSprite.setScale(2, 2); }
-	else if (crosshairType == Crosshairs::smg){ crosshairImage.loadFromFile("Assets/Images/Game/Crosshairs/crosshair_smg.png"); crosshairSprite.setScale(4, 4); }
+	LoadCrosshair();
 	clipBulletImage.loadFromFile("Assets/Images/Game/bullet.png");
 	reloadQuickImage.loadFromFile("Assets/Images/Game/reloadQuick.png");
 	reloadNormalImage.loadFromFile("Assets/Images/Game/reloadNormal.png");
@@ -84,6 +80,19 @@ void Player::Load()
 	pistolClipImage.loadFromFile("Assets/Images/Game/pistolClip.png");
 
 	font.loadFromFile("Assets/imagine_font.ttf");
+}
+
+void Player::LoadCrosshair()
+{
+	if (currentCrosshair == Crosshairs::redCircleCross){ crosshairImage.loadFromFile("Assets/Images/Game/Crosshairs/crosshair_redCircleCross.png"); crosshairSprite.setScale(1, 1); }
+	else if (currentCrosshair == Crosshairs::greenHalfCirc){ crosshairImage.loadFromFile("Assets/Images/Game/Crosshairs/crosshair_greenHalfCirc.png"); crosshairSprite.setScale(1, 1); }
+	else if (currentCrosshair == Crosshairs::whiteHorizon){ crosshairImage.loadFromFile("Assets/Images/Game/Crosshairs/crosshair_whiteHorizon.png"); crosshairSprite.setScale(1, 1); }
+	else if (currentCrosshair == Crosshairs::redHorizon){ crosshairImage.loadFromFile("Assets/Images/Game/Crosshairs/crosshair_redHorizon.png"); crosshairSprite.setScale(1, 1); }
+	else if (currentCrosshair == Crosshairs::greenHorizon){ crosshairImage.loadFromFile("Assets/Images/Game/Crosshairs/crosshair_greenHorizon.png"); crosshairSprite.setScale(1, 1); }
+	else if (currentCrosshair == Crosshairs::clearDot){ crosshairImage.loadFromFile("Assets/Images/Game/Crosshairs/crosshair_clearDot.png"); crosshairSprite.setScale(1, 1); }
+	else if (currentCrosshair == Crosshairs::redDot){ crosshairImage.loadFromFile("Assets/Images/Game/Crosshairs/crosshair_redDot.png"); crosshairSprite.setScale(1, 1); }
+	else if (currentCrosshair == Crosshairs::pistol){ crosshairImage.loadFromFile("Assets/Images/Game/Crosshairs/crosshair_pistol.png"); crosshairSprite.setScale(4, 4); }
+	else if (currentCrosshair == Crosshairs::smg){ crosshairImage.loadFromFile("Assets/Images/Game/Crosshairs/crosshair_smg.png"); crosshairSprite.setScale(4, 4); crosshairSprite.setOrigin(sf::Vector2f(75.5, 75)); }
 }
 
 //! Setup the player crosshair sprite
@@ -110,10 +119,15 @@ void Player::SetUp()
 	pistolClipSprite.setTexture(pistolClipImage, true);
 	pistolClipSprite.setPosition(173, 648);
 
-	text.setFont(font);
-	text.setCharacterSize(50);
-	text.setPosition(100, 635);
-	text.setColor(sf::Color::Yellow);
+	gunClipText.setFont(font);
+	gunClipText.setCharacterSize(50);
+	gunClipText.setPosition(100, 635);
+	gunClipText.setColor(sf::Color::Yellow);
+
+	gameTimeText.setFont(font);
+	gameTimeText.setCharacterSize(50);
+	gameTimeText.setPosition(900, 635);
+	gameTimeText.setColor(sf::Color::Yellow);
 }
 
 //! Draw the player
@@ -152,11 +166,18 @@ void Player::Draw(sf::RenderWindow& window)
 	}
 	ss.str(std::string());
 	ss << pistolClip;
-	text.setString(ss.str());
-	if(pistolClip <= 3){ text.setColor(sf::Color::Red);} 
-	else{ text.setColor(sf::Color::Yellow); }
-	if (pistolClip == 0){ text.setColor(sf::Color::Black);}
-	window.draw(text);
+	gunClipText.setString(ss.str());
+	if (pistolClip <= 3){ gunClipText.setColor(sf::Color::Red); }
+	else{ gunClipText.setColor(sf::Color::Yellow); }
+	if (pistolClip == 0){ gunClipText.setColor(sf::Color::Black); }
+	window.draw(gunClipText);
+
+	ss.str(std::string());
+	gameTime = roundf(gameTime * 100) / 100;
+	ss << gameTime;
+	gameTimeText.setString(ss.str());
+	window.draw(gameTimeText);
+
 	window.draw(crosshairSprite);
 }
 
@@ -169,17 +190,22 @@ void Player::Draw(sf::RenderWindow& window)
 */
 void Player::Update(sf::RenderWindow& window, float frameTime)
 {
+	gameTime += frameTime;
 	UpdateReloadTimes(frameTime);
 
 	crosshairSprite.setPosition(sf::Mouse::getPosition(window).x + crhOffset.x, sf::Mouse::getPosition(window).y + crhOffset.y);
 
 	if (!sf::Mouse::isButtonPressed(sf::Mouse::Left))
 	{
-		mousePressed = false;
+		leftMousePressed = false;
 	}
-	if (sf::Mouse::isButtonPressed(sf::Mouse::Left) && mousePressed == false && normalReloadActive == false)
+	if (!sf::Mouse::isButtonPressed(sf::Mouse::Right))
 	{
-		mousePressed = true;
+		rightMousePressed = false;
+	}
+	if (sf::Mouse::isButtonPressed(sf::Mouse::Left) && leftMousePressed == false && normalReloadActive == false)
+	{
+		leftMousePressed = true;
 		if (CollisionManager::GetInstance()->CheckReloadCollision(crosshairSprite.getPosition(), reloadNormalSprite.getPosition(), reloadNormalSprite.getGlobalBounds()) == true)
 		{
 			if (pistolClip < pistolClipSize)
@@ -205,10 +231,30 @@ void Player::Update(sf::RenderWindow& window, float frameTime)
 	{
 		CrosshairRecoil(window, frameTime);
 	}
+	if (sf::Mouse::isButtonPressed(sf::Mouse::Right) && rightMousePressed == false)
+	{
+		rightMousePressed = true;
+		if (currentCrosshair == crosshairType)
+		{
+			currentCrosshair = Crosshairs::pistol;
+			LoadCrosshair();
+		}
+		else
+		{
+			currentCrosshair = crosshairType;
+			LoadCrosshair();
+		}
+	}
 }
 
 void Player::Reload()
 {
+	if (TargetManager::GetInstance()->GetSizeOfTargets() == 0)
+	{
+		TargetManager::GetInstance()->AddTargets(sf::Vector2f(395, 180), 100);
+		TargetManager::GetInstance()->AddTargets(sf::Vector2f(600, 180), 100);
+		TargetManager::GetInstance()->AddTargets(sf::Vector2f(810, 180), 100);
+	}
 	pistolClip = pistolClipSize;
 	quickReloadTimer = quickReloadTime;
 	normalReloadTimer = normalReloadTime;
