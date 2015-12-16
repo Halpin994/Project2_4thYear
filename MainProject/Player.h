@@ -89,6 +89,9 @@ private:
 
 	float gameOverTime;
 
+	float targetRespawn;
+	float targetRespawnTime;
+
 	int recoilType;
 
 	enum class Crosshairs { redCircleCross, redDot, clearDot, redHorizon, whiteHorizon, greenHorizon, greenHalfCirc, pistol, smg, predator};

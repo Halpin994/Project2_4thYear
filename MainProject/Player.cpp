@@ -60,6 +60,9 @@ Player::Player()
 	smgFireRate = 0.08;
 	smgFireRateTimer = smgFireRate;
 
+	targetRespawnTime = 0.4;
+	targetRespawn = targetRespawnTime;
+
 	Load();
 	SetUp();
 }
@@ -281,16 +284,23 @@ void Player::Update(sf::RenderWindow& window, float frameTime)
 			LoadCrosshair();
 		}
 	}
+	
+	if (TargetManager::GetInstance()->GetSizeOfTargets() == 0)
+	{
+		targetRespawn -= frameTime;
+		if (targetRespawn < 0)
+		{
+			TargetManager::GetInstance()->AddTargets(sf::Vector2f(395, 180), 100);
+			TargetManager::GetInstance()->AddTargets(sf::Vector2f(600, 180), 100);
+			TargetManager::GetInstance()->AddTargets(sf::Vector2f(810, 180), 100);
+			SoundManager::GetInstance()->PlayClick();
+			targetRespawn = targetRespawnTime;
+		}
+	}
 }
 
 void Player::Reload()
 {
-	if (TargetManager::GetInstance()->GetSizeOfTargets() == 0)
-	{
-		TargetManager::GetInstance()->AddTargets(sf::Vector2f(395, 180), 100);
-		TargetManager::GetInstance()->AddTargets(sf::Vector2f(600, 180), 100);
-		TargetManager::GetInstance()->AddTargets(sf::Vector2f(810, 180), 100);
-	}
 	pistolClip = pistolClipSize;
 	quickReloadTimer = quickReloadTime;
 	normalReloadTimer = normalReloadTime;
