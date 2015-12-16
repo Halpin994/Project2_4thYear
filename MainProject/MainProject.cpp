@@ -54,6 +54,9 @@ int main()
 			window.display(); //display the updated screen
 
 			break;
+		case GameStateManager::GameStates::OPTIONS: //Options state
+
+			break;
 		case GameStateManager::GameStates::GAME: //Game state
 			player.Update(window, time);
 			window.clear(); //clear the previous screen
@@ -63,8 +66,11 @@ int main()
 			player.Draw(window);
 			window.display(); //display the updated screen
 			break;
-		case GameStateManager::GameStates::OPTIONS: //Options state
+		case GameStateManager::GameStates::GAMEOVER: //Options state
 
+			window.clear(); //clear the previous screen
+			player.DrawResult(window);
+			window.display(); //display the updated screen
 			break;
 		case GameStateManager::GameStates::QUIT: //Quit game state
 			window.close();

@@ -5,6 +5,7 @@
 #include <iostream>
 
 #include "CollisionManager.h"
+#include "Player.h"
 
 bool CollisionManager::instanceFlag = false;
 CollisionManager* CollisionManager::instance = NULL;
@@ -43,6 +44,7 @@ bool CollisionManager::CheckTargetCollision(sf::Vector2f crosshairPos)
 				(*targetITER)->AddBullet(crosshairPos);
 				if ((*targetITER)->GetHealth() <= 0)
 				{
+					TargetManager::GetInstance()->targetsEliminatedPlus();
 					delete (*targetITER);
 					targetITER = targets.erase(targetITER);
 				}

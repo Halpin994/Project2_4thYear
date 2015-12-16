@@ -7,6 +7,7 @@ using namespace std;
 #define TARGETMANAGER
 
 #include "Target.h"
+#include "Player.h"
 
 class TargetManager
 {
@@ -26,6 +27,7 @@ public:
 	void TargetManager::AddTargets(sf::Vector2f targetPos, float);
 	list<Target*>& TargetManager::GetListOfTargets();
 	int TargetManager::GetSizeOfTargets();
+	void TargetManager::targetsEliminatedPlus();
 
 private:
 	TargetManager()
@@ -33,6 +35,8 @@ private:
 		targets = list<Target*>();
 		targetTexture.loadFromFile("Assets/Images/Game/target.png");
 		bulletWoodTexture.loadFromFile("Assets/Images/Game/bulletHole_wood.png");
+
+		targetsEliminated = 0;
 	}
 	static bool instanceFlag;
 	static TargetManager* instance;
@@ -40,6 +44,8 @@ private:
 	list<Target*> targets;
 
 	sf::Texture bulletWoodTexture;
+
+	int targetsEliminated;
 
 };
 

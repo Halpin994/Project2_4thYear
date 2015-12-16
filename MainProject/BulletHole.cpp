@@ -21,7 +21,7 @@ BulletHole::BulletHole(sf::Vector2f bulletPos, sf::Texture* bulletImage)
 	bulletHoleSprite.setTexture(*bulletImage, true);
 	bulletHoleSprite.setPosition(bulletPos);
 	bulletHoleSprite.setOrigin(bulletHoleSprite.getGlobalBounds().width / 2, bulletHoleSprite.getGlobalBounds().height / 2);
-	bulletHoleSprite.setScale(0.25, 0.25);
+	bulletHoleSprite.setScale(0.27, 0.27);
 }
 
 //! Draw the bullet holes

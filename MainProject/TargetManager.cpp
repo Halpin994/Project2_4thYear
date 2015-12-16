@@ -5,6 +5,7 @@
 #include <iostream>
 
 #include "TargetManager.h"
+#include "GameStateManager.h"
 
 bool TargetManager::instanceFlag = false;
 TargetManager* TargetManager::instance = NULL;
@@ -71,4 +72,13 @@ list<Target*>& TargetManager::GetListOfTargets()
 int TargetManager::GetSizeOfTargets()
 {
 	return targets.size();
+}
+
+void TargetManager::targetsEliminatedPlus()
+{
+	targetsEliminated++;
+	if (targetsEliminated == 6)
+	{
+		GameStateManager::GetInstance()->SetGameState(GameStateManager::GameStates::GAMEOVER);
+	}
 }

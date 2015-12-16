@@ -8,6 +8,7 @@
 #include "BulletManager.h"
 #include "CollisionManager.h"
 #include "SoundManager.h"
+#include "GameStateManager.h"
 
 //! (Brief desc)
 /*!
@@ -54,6 +55,7 @@ Player::Player()
 	normalReloadTimer = normalReloadTime;
 
 	gameTime = 0;
+	gameOverTime = 0;
 
 	smgFireRate = 0.08;
 	smgFireRateTimer = smgFireRate;
@@ -94,8 +96,9 @@ void Player::LoadCrosshair()
 	else if (currentCrosshair == Crosshairs::greenHorizon){ crosshairImage.loadFromFile("Assets/Images/Game/Crosshairs/crosshair_greenHorizon.png"); crosshairSprite.setScale(1, 1); }
 	else if (currentCrosshair == Crosshairs::clearDot){ crosshairImage.loadFromFile("Assets/Images/Game/Crosshairs/crosshair_clearDot.png"); crosshairSprite.setScale(1, 1); }
 	else if (currentCrosshair == Crosshairs::redDot){ crosshairImage.loadFromFile("Assets/Images/Game/Crosshairs/crosshair_redDot.png"); crosshairSprite.setScale(1, 1); }
-	else if (currentCrosshair == Crosshairs::pistol){ crosshairImage.loadFromFile("Assets/Images/Game/Crosshairs/crosshair_pistol.png"); crosshairSprite.setScale(4, 4); }
+	else if (currentCrosshair == Crosshairs::pistol){ crosshairImage.loadFromFile("Assets/Images/Game/Crosshairs/crosshair_pistol.png"); crosshairSprite.setScale(4, 4); crosshairSprite.setOrigin(sf::Vector2f(75, 75)); }
 	else if (currentCrosshair == Crosshairs::smg){ crosshairImage.loadFromFile("Assets/Images/Game/Crosshairs/crosshair_smg.png"); crosshairSprite.setScale(4, 4); crosshairSprite.setOrigin(sf::Vector2f(75.5, 75)); }
+	else if (currentCrosshair == Crosshairs::predator){ crosshairImage.loadFromFile("Assets/Images/Game/Crosshairs/crosshair_predator.png"); crosshairSprite.setScale(1, 1); }
 }
 
 //! Setup the player crosshair sprite
@@ -184,6 +187,18 @@ void Player::Draw(sf::RenderWindow& window)
 	window.draw(crosshairSprite);
 }
 
+void Player::DrawResult(sf::RenderWindow& window)
+{
+	ss.str(std::string());
+	gameTime = roundf(gameTime * 100) / 100;
+	ss << gameTime;
+	string txt = "You shot 6 targets in: ";
+	gameTimeText.setString(txt + ss.str() + " seconds");
+	gameTimeText.setPosition(50, 600);
+
+	window.draw(gameTimeText);
+}
+
 //! Update the Player
 /*!
 \Updates the player's crosshair position, creates a random X axis sway for the gun recoil(move to gun manager class later)
@@ -250,14 +265,19 @@ void Player::Update(sf::RenderWindow& window, float frameTime)
 	if (sf::Mouse::isButtonPressed(sf::Mouse::Right) && rightMousePressed == false)
 	{
 		rightMousePressed = true;
-		if (currentCrosshair == crosshairType)
+		if (currentCrosshair == Crosshairs::smg)
 		{
-			currentCrosshair = Crosshairs::smg;
+			currentCrosshair = Crosshairs::pistol;
 			LoadCrosshair();
 		}
-		else
+		else if (currentCrosshair == Crosshairs::pistol)
 		{
-			currentCrosshair = crosshairType;
+			currentCrosshair = Crosshairs::greenHalfCirc;
+			LoadCrosshair();
+		}
+		else if (currentCrosshair == crosshairType)
+		{
+			currentCrosshair = Crosshairs::smg;
 			LoadCrosshair();
 		}
 	}
@@ -496,5 +516,4 @@ sf::Vector2f Player::getRandomSway()
 	randomXSway = (randomXSway / 100) - 5;
 	return sf::Vector2f(randomXSway, 0);
 }
-
 

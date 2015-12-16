@@ -16,6 +16,7 @@ public:
 	void Load();
 	void SetUp();
 	void Draw(sf::RenderWindow& window);
+	void Player::DrawResult(sf::RenderWindow& window);
 	void Shoot(sf::RenderWindow& window);
 	void CrosshairRecoil(sf::RenderWindow& window, float);
 	sf::Vector2f Player::PistolBulletRecoil();
@@ -86,9 +87,11 @@ private:
 	float smgFireRate;
 	float smgFireRateTimer;
 
+	float gameOverTime;
+
 	int recoilType;
 
-	enum class Crosshairs { redCircleCross, redDot, clearDot, redHorizon, whiteHorizon, greenHorizon, greenHalfCirc, pistol, smg};
+	enum class Crosshairs { redCircleCross, redDot, clearDot, redHorizon, whiteHorizon, greenHorizon, greenHalfCirc, pistol, smg, predator};
 	Crosshairs crosshairType;
 	Crosshairs currentCrosshair;
 
