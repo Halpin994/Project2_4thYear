@@ -55,6 +55,9 @@ Player::Player()
 
 	gameTime = 0;
 
+	smgFireRate = 0.08;
+	smgFireRateTimer = smgFireRate;
+
 	Load();
 	SetUp();
 }
@@ -192,6 +195,7 @@ void Player::Update(sf::RenderWindow& window, float frameTime)
 {
 	gameTime += frameTime;
 	UpdateReloadTimes(frameTime);
+	smgFireRateTimer -= frameTime;
 
 	crosshairSprite.setPosition(sf::Mouse::getPosition(window).x + crhOffset.x, sf::Mouse::getPosition(window).y + crhOffset.y);
 
@@ -205,7 +209,10 @@ void Player::Update(sf::RenderWindow& window, float frameTime)
 	}
 	if (sf::Mouse::isButtonPressed(sf::Mouse::Left) && leftMousePressed == false && normalReloadActive == false)
 	{
-		leftMousePressed = true;
+		if (currentCrosshair != Crosshairs::smg)
+		{
+			leftMousePressed = true;
+		}
 		if (CollisionManager::GetInstance()->CheckReloadCollision(crosshairSprite.getPosition(), reloadNormalSprite.getPosition(), reloadNormalSprite.getGlobalBounds()) == true)
 		{
 			if (pistolClip < pistolClipSize)
@@ -224,7 +231,16 @@ void Player::Update(sf::RenderWindow& window, float frameTime)
 		}
 		else
 		{
-			Shoot(window);
+			if (currentCrosshair != Crosshairs::smg)
+			{
+				Shoot(window);
+			}
+			else if (smgFireRateTimer < 0)
+			{
+				Shoot(window);
+				smgFireRateTimer = smgFireRate;
+			}
+				
 		}
 	}
 	if (crhRecoilActive)
@@ -236,7 +252,7 @@ void Player::Update(sf::RenderWindow& window, float frameTime)
 		rightMousePressed = true;
 		if (currentCrosshair == crosshairType)
 		{
-			currentCrosshair = Crosshairs::pistol;
+			currentCrosshair = Crosshairs::smg;
 			LoadCrosshair();
 		}
 		else
