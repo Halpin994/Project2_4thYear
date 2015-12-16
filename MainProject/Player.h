@@ -29,6 +29,7 @@ public:
 	void Player::Reload();
 	void Player::UpdateReloadTimes(float);
 	void Player::LoadCrosshair();
+	void Player::Restart();
 
 private:
 	sf::Texture crosshairImage;

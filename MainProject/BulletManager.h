@@ -24,6 +24,7 @@ public:
 
 	void BulletManager::Draw(sf::RenderWindow& window);
 	void BulletManager::AddBullet(sf::Vector2f);
+	list<BulletHole*>& BulletManager::GetListOfBullets();
 
 private:
 	BulletManager()

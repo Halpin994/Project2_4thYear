@@ -40,7 +40,7 @@ Player::Player()
 	yPistolRecoilStrength = 5;
 	yPistolRecoilStrengthTemp = yPistolRecoilStrength;
 	yPistolRecoil = 0;
-	pistolRecoilMultiplier = 1.8;
+	pistolRecoilMultiplier = 1.0;
 	pistolRecoilCoolDownTime = 0.3;
 
 	recoilCoolDown = pistolRecoilCoolDownTime;
@@ -297,6 +297,25 @@ void Player::Update(sf::RenderWindow& window, float frameTime)
 			targetRespawn = targetRespawnTime;
 		}
 	}
+}
+
+void Player::Restart()
+{
+	pistolClip = pistolClipSize;
+	targetRespawn = targetRespawnTime;
+	gameTime = 0;
+	gameTimeText.setPosition(900, 635);
+	list<BulletHole*>& bulletHoles = BulletManager::GetInstance()->GetListOfBullets();
+	list<BulletHole*>::iterator bulletITER = bulletHoles.begin();
+	for (bulletITER = bulletHoles.begin(); bulletITER != bulletHoles.end();)
+	{
+		delete (*bulletITER);
+		bulletITER = bulletHoles.erase(bulletITER);
+	}
+	TargetManager::GetInstance()->AddTargets(sf::Vector2f(395, 180), 100);
+	TargetManager::GetInstance()->AddTargets(sf::Vector2f(600, 180), 100);
+	TargetManager::GetInstance()->AddTargets(sf::Vector2f(810, 180), 100);
+	currentCrosshair = Crosshairs::smg;
 }
 
 void Player::Reload()

@@ -56,3 +56,8 @@ void BulletManager::Draw(sf::RenderWindow& window)
 		b->Draw(window);
 	}
 }
+
+list<BulletHole*>& BulletManager::GetListOfBullets()
+{
+	return bulletHoles;
+}

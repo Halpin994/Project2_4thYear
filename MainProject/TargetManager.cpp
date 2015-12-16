@@ -79,6 +79,7 @@ void TargetManager::targetsEliminatedPlus()
 	targetsEliminated++;
 	if (targetsEliminated == 6)
 	{
+		targetsEliminated = 0;
 		GameStateManager::GetInstance()->SetGameState(GameStateManager::GameStates::GAMEOVER);
 	}
 }

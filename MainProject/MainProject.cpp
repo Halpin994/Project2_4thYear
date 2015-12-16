@@ -67,10 +67,14 @@ int main()
 			window.display(); //display the updated screen
 			break;
 		case GameStateManager::GameStates::GAMEOVER: //Options state
-
 			window.clear(); //clear the previous screen
 			player.DrawResult(window);
 			window.display(); //display the updated screen
+			if (sf::Keyboard::isKeyPressed(sf::Keyboard::R))
+			{
+				player.Restart();
+				GameStateManager::GetInstance()->SetGameState(GameStateManager::GameStates::GAME);
+			}
 			break;
 		case GameStateManager::GameStates::QUIT: //Quit game state
 			window.close();
