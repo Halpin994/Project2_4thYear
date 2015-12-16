@@ -40,7 +40,7 @@ Player::Player()
 	yPistolRecoilStrength = 5;
 	yPistolRecoilStrengthTemp = yPistolRecoilStrength;
 	yPistolRecoil = 0;
-	pistolRecoilMultiplier = 1.0;
+	pistolRecoilMultiplier = 1.8;
 	pistolRecoilCoolDownTime = 0.3;
 
 	recoilCoolDown = pistolRecoilCoolDownTime;
@@ -51,7 +51,7 @@ Player::Player()
 	quickReloadTime = 1.2;
 	quickReloadTimer = quickReloadTime;
 
-	normalReloadTime = 2.3;
+	normalReloadTime = 2.0;
 	normalReloadTimer = normalReloadTime;
 
 	gameTime = 0;
