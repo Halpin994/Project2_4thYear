@@ -5,38 +5,62 @@
 #include <iostream>
 #include "Menu.h"
 #include "GameStateManager.h"
+#include "SoundManager.h"
 
 Menu::Menu()
 {
+	highlighted = false;
+
 	Load();
 	SetUp();
 }
 
+//! Load in assets
+/*!
+\Loads in the menu background image, menu selection images, and crosshair image then assigns it to their respective textures
+\return none
+\sa
+*/
 void Menu::Load()
 {
-	menuBG_img.loadFromFile("menuBG_img.png");
-	playGame_img.loadFromFile("playGame_img.png");
-	options_img.loadFromFile("options_img.png");
-	quit_img.loadFromFile("quit_img.png");
-	crosshair_img.loadFromFile("crosshair.png");
+	menuBG_tex.loadFromFile("Assets/Images/Menu/menuBG_img.png");
+	playGame_tex.loadFromFile("Assets/Images/Menu/playGame_img.png");
+	playGameHighlight_tex.loadFromFile("Assets/Images/Menu/playGameHighlight_img.png");
+	options_tex.loadFromFile("Assets/Images/Menu/options_img.png");
+	optionsHighlight_tex.loadFromFile("Assets/Images/Menu/optionsHighlight_img.png");
+	quit_tex.loadFromFile("Assets/Images/Menu/quit_img.png");
+	quitHighlight_tex.loadFromFile("Assets/Images/Menu/quitHighlight_img.png");
+	crosshair_tex.loadFromFile("Assets/Images/crosshair.png");
 }
 
+//! Setup the sprites
+/*!
+\Sets the crosshair sprites origin to the centre of the sprite. Sets the texture for each sprite and the position.
+\return none
+\sa
+*/
 void Menu::SetUp()
 {
 	crosshair_spr.setOrigin(75, 75);
-	crosshair_spr.setTexture(crosshair_img);
+	crosshair_spr.setTexture(crosshair_tex);
 
-	menuBG_spr.setTexture(menuBG_img);
-	playGame_spr.setTexture(playGame_img);
-	options_spr.setTexture(options_img);
-	quit_spr.setTexture(quit_img);
+	menuBG_spr.setTexture(menuBG_tex);
+	playGame_spr.setTexture(playGame_tex);
+	options_spr.setTexture(options_tex);
+	quit_spr.setTexture(quit_tex);
 
 	menuBG_spr.setPosition(0, 0);
 	playGame_spr.setPosition(100, 150);
-	options_spr.setPosition(100, 300);
-	quit_spr.setPosition(100, 450);
+	options_spr.setPosition(100, 200);
+	quit_spr.setPosition(100, 250);
 }
 
+//! Draw the menu
+/*!
+\Draw the menu sprites relative to the window
+\return none
+\sa
+*/
 void Menu::Draw(sf::RenderWindow& window)
 {
 	window.draw(menuBG_spr);
@@ -46,12 +70,27 @@ void Menu::Draw(sf::RenderWindow& window)
 	window.draw(crosshair_spr);
 }
 
+//! Update the menu cursor
+/*!
+\Updates the menu cursor relative to the position of the mouse on the window.
+\return none
+\sa
+*/
 void Menu::Update(sf::RenderWindow& window)
 {
 	crosshair_spr.setPosition(sf::Mouse::getPosition(window).x, sf::Mouse::getPosition(window).y);
-	Menu::Select(window);
+	Select(window);
+	Highlight(window);
+
+	//cout << highlighted << endl;
 }
 
+//! Select Option
+/*!
+\Determines which option is being selected in the menu using box collision. Sets the game state depending on which collision is detected
+\return none
+\sa
+*/
 void Menu::Select(sf::RenderWindow& window)
 {
 	if (sf::Mouse::isButtonPressed(sf::Mouse::Left))
@@ -67,5 +106,43 @@ void Menu::Select(sf::RenderWindow& window)
 		{
 			GameStateManager::GetInstance()->SetGameState(GameStateManager::GameStates::QUIT);
 		}
+	}
+}
+
+void Menu::Highlight(sf::RenderWindow& window)
+{
+	if (sf::Mouse::getPosition(window).x > playGame_spr.getPosition().x && sf::Mouse::getPosition(window).x < playGame_spr.getPosition().x + playGame_spr.getGlobalBounds().width
+		&& sf::Mouse::getPosition(window).y > playGame_spr.getPosition().y && sf::Mouse::getPosition(window).y < playGame_spr.getPosition().y + playGame_spr.getGlobalBounds().height)
+	{
+		if (highlighted == false){
+			SoundManager::GetInstance()->PlayClick();
+			playGame_spr.setTexture(playGameHighlight_tex);
+			highlighted = true;
+		}
+	}
+	else if (sf::Mouse::getPosition(window).x > options_spr.getPosition().x && sf::Mouse::getPosition(window).x < options_spr.getPosition().x + options_spr.getGlobalBounds().width
+		&& sf::Mouse::getPosition(window).y > options_spr.getPosition().y && sf::Mouse::getPosition(window).y < options_spr.getPosition().y + options_spr.getGlobalBounds().height)
+	{
+		if (highlighted == false){
+			SoundManager::GetInstance()->PlayClick();
+			options_spr.setTexture(optionsHighlight_tex);
+			highlighted = true;
+		}
+	}
+	else if (sf::Mouse::getPosition(window).x > quit_spr.getPosition().x && sf::Mouse::getPosition(window).x < quit_spr.getPosition().x + quit_spr.getGlobalBounds().width
+		&& sf::Mouse::getPosition(window).y > quit_spr.getPosition().y && sf::Mouse::getPosition(window).y < quit_spr.getPosition().y + quit_spr.getGlobalBounds().height)
+	{
+		if (highlighted == false){
+			SoundManager::GetInstance()->PlayClick();
+			quit_spr.setTexture(quitHighlight_tex);
+			highlighted = true;
+		}
+	}
+	else
+	{
+		highlighted = false;
+		playGame_spr.setTexture(playGame_tex);
+		options_spr.setTexture(options_tex);
+		quit_spr.setTexture(quit_tex);
 	}
 }

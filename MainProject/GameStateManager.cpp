@@ -8,8 +8,12 @@
 bool GameStateManager::instanceFlag = false;
 GameStateManager* GameStateManager::instance = NULL;
 
-
-
+//! GetInstance returns pointer to GameStateManager (singleton)
+/*!
+\(Detailed desc)
+\return
+\sa
+*/
 GameStateManager* GameStateManager::GetInstance()
 {
 	if (!instanceFlag)
@@ -24,10 +28,9 @@ GameStateManager* GameStateManager::GetInstance()
 	}
 }
 
-
-//! func desc brief
+//! Sets the game state
 /*!
-\param state desc of what state is
+\When called, it is passed a gamestate, which sets the current game state to the state passed.
 \return none
 \sa 
 */
@@ -36,6 +39,12 @@ void GameStateManager::SetGameState(GameStates state)
 	gameState = state;
 }
 
+//! Gets the game state
+/*!
+\When called, it returns the current gameState.
+\return gameState
+\sa
+*/
 GameStateManager::GameStates GameStateManager::GetGameState()
 {
 	return gameState;

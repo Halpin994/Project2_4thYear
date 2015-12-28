@@ -7,7 +7,14 @@
 #include "Target.h"
 #include "GameStateManager.h"
 #include "BulletManager.h"
+#include "TargetManager.h"
 
+//! (Brief desc)
+/*!
+\(Detailed desc)
+\return
+\sa
+*/
 int main()
 {
 	sf::RenderWindow window(sf::VideoMode(1200, 700), "Main Project");
@@ -15,16 +22,11 @@ int main()
 	window.setMouseCursorVisible(false);
 	window.setVerticalSyncEnabled(true);
 	window.setFramerateLimit(60);
-
 	GameStateManager::GetInstance()->SetGameState(GameStateManager::GameStates::MAIN_MENU);
-
 	sf::Clock clock;
-
-	Player player;
-	player.Init(window);
 	Menu menu;
 	Level level;
-	Target target;
+	Player player;
 
 	while (window.isOpen())
 	{
@@ -39,39 +41,47 @@ int main()
 				window.close();
 		}
 
-		if (sf::Keyboard::isKeyPressed(sf::Keyboard::Escape))
+		if (sf::Keyboard::isKeyPressed(sf::Keyboard::Escape)) //closes the screen when the escape key is pressed
 			window.close();
 
 		switch (GameStateManager::GetInstance()->GetGameState()) 
 		{
-		case GameStateManager::GameStates::MAIN_MENU:
+		case GameStateManager::GameStates::MAIN_MENU: //Menu state
 			menu.Update(window);
 
-			window.clear();
+			window.clear(); //clear the previous screen
 			menu.Draw(window);
-			window.display();
+			window.display(); //display the updated screen
 
 			break;
-		case GameStateManager::GameStates::GAME:
+		case GameStateManager::GameStates::OPTIONS: //Options state
+
+			break;
+		case GameStateManager::GameStates::GAME: //Game state
 			player.Update(window, time);
-
-			window.clear();
+			window.clear(); //clear the previous screen
 			level.Draw(window);
-			target.Draw(window);
 			BulletManager::GetInstance()->Draw(window);
+			TargetManager::GetInstance()->Draw(window);
 			player.Draw(window);
-			window.display();
+			window.display(); //display the updated screen
 			break;
-		case GameStateManager::GameStates::OPTIONS:
-
+		case GameStateManager::GameStates::GAMEOVER: //Options state
+			window.clear(); //clear the previous screen
+			player.DrawResult(window);
+			window.display(); //display the updated screen
+			if (sf::Keyboard::isKeyPressed(sf::Keyboard::R))
+			{
+				player.Restart();
+				GameStateManager::GetInstance()->SetGameState(GameStateManager::GameStates::GAME);
+			}
 			break;
-		case GameStateManager::GameStates::QUIT:
+		case GameStateManager::GameStates::QUIT: //Quit game state
 			window.close();
 			break;
 		}
 
-		
-	}
+	}//end while
 
 	return 0;
 }

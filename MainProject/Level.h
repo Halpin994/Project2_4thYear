@@ -13,9 +13,8 @@ public:
 	void Draw(sf::RenderWindow& window);
 
 private:
-	sf::Texture rangeImage;
+	sf::Texture rangeTexture;
 	sf::Sprite rangeSprite;
-
 };
 
 #endif 
