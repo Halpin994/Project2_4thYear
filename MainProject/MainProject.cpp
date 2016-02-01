@@ -21,12 +21,12 @@ int main()
 	sf::Mouse::setPosition(sf::Vector2i(600, 350), window);
 	window.setMouseCursorVisible(false);
 	window.setVerticalSyncEnabled(true);
-	window.setFramerateLimit(60);
+	//window.setFramerateLimit(60);
 	GameStateManager::GetInstance()->SetGameState(GameStateManager::GameStates::GAME);
 	sf::Clock clock;
-	Menu *menu = new Menu;
-	Level *level = new Level;
-	Player *player = new Player;
+	Menu *menu = new Menu();
+	Level *level = new Level();
+	Player *player = new Player();
 	
 
 	while (window.isOpen())
@@ -66,10 +66,11 @@ int main()
 
 			window.clear(); //clear the previous screen
 
-			level->Draw(window);
+			level->DrawBG(window);
 			BulletManager::GetInstance()->Draw(window);
 			TargetManager::GetInstance()->Draw(window);
 			player->Draw(window);
+			level->DrawOverlayUI(window);
 
 			window.display(); //display the updated screen
 			break;

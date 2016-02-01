@@ -13,10 +13,11 @@ public:
 	Level();
 	void Load();
 	void SetUp();
-	void Draw(sf::RenderWindow& window);
+	void DrawBG(sf::RenderWindow& window);
 	void Update(Player *player, float);
 	void Restart();
 	void DrawResult(sf::RenderWindow& window);
+	void Level::DrawOverlayUI(sf::RenderWindow& window);
 
 private:
 	sf::Texture rangeTexture;

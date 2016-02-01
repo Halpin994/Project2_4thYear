@@ -75,10 +75,13 @@ void Level::SetUp()
 \return none
 \sa
 */
-void Level::Draw(sf::RenderWindow& window)
+void Level::DrawBG(sf::RenderWindow& window)
 {
 	window.draw(rangeSprite);
+}
 
+void Level::DrawOverlayUI(sf::RenderWindow& window)
+{
 	ss.str(std::string());
 	gameTime = roundf(gameTime * 100) / 100;
 	ss << gameTime;
