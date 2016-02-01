@@ -22,11 +22,12 @@ int main()
 	window.setMouseCursorVisible(false);
 	window.setVerticalSyncEnabled(true);
 	window.setFramerateLimit(60);
-	GameStateManager::GetInstance()->SetGameState(GameStateManager::GameStates::MAIN_MENU);
+	GameStateManager::GetInstance()->SetGameState(GameStateManager::GameStates::GAME);
 	sf::Clock clock;
-	Menu menu;
-	Level level;
-	Player player;
+	Menu *menu = new Menu;
+	Level *level = new Level;
+	Player *player = new Player;
+	
 
 	while (window.isOpen())
 	{
@@ -47,10 +48,11 @@ int main()
 		switch (GameStateManager::GetInstance()->GetGameState()) 
 		{
 		case GameStateManager::GameStates::MAIN_MENU: //Menu state
-			menu.Update(window);
+
+			menu->Update(window);
 
 			window.clear(); //clear the previous screen
-			menu.Draw(window);
+			menu->Draw(window);
 			window.display(); //display the updated screen
 
 			break;
@@ -58,21 +60,27 @@ int main()
 
 			break;
 		case GameStateManager::GameStates::GAME: //Game state
-			player.Update(window, time);
+
+			level->Update(player, time);
+			player->Update(window, time);
+
 			window.clear(); //clear the previous screen
-			level.Draw(window);
+
+			level->Draw(window);
 			BulletManager::GetInstance()->Draw(window);
 			TargetManager::GetInstance()->Draw(window);
-			player.Draw(window);
+			player->Draw(window);
+
 			window.display(); //display the updated screen
 			break;
-		case GameStateManager::GameStates::GAMEOVER: //Options state
+		case GameStateManager::GameStates::GAMEOVER: //Gameover state
 			window.clear(); //clear the previous screen
-			player.DrawResult(window);
+			level->DrawResult(window);
 			window.display(); //display the updated screen
 			if (sf::Keyboard::isKeyPressed(sf::Keyboard::R))
 			{
-				player.Restart();
+				player->Restart();
+				level->Restart();
 				GameStateManager::GetInstance()->SetGameState(GameStateManager::GameStates::GAME);
 			}
 			break;

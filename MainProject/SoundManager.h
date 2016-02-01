@@ -27,6 +27,7 @@ public:
 	void SoundManager::PlayFallingShell();
 	void SoundManager::PlayPistolReload();
 	void SoundManager::PlayPistolQuickReload();
+	void SoundManager::PlayInfoSoundEffect();
 
 private:
 	SoundManager()
@@ -50,6 +51,9 @@ private:
 	sf::Sound pistolReload_sfx;
 	sf::SoundBuffer pistolQuickReload_buff;
 	sf::Sound pistolQuickReload_sfx;
+
+	sf::SoundBuffer infoSoundEffect_buff;
+	sf::Sound infoSoundEffect_sfx;
 };
 
 #endif 

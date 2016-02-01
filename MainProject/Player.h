@@ -1,7 +1,7 @@
 #include <iostream>
 using namespace std;
 
-#include "SFML\Audio.hpp"
+//#include "SFML\Audio.hpp"
 #include <sstream>
 
 #ifndef PLAYER
@@ -30,6 +30,8 @@ public:
 	void Player::UpdateReloadTimes(float);
 	void Player::LoadCrosshair();
 	void Player::Restart();
+	int Player::getClipCount();
+	int Player::getMaxClip();
 
 private:
 	sf::Texture crosshairImage;
@@ -83,15 +85,14 @@ private:
 	float normalReloadTime;
 	float normalReloadTimer;
 
-	float gameTime;
+	//float gameTime;
+	//float gameOverTime;
 
 	float smgFireRate;
 	float smgFireRateTimer;
 
-	float gameOverTime;
-
-	float targetRespawn;
-	float targetRespawnTime;
+	//float targetRespawn;
+	//float targetRespawnTime;
 
 	int recoilType;
 
@@ -104,7 +105,7 @@ private:
 
 	sf::Font font;
 	sf::Text gunClipText;
-	sf::Text gameTimeText;
+	//sf::Text gameTimeText;
 	std::stringstream ss;
 
 };

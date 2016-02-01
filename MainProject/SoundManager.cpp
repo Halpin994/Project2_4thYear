@@ -37,6 +37,7 @@ void SoundManager::Load()
 	fallingShell_buff.loadFromFile("Assets/Sounds/fallingShell.wav");
 	pistolReload_buff.loadFromFile("Assets/Sounds/pistolReload.wav");
 	pistolQuickReload_buff.loadFromFile("Assets/Sounds/pistolQuickReload.wav");
+	infoSoundEffect_buff.loadFromFile("Assets/Sounds/tut_infos.wav");
 }
 void SoundManager::SetUp()
 {
@@ -46,6 +47,7 @@ void SoundManager::SetUp()
 	fallingShell_sfx.setBuffer(fallingShell_buff);
 	pistolReload_sfx.setBuffer(pistolReload_buff);
 	pistolQuickReload_sfx.setBuffer(pistolQuickReload_buff);
+	infoSoundEffect_sfx.setBuffer(infoSoundEffect_buff);
 }
 
 void SoundManager::PlayPistolGunShot()
@@ -77,6 +79,11 @@ void SoundManager::PlayPistolReload()
 void SoundManager::PlayPistolQuickReload()
 {
 	pistolQuickReload_sfx.play();
+}
+
+void SoundManager::PlayInfoSoundEffect()
+{
+	infoSoundEffect_sfx.play();
 }
 
 
