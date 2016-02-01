@@ -35,7 +35,8 @@ Player::Player()
 	outOfControl = false;
 
 	quickReloadActive = false;
-	normalReloadActive = false;
+	normalReloadClicked = false;
+	quickReloadClicked = false;
 
 	yPistolRecoilStrength = 5;
 	yPistolRecoilStrengthTemp = yPistolRecoilStrength;
@@ -161,11 +162,11 @@ void Player::Draw(sf::RenderWindow& window)
 		}
 	}
 	window.draw(pistolClipSprite);
-	if (pistolClip == pistolClipSize || normalReloadActive == true)
+	if (pistolClip == pistolClipSize || normalReloadClicked == true)
 	{
 		window.draw(reloadUnavailableSprite);
 	}
-	if (normalReloadActive == false && quickReloadActive == false && pistolClip < pistolClipSize)
+	if (normalReloadClicked == false && quickReloadActive == false && pistolClip < pistolClipSize)
 	{
 		window.draw(reloadNormalSprite);
 	}
@@ -215,6 +216,8 @@ void Player::Update(sf::RenderWindow& window, float frameTime)
 	UpdateReloadTimes(frameTime);
 	smgFireRateTimer -= frameTime;
 
+	quickReloadClicked = false;
+
 	crosshairSprite.setPosition(sf::Mouse::getPosition(window).x + crhOffset.x, sf::Mouse::getPosition(window).y + crhOffset.y);
 
 	if (!sf::Mouse::isButtonPressed(sf::Mouse::Left))
@@ -225,7 +228,7 @@ void Player::Update(sf::RenderWindow& window, float frameTime)
 	{
 		rightMousePressed = false;
 	}
-	if (sf::Mouse::isButtonPressed(sf::Mouse::Left) && leftMousePressed == false && normalReloadActive == false)
+	if (sf::Mouse::isButtonPressed(sf::Mouse::Left) && leftMousePressed == false && normalReloadClicked == false)
 	{
 		if (currentCrosshair != Crosshairs::smg)
 		{
@@ -239,11 +242,12 @@ void Player::Update(sf::RenderWindow& window, float frameTime)
 				{
 					SoundManager::GetInstance()->PlayPistolQuickReload();
 					Reload();
+					quickReloadClicked = true;
 				}
 				else if (quickReloadActive == false)
 				{
 					SoundManager::GetInstance()->PlayPistolReload();
-					normalReloadActive = true;
+					normalReloadClicked = true;
 				}
 			}
 		}
@@ -269,12 +273,13 @@ void Player::Update(sf::RenderWindow& window, float frameTime)
 			if (quickReloadActive == true)
 			{
 				SoundManager::GetInstance()->PlayPistolQuickReload();
+				quickReloadClicked = true;
 				Reload();
 			}
 			else if (quickReloadActive == false)
 			{
 				SoundManager::GetInstance()->PlayPistolReload();
-				normalReloadActive = true;
+				normalReloadClicked = true;
 			}
 		}
 	}
@@ -315,7 +320,7 @@ void Player::Reload()
 	quickReloadTimer = quickReloadTime;
 	normalReloadTimer = normalReloadTime;
 	quickReloadActive = false;
-	normalReloadActive = false;
+	normalReloadClicked = false;
 }
 
 void Player::UpdateReloadTimes(float frameTime)
@@ -343,7 +348,7 @@ void Player::UpdateReloadTimes(float frameTime)
 			quickReloadActive = false;
 		}
 	}
-	if (normalReloadActive == true)
+	if (normalReloadClicked == true)
 	{
 		normalReloadTimer -= frameTime;
 		if (normalReloadTimer < 0)
@@ -549,5 +554,20 @@ int Player::getClipCount()
 int Player::getMaxClip()
 {
 	return pistolClipSize;
+}
+
+bool Player::getLeftClicked()
+{
+	return leftMousePressed;
+}
+
+bool Player::getNormReloadClicked()
+{
+	return normalReloadClicked;
+}
+
+bool Player::getQuickReloadClicked()
+{
+	return quickReloadClicked;
 }
 

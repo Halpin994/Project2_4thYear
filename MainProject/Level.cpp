@@ -27,9 +27,6 @@ Level::Level()
 	tut_ReloadInfoDraw = false;
 	tut_QuickReloadDraw = false;
 
-	tut_displayTime = 4.0f;
-	tut_displayTimer = 0;
-
 	gameTime = 0;
 	gameOverTime = 0;
 
@@ -62,8 +59,6 @@ void Level::Load()
 void Level::SetUp()
 {
 	rangeSprite.setTexture(rangeTexture, true);
-	//infoSprite.setTexture(shootInfoTexture, true);
-	infoSprite.setPosition(750, 460);
 	TargetManager::GetInstance()->AddTargets(sf::Vector2f(395, 180), 100);
 	TargetManager::GetInstance()->AddTargets(sf::Vector2f(600, 180), 100);
 	TargetManager::GetInstance()->AddTargets(sf::Vector2f(810, 180), 100);
@@ -82,7 +77,6 @@ void Level::SetUp()
 */
 void Level::Draw(sf::RenderWindow& window)
 {
-	//rangeSprite.setPosition(0, 0);
 	window.draw(rangeSprite);
 
 	ss.str(std::string());
@@ -123,12 +117,17 @@ void Level::Update(Player *player, float frameTime)
 		}
 	}
 
-	if (tut_displayTimer > tut_displayTime)
+	if (player->getLeftClicked())
 	{
 		tut_ShootInfoDraw = false;
+	}
+	if (player->getNormReloadClicked())
+	{
 		tut_ReloadInfoDraw = false;
+	}
+	if (player->getQuickReloadClicked())
+	{
 		tut_QuickReloadDraw = false;
-		tut_displayTimer = 0;
 	}
 
 	if (tut_ShootInfoDisplayed == false && gameTime > 2.0f)
@@ -137,6 +136,7 @@ void Level::Update(Player *player, float frameTime)
 		tut_ShootInfoDisplayed = true;
 		infoSprite.setTexture(shootInfoTexture, true);
 		SoundManager::GetInstance()->PlayInfoSoundEffect();
+		infoSprite.setPosition(750, 460);
 	}
 	if (tut_ReloadInfoDisplayed == false && player->getClipCount() < player->getMaxClip()/2 && tut_ShootInfoDraw == false && tut_QuickReloadDraw == false)
 	{
@@ -144,13 +144,15 @@ void Level::Update(Player *player, float frameTime)
 		tut_ReloadInfoDisplayed = true;
 		infoSprite.setTexture(reloadInfoTexture, true);
 		SoundManager::GetInstance()->PlayInfoSoundEffect();
+		infoSprite.setPosition(475, 460);
 	}
-	if (tut_QuickReloadDisplayed == false && player->getClipCount() <= 3 && tut_ShootInfoDraw == false && tut_ReloadInfoDraw == false)
+	if (tut_QuickReloadDisplayed == false && player->getClipCount() <= 3 && tut_ShootInfoDraw == false && tut_ReloadInfoDraw == false && player->getNormReloadClicked() == false)
 	{
 		tut_QuickReloadDraw = true;
 		tut_QuickReloadDisplayed = true;
 		infoSprite.setTexture(quickReloadTexture, true);
 		SoundManager::GetInstance()->PlayInfoSoundEffect();
+		//infoSprite.setPosition(475, 460);
 	}
 
 	if (tut_ShootInfoDraw == true || tut_ReloadInfoDraw == true || tut_QuickReloadDraw == true)

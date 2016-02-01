@@ -32,6 +32,9 @@ public:
 	void Player::Restart();
 	int Player::getClipCount();
 	int Player::getMaxClip();
+	bool Player::getLeftClicked();
+	bool Player::getNormReloadClicked();
+	bool Player::getQuickReloadClicked();
 
 private:
 	sf::Texture crosshairImage;
@@ -63,7 +66,8 @@ private:
 	bool outOfControl;
 
 	bool quickReloadActive;
-	bool normalReloadActive;
+	bool quickReloadClicked;
+	bool normalReloadClicked;
 
 	float random;
 	float randomXSway;
