@@ -8,6 +8,7 @@
 #include "GameStateManager.h"
 #include "BulletManager.h"
 #include "TargetManager.h"
+#include "SoundManager.h"
 
 //! (Brief desc)
 /*!
@@ -27,13 +28,15 @@ int main()
 	Menu *menu = new Menu();
 	Level *level = new Level();
 	Player *player = new Player();
-	
+
+	SoundManager::GetInstance(); //calling constructor for sm to load assets
 
 	while (window.isOpen())
 	{
 		float time = clock.getElapsedTime().asSeconds();
 		clock.restart();
 		//cout << time << endl;
+
 
 		sf::Event event;
 		while (window.pollEvent(event))

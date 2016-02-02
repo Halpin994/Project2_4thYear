@@ -34,7 +34,6 @@ private:
 	{
 		Load();
 		SetUp();
-		
 	}
 	static bool instanceFlag;
 	static SoundManager* instance;
