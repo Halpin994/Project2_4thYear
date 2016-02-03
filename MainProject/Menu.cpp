@@ -94,7 +94,7 @@ void Menu::SetUp()
 	volumeText.setFont(font);
 	volumeText.setCharacterSize(35);
 	volumeText.setPosition(volDownPos_x + 70, volumeUp_spr.getPosition().y - volumeUp_spr.getGlobalBounds().height);
-	volumeText.setColor(sf::Color::White);
+	volumeText.setColor(sf::Color::Green);
 }
 
 //! Draw the menu
@@ -120,6 +120,12 @@ void Menu::DrawOptions(sf::RenderWindow& window)
 	ss.str(std::string());
 	ss << SoundManager::GetInstance()->GetVolume() * 2;
 	volumeText.setString(ss.str());
+	if (SoundManager::GetInstance()->GetVolume() > 25)
+	{
+		volumeText.setColor(sf::Color::Red);
+	}
+	else
+		volumeText.setColor(sf::Color::Green);
 	window.draw(volumeText);
 }
 

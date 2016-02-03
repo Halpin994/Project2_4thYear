@@ -32,6 +32,8 @@ Level::Level()
 
 	targetRespawnTime = 0.4;
 	targetRespawn = targetRespawnTime;
+
+	levelState = LevelStates::TUTORIAL;
 }
 
 //! Load in assets
@@ -42,11 +44,17 @@ Level::Level()
 */
 void Level::Load()
 {
-	rangeTexture.loadFromFile("Assets/Images/Game/basicRange.png");
+	rangeBgTexture.loadFromFile("Assets/Images/Game/basicRange.png");
+	level1BgTexture.loadFromFile("Assets/Images/Game/Level 2/lvl2_bg.png");
 	//rangeTexture.loadFromFile("Assets/Images/Game/Level 2/bg_level2.png"); 
 	shootInfoTexture.loadFromFile("Assets/Images/Game/Tutorial/tut_shoot.png");
 	reloadInfoTexture.loadFromFile("Assets/Images/Game/Tutorial/tut_reload.png");
 	quickReloadTexture.loadFromFile("Assets/Images/Game/Tutorial/tut_quickreload.png");
+
+	texture_level1Layer1.loadFromFile("Assets/Images/Game/Level 2/lvl2_buildings_back.png");
+	texture_level1Layer2.loadFromFile("Assets/Images/Game/Level 2/lvl2_buildings_front.png");
+	texture_level1Layer3.loadFromFile("Assets/Images/Game/Level 2/lvl2_twoStones.png");
+	texture_level1Layer4.loadFromFile("Assets/Images/Game/Level 2/lvl2_foreground_sandbags.png");
 
 	font.loadFromFile("Assets/imagine_font.ttf");
 }
@@ -59,10 +67,18 @@ void Level::Load()
 */
 void Level::SetUp()
 {
-	rangeSprite.setTexture(rangeTexture, true);
-	TargetManager::GetInstance()->AddTargets(sf::Vector2f(395, 180), 100);
-	TargetManager::GetInstance()->AddTargets(sf::Vector2f(600, 180), 100);
-	TargetManager::GetInstance()->AddTargets(sf::Vector2f(810, 180), 100);
+	if (levelState == LevelStates::TUTORIAL)
+	{
+		bgSprite.setTexture(rangeBgTexture, true);
+		TargetManager::GetInstance()->AddTargets(sf::Vector2f(395, 180), 100);
+		TargetManager::GetInstance()->AddTargets(sf::Vector2f(600, 180), 100);
+		TargetManager::GetInstance()->AddTargets(sf::Vector2f(810, 180), 100);
+	}
+
+	spr_level1Layer1.setTexture(texture_level1Layer1);
+	spr_level1Layer2.setTexture(texture_level1Layer2);
+	spr_level1Layer3.setTexture(texture_level1Layer3);
+	spr_level1Layer4.setTexture(texture_level1Layer4);
 
 	gameTimeText.setFont(font);
 	gameTimeText.setCharacterSize(50);
@@ -76,9 +92,32 @@ void Level::SetUp()
 \return none
 \sa
 */
-void Level::DrawBG(sf::RenderWindow& window)
+void Level::Draw(sf::RenderWindow& window)
 {
-	window.draw(rangeSprite);
+	if (levelState == LevelStates::TUTORIAL)
+	{
+		window.draw(bgSprite);
+		BulletManager::GetInstance()->Draw(window);
+		TargetManager::GetInstance()->Draw(window);
+	}
+	else if (levelState == LevelStates::LEVEL1)
+	{
+		window.draw(bgSprite);
+
+		window.draw(spr_level1Layer1);
+		//Draw enemies behind the buildings and in the watch tower here
+
+		window.draw(spr_level1Layer2);
+		//Draw enemies behind the stones here
+
+		window.draw(spr_level1Layer3);
+		//Draw enemies behind the foreground sandbags here
+
+		window.draw(spr_level1Layer4);
+
+		BulletManager::GetInstance()->Draw(window);
+		TargetManager::GetInstance()->Draw(window);
+	}
 }
 
 void Level::DrawOverlayUI(sf::RenderWindow& window)
@@ -88,18 +127,20 @@ void Level::DrawOverlayUI(sf::RenderWindow& window)
 	ss << gameTime;
 	gameTimeText.setString(ss.str());
 	window.draw(gameTimeText);
-
-	if (tut_ShootInfoDraw == true)
+	if (levelState == LevelStates::TUTORIAL)
 	{
-		window.draw(infoSprite);
-	}
-	if (tut_ReloadInfoDraw == true)
-	{
-		window.draw(infoSprite);
-	}
-	if (tut_QuickReloadDraw == true)
-	{
-		window.draw(infoSprite);
+		if (tut_ShootInfoDraw == true)
+		{
+			window.draw(infoSprite);
+		}
+		if (tut_ReloadInfoDraw == true)
+		{
+			window.draw(infoSprite);
+		}
+		if (tut_QuickReloadDraw == true)
+		{
+			window.draw(infoSprite);
+		}
 	}
 }
 
@@ -107,20 +148,73 @@ void Level::Update(Player *player, float frameTime)
 {
 	gameTime += frameTime;
 	
-
-	if (TargetManager::GetInstance()->GetSizeOfTargets() == 0)
+	if (levelState == LevelStates::TUTORIAL)
 	{
-		targetRespawn -= frameTime;
-		if (targetRespawn < 0)
+		if (TargetManager::GetInstance()->GetSizeOfTargets() == 0)
 		{
-			TargetManager::GetInstance()->AddTargets(sf::Vector2f(395, 180), 100);
-			TargetManager::GetInstance()->AddTargets(sf::Vector2f(600, 180), 100);
-			TargetManager::GetInstance()->AddTargets(sf::Vector2f(810, 180), 100);
-			SoundManager::GetInstance()->PlayClick();
-			targetRespawn = targetRespawnTime;
+			targetRespawn -= frameTime;
+			if (targetRespawn < 0)
+			{
+				TargetManager::GetInstance()->AddTargets(sf::Vector2f(395, 180), 100);
+				TargetManager::GetInstance()->AddTargets(sf::Vector2f(600, 180), 100);
+				TargetManager::GetInstance()->AddTargets(sf::Vector2f(810, 180), 100);
+				SoundManager::GetInstance()->PlayClick();
+				targetRespawn = targetRespawnTime;
+			}
 		}
-	}
 
+		UpdateTut(player, frameTime);
+	}
+	if (levelState == LevelStates::LEVEL1)
+	{
+		bgSprite.setTexture(level1BgTexture, true);
+	}
+}
+
+void Level::Restart()
+{
+	gameTime = 0;
+	gameTimeText.setPosition(900, 635);
+	targetRespawn = targetRespawnTime;
+
+	list<BulletHole*>& bulletHoles = BulletManager::GetInstance()->GetListOfBullets();
+	list<BulletHole*>::iterator bulletITER = bulletHoles.begin();
+	for (bulletITER = bulletHoles.begin(); bulletITER != bulletHoles.end();)
+	{
+		delete (*bulletITER);
+		bulletITER = bulletHoles.erase(bulletITER);
+	}
+	if (levelState == LevelStates::TUTORIAL)
+	{
+		TargetManager::GetInstance()->AddTargets(sf::Vector2f(395, 180), 100);
+		TargetManager::GetInstance()->AddTargets(sf::Vector2f(600, 180), 100);
+		TargetManager::GetInstance()->AddTargets(sf::Vector2f(810, 180), 100);
+	}
+}
+
+void Level::DrawResult(sf::RenderWindow& window)
+{
+	sf::Text buttonText;
+	buttonText.setString("Press R to restart the level \n\nPress C to continue to level 2");
+	buttonText.setPosition(50, 100);
+
+	buttonText.setFont(font);
+	buttonText.setCharacterSize(50);
+	buttonText.setColor(sf::Color::White);
+
+	ss.str(std::string());
+	gameTime = roundf(gameTime * 100) / 100;
+	ss << gameTime;
+	string txt = "You shot 6 targets in: ";
+	gameTimeText.setString(txt + ss.str() + " seconds");
+	gameTimeText.setPosition(50, 600);
+
+	window.draw(gameTimeText);
+	window.draw(buttonText);
+}
+
+void Level::UpdateTut(Player *player, float frameTime)
+{
 	if (player->getLeftClicked())
 	{
 		tut_ShootInfoDraw = false;
@@ -142,7 +236,7 @@ void Level::Update(Player *player, float frameTime)
 		SoundManager::GetInstance()->PlayInfoSoundEffect();
 		infoSprite.setPosition(750, 460);
 	}
-	if (tut_ReloadInfoDisplayed == false && player->getClipCount() < player->getMaxClip()/2 && tut_ShootInfoDraw == false && tut_QuickReloadDraw == false)
+	if (tut_ReloadInfoDisplayed == false && player->getClipCount() < player->getMaxClip() / 2 && tut_ShootInfoDraw == false && tut_QuickReloadDraw == false)
 	{
 		tut_ReloadInfoDraw = true;
 		tut_ReloadInfoDisplayed = true;
@@ -163,36 +257,9 @@ void Level::Update(Player *player, float frameTime)
 	{
 		tut_displayTimer += frameTime;
 	}
-	//player->getClipCount();
-	//player->getMaxClip();
 }
 
-void Level::Restart()
+void Level::SetLevel1()
 {
-	gameTime = 0;
-	gameTimeText.setPosition(900, 635);
-	targetRespawn = targetRespawnTime;
-
-	list<BulletHole*>& bulletHoles = BulletManager::GetInstance()->GetListOfBullets();
-	list<BulletHole*>::iterator bulletITER = bulletHoles.begin();
-	for (bulletITER = bulletHoles.begin(); bulletITER != bulletHoles.end();)
-	{
-		delete (*bulletITER);
-		bulletITER = bulletHoles.erase(bulletITER);
-	}
-	TargetManager::GetInstance()->AddTargets(sf::Vector2f(395, 180), 100);
-	TargetManager::GetInstance()->AddTargets(sf::Vector2f(600, 180), 100);
-	TargetManager::GetInstance()->AddTargets(sf::Vector2f(810, 180), 100);
-}
-
-void Level::DrawResult(sf::RenderWindow& window)
-{
-	ss.str(std::string());
-	gameTime = roundf(gameTime * 100) / 100;
-	ss << gameTime;
-	string txt = "You shot 6 targets in: ";
-	gameTimeText.setString(txt + ss.str() + " seconds");
-	gameTimeText.setPosition(50, 600);
-
-	window.draw(gameTimeText);
+	levelState = LevelStates::LEVEL1;
 }

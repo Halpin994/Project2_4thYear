@@ -13,15 +13,29 @@ public:
 	Level();
 	void Load();
 	void SetUp();
-	void DrawBG(sf::RenderWindow& window);
+	void Draw(sf::RenderWindow& window);
 	void Update(Player *player, float);
 	void Restart();
 	void DrawResult(sf::RenderWindow& window);
 	void Level::DrawOverlayUI(sf::RenderWindow& window);
 
+	void Level::UpdateTut(Player *player, float frameTime);
+	void SetLevel1();
+
 private:
-	sf::Texture rangeTexture;
-	sf::Sprite rangeSprite;
+	sf::Texture rangeBgTexture;
+	sf::Texture level1BgTexture;
+	sf::Sprite bgSprite;
+
+	sf::Texture texture_level1Layer1;
+	sf::Texture texture_level1Layer2;
+	sf::Texture texture_level1Layer3;
+	sf::Texture texture_level1Layer4;
+
+	sf::Sprite spr_level1Layer1;
+	sf::Sprite spr_level1Layer2;
+	sf::Sprite spr_level1Layer3;
+	sf::Sprite spr_level1Layer4;
 
 	bool tut_ShootInfoDisplayed;
 	bool tut_ReloadInfoDisplayed;
@@ -54,6 +68,10 @@ private:
 	sf::Sprite quickReloadSprite;
 
 	sf::Sprite infoSprite;
+
+	enum class LevelStates { TUTORIAL, LEVEL1 };
+
+	LevelStates levelState;
 
 	//Sprite stuff
 };

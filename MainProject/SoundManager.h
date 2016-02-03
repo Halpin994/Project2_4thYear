@@ -39,7 +39,7 @@ private:
 		Load();
 		SetUp();
 
-		volume = 30;
+		volume = 25;
 	}
 	static bool instanceFlag;
 	static SoundManager* instance;

@@ -23,7 +23,7 @@ int main()
 	window.setMouseCursorVisible(false);
 	window.setVerticalSyncEnabled(true);
 	//window.setFramerateLimit(60);
-	GameStateManager::GetInstance()->SetGameState(GameStateManager::GameStates::MAIN_MENU);
+	GameStateManager::GetInstance()->SetGameState(GameStateManager::GameStates::GAMEOVER);
 	sf::Clock clock;
 	Menu *menu = new Menu();
 	Level *level = new Level();
@@ -80,9 +80,7 @@ int main()
 
 			window.clear(); //clear the previous screen
 
-			level->DrawBG(window);
-			BulletManager::GetInstance()->Draw(window);
-			TargetManager::GetInstance()->Draw(window);
+			level->Draw(window);
 			player->Draw(window);
 			level->DrawOverlayUI(window);
 
@@ -94,6 +92,13 @@ int main()
 			window.display(); //display the updated screen
 			if (sf::Keyboard::isKeyPressed(sf::Keyboard::R))
 			{
+				player->Restart();
+				level->Restart();
+				GameStateManager::GetInstance()->SetGameState(GameStateManager::GameStates::GAME);
+			}
+			else if (sf::Keyboard::isKeyPressed(sf::Keyboard::C))
+			{
+				level->SetLevel1();
 				player->Restart();
 				level->Restart();
 				GameStateManager::GetInstance()->SetGameState(GameStateManager::GameStates::GAME);
