@@ -43,6 +43,7 @@ Level::Level()
 void Level::Load()
 {
 	rangeTexture.loadFromFile("Assets/Images/Game/basicRange.png");
+	//rangeTexture.loadFromFile("Assets/Images/Game/Level 2/bg_level2.png"); 
 	shootInfoTexture.loadFromFile("Assets/Images/Game/Tutorial/tut_shoot.png");
 	reloadInfoTexture.loadFromFile("Assets/Images/Game/Tutorial/tut_reload.png");
 	quickReloadTexture.loadFromFile("Assets/Images/Game/Tutorial/tut_quickreload.png");
@@ -133,7 +134,7 @@ void Level::Update(Player *player, float frameTime)
 		tut_QuickReloadDraw = false;
 	}
 
-	if (tut_ShootInfoDisplayed == false && gameTime > 2.0f)
+	if (tut_ShootInfoDisplayed == false && gameTime > 1.0f)
 	{
 		tut_ShootInfoDraw = true;
 		tut_ShootInfoDisplayed = true;

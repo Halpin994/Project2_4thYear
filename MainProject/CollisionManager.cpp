@@ -67,3 +67,16 @@ bool CollisionManager::CheckReloadCollision(sf::Vector2f crosshairPos, sf::Vecto
 	}
 	return false;
 }
+
+bool CollisionManager::CheckMenuElementCollision(sf::Vector2i crosshairPos, sf::Sprite &element)
+{
+
+	if (crosshairPos.x > element.getPosition().x && crosshairPos.x < element.getPosition().x + element.getGlobalBounds().width
+		&& crosshairPos.y > element.getPosition().y - element.getGlobalBounds().height / 2 && crosshairPos.y < element.getPosition().y + element.getGlobalBounds().height/2)
+	{
+		return true;
+	}
+	else
+		return false;
+
+}

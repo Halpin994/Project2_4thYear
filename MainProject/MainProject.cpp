@@ -23,7 +23,7 @@ int main()
 	window.setMouseCursorVisible(false);
 	window.setVerticalSyncEnabled(true);
 	//window.setFramerateLimit(60);
-	GameStateManager::GetInstance()->SetGameState(GameStateManager::GameStates::GAME);
+	GameStateManager::GetInstance()->SetGameState(GameStateManager::GameStates::MAIN_MENU);
 	sf::Clock clock;
 	Menu *menu = new Menu();
 	Level *level = new Level();
@@ -56,10 +56,21 @@ int main()
 
 			window.clear(); //clear the previous screen
 			menu->Draw(window);
+			menu->DrawCrosshair(window);
 			window.display(); //display the updated screen
 
 			break;
 		case GameStateManager::GameStates::OPTIONS: //Options state
+
+			menu->Update(window);
+			menu->CheckMouseOptions(window);
+
+			window.clear(); //clear the previous screen
+			menu->Draw(window);
+			menu->DrawOptions(window);
+			menu->DrawCrosshair(window);
+			window.display(); //display the updated screen
+
 
 			break;
 		case GameStateManager::GameStates::GAME: //Game state

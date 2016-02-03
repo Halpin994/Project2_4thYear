@@ -22,6 +22,7 @@ public:
 	bool CollisionManager::CheckTargetCollision(sf::Vector2f);
 	bool CollisionManager::CheckReloadCollision(sf::Vector2f, sf::Vector2f, sf::FloatRect);
 	//void CollisionManager::SetBulletTargCollision(sf::Vector2f);
+	bool CollisionManager::CheckMenuElementCollision(sf::Vector2i crosshairPos, sf::Sprite &element);
 
 private:
 	static bool instanceFlag;

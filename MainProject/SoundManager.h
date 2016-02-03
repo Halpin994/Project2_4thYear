@@ -28,12 +28,18 @@ public:
 	void SoundManager::PlayPistolReload();
 	void SoundManager::PlayPistolQuickReload();
 	void SoundManager::PlayInfoSoundEffect();
+	void SoundManager::IncreaseVolume();
+	void SoundManager::DecreaseVolume();
+	int SoundManager::GetVolume();
+	void SoundManager::SetVolume();
 
 private:
 	SoundManager()
 	{
 		Load();
 		SetUp();
+
+		volume = 30;
 	}
 	static bool instanceFlag;
 	static SoundManager* instance;
@@ -53,6 +59,8 @@ private:
 
 	sf::SoundBuffer infoSoundEffect_buff;
 	sf::Sound infoSoundEffect_sfx;
+
+	int volume;
 };
 
 #endif 

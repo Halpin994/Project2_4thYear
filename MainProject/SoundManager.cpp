@@ -50,40 +50,81 @@ void SoundManager::SetUp()
 	infoSoundEffect_sfx.setBuffer(infoSoundEffect_buff);
 }
 
+void SoundManager::IncreaseVolume()
+{
+	if (volume <= 45)
+	{
+		volume += 5;
+	}
+	//cout << volume << endl;
+	SetVolume();
+}
+void SoundManager::DecreaseVolume()
+{
+	if (volume >= 5)
+	{
+		volume -= 5;
+	}
+	//cout << volume << endl;
+	SetVolume();
+}
+
 void SoundManager::PlayPistolGunShot()
 {
+
 	pistolGunShot_sfx.play();
 }
 
 void SoundManager::PlayClick()
 {
+	
 	click_sfx.play();
 }
 
 void SoundManager::PlayOutOfAmmo()
 {
-	noAmmo_sfx.setVolume(100);
+	
 	noAmmo_sfx.play();
 }
 
 void SoundManager::PlayFallingShell()
 {
+	
 	fallingShell_sfx.play();
 }
 
 void SoundManager::PlayPistolReload()
 {
+	
 	pistolReload_sfx.play();
 }
 
 void SoundManager::PlayPistolQuickReload()
 {
+	
 	pistolQuickReload_sfx.play();
 }
 
 void SoundManager::PlayInfoSoundEffect()
 {
+	
 	infoSoundEffect_sfx.play();
+}
+
+int SoundManager::GetVolume()
+{
+	return volume;
+}
+
+void SoundManager::SetVolume()
+{
+	pistolGunShot_sfx.setVolume(volume);
+	click_sfx.setVolume(volume);
+	noAmmo_sfx.setVolume(volume);
+	fallingShell_sfx.setVolume(volume);
+	pistolReload_sfx.setVolume(volume);
+	pistolQuickReload_sfx.setVolume(volume);
+	infoSoundEffect_sfx.setVolume(volume);
 }
 
 
