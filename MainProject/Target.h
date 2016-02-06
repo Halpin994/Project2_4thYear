@@ -19,7 +19,7 @@ public:
 			delete b;
 		}
 	}
-	void SetUp(sf::Vector2f, sf::Texture* targetImage, sf::Texture*, float);
+	void SetUp(sf::Vector2f, sf::Texture* targetImage, sf::Texture*, float, int);
 	void Draw(sf::RenderWindow& window);
 	sf::Vector2f Target::GetPosition();
 	float Target::GetWidth();
@@ -28,12 +28,14 @@ public:
 	void Target::SetHealth();
 	void Target::SetPosition(sf::Vector2f);
 	void Target::AddBullet(sf::Vector2f);
+	int Target::GetLayer();
 
 private:
 	sf::Texture targetTexture;
 	sf::Sprite targetSprite;
 
 	float targetHealth;
+	int targetLayer; //layers 1-3
 
 	list<BulletHole*>bullets;
 

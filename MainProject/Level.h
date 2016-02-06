@@ -10,7 +10,15 @@ using namespace std;
 class Level
 {
 public:
-	Level();
+
+	static Level* GetInstance();
+
+	~Level()
+	{
+		instanceFlag = false;
+	}
+	enum LevelStates { TUTORIAL, LEVEL1 };
+
 	void Load();
 	void SetUp();
 	void Draw(sf::RenderWindow& window);
@@ -21,8 +29,34 @@ public:
 
 	void Level::UpdateTut(Player *player, float frameTime);
 	void SetLevel1();
+	LevelStates Level::GetLevelState();
+
+	
 
 private:
+	Level()
+	{
+		levelState = LevelStates::LEVEL1;
+
+		tut_ShootInfoDisplayed = false;
+		tut_ReloadInfoDisplayed = false;
+		tut_QuickReloadDisplayed = false;
+
+		tut_ShootInfoDraw = false;
+		tut_ReloadInfoDraw = false;
+		tut_QuickReloadDraw = false;
+
+		gameTime = 0;
+		gameOverTime = 0;
+
+		targetRespawnTime = 0.4;
+		targetRespawn = targetRespawnTime;
+	}
+
+	static bool instanceFlag;
+	static Level* instance;
+
+
 	sf::Texture rangeBgTexture;
 	sf::Texture level1BgTexture;
 	sf::Sprite bgSprite;
@@ -68,8 +102,6 @@ private:
 	sf::Sprite quickReloadSprite;
 
 	sf::Sprite infoSprite;
-
-	enum class LevelStates { TUTORIAL, LEVEL1 };
 
 	LevelStates levelState;
 

@@ -7,6 +7,7 @@
 #include "GameStateManager.h"
 #include "CollisionManager.h"
 #include "SoundManager.h"
+#include "Level.h"
 
 Menu::Menu()
 {
@@ -187,6 +188,8 @@ void Menu::CheckMouseMenu(sf::RenderWindow& window)
 		{
 			sf::Mouse::setPosition(sf::Vector2i(window.getSize().x / 2, window.getSize().y / 2), window);
 			GameStateManager::GetInstance()->SetGameState(GameStateManager::GameStates::GAME);
+			Level::GetInstance()->Load();
+			Level::GetInstance()->SetUp();
 		}
 	}
 	else if (CollisionManager::GetInstance()->CheckMenuElementCollision(sf::Mouse::getPosition(window), options_spr))

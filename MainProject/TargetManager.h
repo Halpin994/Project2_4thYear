@@ -23,8 +23,8 @@ public:
 	}
 	static TargetManager* GetInstance();
 
-	void TargetManager::Draw(sf::RenderWindow& window);
-	void TargetManager::AddTargets(sf::Vector2f targetPos, float);
+	void TargetManager::Draw(sf::RenderWindow& window, int);
+	void TargetManager::AddTargets(sf::Vector2f targetPos, float, int);
 	list<Target*>& TargetManager::GetListOfTargets();
 	int TargetManager::GetSizeOfTargets();
 	void TargetManager::targetsEliminatedPlus();
@@ -34,13 +34,18 @@ private:
 	{
 		targets = list<Target*>();
 		targetTexture.loadFromFile("Assets/Images/Game/target.png");
+		target2Texture.loadFromFile("Assets/Images/Game/target2.png");
 		bulletWoodTexture.loadFromFile("Assets/Images/Game/bulletHole_wood.png");
 
 		targetsEliminated = 0;
 	}
+
 	static bool instanceFlag;
 	static TargetManager* instance;
+
+
 	sf::Texture targetTexture;
+	sf::Texture target2Texture;
 	list<Target*> targets;
 
 	sf::Texture bulletWoodTexture;

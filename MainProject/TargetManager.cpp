@@ -6,6 +6,7 @@
 
 #include "TargetManager.h"
 #include "GameStateManager.h"
+#include "Level.h"
 
 bool TargetManager::instanceFlag = false;
 TargetManager* TargetManager::instance = NULL;
@@ -38,10 +39,17 @@ TargetManager* TargetManager::GetInstance()
 \return none
 \sa
 */
-void TargetManager::AddTargets(sf::Vector2f targetPos, float tHealth)
+void TargetManager::AddTargets(sf::Vector2f targetPos, float tHealth, int tLayer)
 {
 	Target* t = new Target();
-	t->SetUp(targetPos, &targetTexture, &bulletWoodTexture, tHealth);
+	if (Level::GetInstance()->GetLevelState() == Level::GetInstance()->TUTORIAL)
+	{
+		t->SetUp(targetPos, &targetTexture, &bulletWoodTexture, tHealth, tLayer);
+	}
+	else if (Level::GetInstance()->GetLevelState() == Level::GetInstance()->LEVEL1)
+	{
+		t->SetUp(targetPos, &target2Texture, &bulletWoodTexture, tHealth, tLayer);
+	}
 	targets.push_back(t);
 }
 
@@ -54,12 +62,13 @@ void TargetManager::AddTargets(sf::Vector2f targetPos, float tHealth)
 \return none
 \sa
 */
-void TargetManager::Draw(sf::RenderWindow& window)
+void TargetManager::Draw(sf::RenderWindow& window, int layer)
 {
 	//list<Target>::iterator targetITER = targets.end();
 	//for (targetITER = targets.end(); targetITER != targets.begin(); --targetITER)
 	for (Target* t: targets)
 	{
+		if (t->GetLayer() == layer)
 		t->Draw(window);
 	}
 }

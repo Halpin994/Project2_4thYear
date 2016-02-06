@@ -16,12 +16,13 @@ Target::Target()
 \return none
 \sa
 */
-void Target::SetUp(sf::Vector2f targetPos, sf::Texture* targetImage, sf::Texture* bulletImage, float health)
+void Target::SetUp(sf::Vector2f targetPos, sf::Texture* targetImage, sf::Texture* bulletImage, float health, int layer)
 {
 	targetHealth = health;
 	targetSprite.setTexture(*targetImage, true);
 	targetSprite.setPosition(targetPos.x - targetSprite.getGlobalBounds().width / 2, targetPos.y);
 	bulletWoodTexture = bulletImage;
+	targetLayer = layer;
 }
 
 //! Draw the target
@@ -48,6 +49,11 @@ void Target::Draw(sf::RenderWindow& window)
 sf::Vector2f Target::GetPosition()
 {
 	return targetSprite.getPosition();
+}
+
+int Target::GetLayer()
+{
+	return targetLayer;
 }
 
 void Target::SetPosition(sf::Vector2f pos)

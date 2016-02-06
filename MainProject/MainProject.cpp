@@ -23,10 +23,9 @@ int main()
 	window.setMouseCursorVisible(false);
 	window.setVerticalSyncEnabled(true);
 	//window.setFramerateLimit(60);
-	GameStateManager::GetInstance()->SetGameState(GameStateManager::GameStates::GAMEOVER);
+	GameStateManager::GetInstance()->SetGameState(GameStateManager::GameStates::MAIN_MENU);
 	sf::Clock clock;
 	Menu *menu = new Menu();
-	Level *level = new Level();
 	Player *player = new Player();
 
 	SoundManager::GetInstance(); //calling constructor for sm to load assets
@@ -75,32 +74,32 @@ int main()
 			break;
 		case GameStateManager::GameStates::GAME: //Game state
 
-			level->Update(player, time);
+			Level::GetInstance()->Update(player, time);
 			player->Update(window, time);
 
 			window.clear(); //clear the previous screen
 
-			level->Draw(window);
+			Level::GetInstance()->Draw(window);
 			player->Draw(window);
-			level->DrawOverlayUI(window);
+			Level::GetInstance()->DrawOverlayUI(window);
 
 			window.display(); //display the updated screen
 			break;
 		case GameStateManager::GameStates::GAMEOVER: //Gameover state
 			window.clear(); //clear the previous screen
-			level->DrawResult(window);
+			Level::GetInstance()->DrawResult(window);
 			window.display(); //display the updated screen
 			if (sf::Keyboard::isKeyPressed(sf::Keyboard::R))
 			{
 				player->Restart();
-				level->Restart();
+				Level::GetInstance()->Restart();
 				GameStateManager::GetInstance()->SetGameState(GameStateManager::GameStates::GAME);
 			}
 			else if (sf::Keyboard::isKeyPressed(sf::Keyboard::C))
 			{
-				level->SetLevel1();
+				Level::GetInstance()->SetLevel1();
 				player->Restart();
-				level->Restart();
+				Level::GetInstance()->Restart();
 				GameStateManager::GetInstance()->SetGameState(GameStateManager::GameStates::GAME);
 			}
 			break;
