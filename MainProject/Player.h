@@ -37,8 +37,8 @@ public:
 	bool Player::getQuickReloadClicked();
 
 private:
-	sf::Texture crosshairImage;
-	sf::Sprite crosshairSprite;
+	//sf::Texture crosshairImage;
+	//sf::Sprite crosshairSprite;
 	sf::Texture clipBulletImage;
 	sf::Sprite clipBulletSprite;
 	sf::Texture pistolClipImage;
@@ -100,9 +100,9 @@ private:
 
 	int recoilType;
 
-	enum class Crosshairs { redCircleCross, redDot, clearDot, redHorizon, whiteHorizon, greenHorizon, greenHalfCirc, pistol, smg, predator};
-	Crosshairs crosshairType;
-	Crosshairs currentCrosshair;
+	//enum class Crosshairs { redCircleCross, redDot, clearDot, redHorizon, whiteHorizon, greenHorizon, greenHalfCirc, pistol, smg, predator};
+	//Crosshairs crosshairType;
+	//Crosshairs currentCrosshair;
 
 	int pistolClipSize;
 	int pistolClip;

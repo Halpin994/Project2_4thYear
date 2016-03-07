@@ -17,7 +17,7 @@ BulletManager* BulletManager::instance = NULL;
 */
 BulletManager* BulletManager::GetInstance()
 {
-	if (!instanceFlag)
+	if (!instanceFlag)   
 	{
 		instance = new BulletManager;
 		instanceFlag = true;

@@ -78,11 +78,26 @@ void Level::SetUp()
 		spr_level1Layer3.setTexture(texture_level1Layer3);
 		spr_level1Layer4.setTexture(texture_level1Layer4);
 
-		TargetManager::GetInstance()->AddTargets(sf::Vector2f(395, 180), 100, 1);
-		TargetManager::GetInstance()->AddTargets(sf::Vector2f(200, 150), 100, 1);
+		//Right side building
+		TargetManager::GetInstance()->AddTargets(sf::Vector2f(840, 200), 100, 1);
+		TargetManager::GetInstance()->AddTargets(sf::Vector2f(790, 200), 100, 1);
+		//Right side building
+
+		//Back sandbags
+		TargetManager::GetInstance()->AddTargets(sf::Vector2f(395, 240), 100, 1);
+		//Back sandbags
+
+		//Left fake building
+		TargetManager::GetInstance()->AddTargets(sf::Vector2f(220, 240), 100, 1);
+		//Left fake building
+
+		//Foreground rock
 		TargetManager::GetInstance()->AddTargets(sf::Vector2f(600, 380), 100, 2);
-		TargetManager::GetInstance()->AddTargets(sf::Vector2f(810, 180), 100, 1);
-		TargetManager::GetInstance()->AddTargets(sf::Vector2f(810, 480), 100, 3);
+		//Foreground rock
+
+		//Foreground sandbags
+		TargetManager::GetInstance()->AddTargets(sf::Vector2f(810, 300), 100, 3);
+		//Foreground sandbags
 	}
 
 
@@ -191,12 +206,13 @@ void Level::Restart()
 		delete (*bulletITER);
 		bulletITER = bulletHoles.erase(bulletITER);
 	}
-	if (levelState == LevelStates::TUTORIAL)
-	{
-		TargetManager::GetInstance()->AddTargets(sf::Vector2f(395, 180), 100, 0);
-		TargetManager::GetInstance()->AddTargets(sf::Vector2f(600, 180), 100, 0);
-		TargetManager::GetInstance()->AddTargets(sf::Vector2f(810, 180), 100, 0);
-	}
+	//if (levelState == LevelStates::TUTORIAL)
+	//{
+	//	TargetManager::GetInstance()->AddTargets(sf::Vector2f(395, 180), 100, 0);
+	//	TargetManager::GetInstance()->AddTargets(sf::Vector2f(600, 180), 100, 0);
+	//	TargetManager::GetInstance()->AddTargets(sf::Vector2f(810, 180), 100, 0);
+	//}
+	SetUp();
 }
 
 void Level::DrawResult(sf::RenderWindow& window)
@@ -267,9 +283,12 @@ void Level::UpdateTut(Player *player, float frameTime)
 	}
 }
 
-void Level::SetLevel1()
+void Level::SetLevel(int lvl)
 {
-	levelState = LevelStates::LEVEL1;
+	if (lvl == 1)
+	{
+		levelState = LevelStates::LEVEL1;
+	}
 }
 
 Level::LevelStates Level::GetLevelState()

@@ -23,6 +23,14 @@ void Target::SetUp(sf::Vector2f targetPos, sf::Texture* targetImage, sf::Texture
 	targetSprite.setPosition(targetPos.x - targetSprite.getGlobalBounds().width / 2, targetPos.y);
 	bulletWoodTexture = bulletImage;
 	targetLayer = layer;
+	if (targetLayer == 1)
+	{
+		targetSprite.setScale(0.52, 0.52);
+	}
+	if (targetLayer == 3)
+	{
+		targetSprite.setScale(2, 2);
+	}
 }
 
 //! Draw the target

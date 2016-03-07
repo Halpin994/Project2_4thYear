@@ -19,7 +19,7 @@
 int main()
 {
 	sf::RenderWindow window(sf::VideoMode(1200, 700), "Main Project");
-	sf::Mouse::setPosition(sf::Vector2i(600, 350), window);
+	sf::Mouse::setPosition(sf::Vector2i(window.getSize().x / 2, window.getSize().y / 2), window);
 	window.setMouseCursorVisible(false);
 	window.setVerticalSyncEnabled(true);
 	//window.setFramerateLimit(60);
@@ -97,7 +97,7 @@ int main()
 			}
 			else if (sf::Keyboard::isKeyPressed(sf::Keyboard::C))
 			{
-				Level::GetInstance()->SetLevel1();
+				Level::GetInstance()->SetLevel(1);
 				player->Restart();
 				Level::GetInstance()->Restart();
 				GameStateManager::GetInstance()->SetGameState(GameStateManager::GameStates::GAME);

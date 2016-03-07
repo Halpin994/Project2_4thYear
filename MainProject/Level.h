@@ -28,7 +28,7 @@ public:
 	void Level::DrawOverlayUI(sf::RenderWindow& window);
 
 	void Level::UpdateTut(Player *player, float frameTime);
-	void SetLevel1();
+	void SetLevel(int lvl);
 	LevelStates Level::GetLevelState();
 
 	
@@ -36,7 +36,7 @@ public:
 private:
 	Level()
 	{
-		levelState = LevelStates::LEVEL1;
+		levelState = LevelStates::TUTORIAL;
 
 		tut_ShootInfoDisplayed = false;
 		tut_ReloadInfoDisplayed = false;

@@ -93,6 +93,7 @@
     <ClInclude Include="BulletManager.h" />
     <ClInclude Include="CollisionManager.h" />
     <ClInclude Include="GameStateManager.h" />
+    <ClInclude Include="Gun.h" />
     <ClInclude Include="Level.h" />
     <ClInclude Include="Menu.h" />
     <ClInclude Include="Player.h" />
@@ -107,6 +108,7 @@
     <ClCompile Include="BulletManager.cpp" />
     <ClCompile Include="CollisionManager.cpp" />
     <ClCompile Include="GameStateManager.cpp" />
+    <ClCompile Include="Gun.cpp" />
     <ClCompile Include="Level.cpp" />
     <ClCompile Include="MainProject.cpp" />
     <ClCompile Include="Menu.cpp" />
