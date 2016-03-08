@@ -2,7 +2,9 @@
 using namespace std;
 
 //#include "SFML\Audio.hpp"
+#include <map>
 #include <sstream>
+#include "Gun.h"
 
 #ifndef PLAYER
 #define PLAYER
@@ -15,6 +17,9 @@ public:
 	void Init(sf::RenderWindow& window);
 	void Load();
 	void SetUp();
+
+	void AddGun(int);
+
 	void Draw(sf::RenderWindow& window);
 	void Player::DrawResult(sf::RenderWindow& window);
 	void Shoot(sf::RenderWindow& window);
@@ -30,11 +35,14 @@ public:
 	void Player::UpdateReloadTimes(float);
 	void Player::LoadCrosshair();
 	void Player::Restart();
+
 	int Player::getClipCount();
 	int Player::getMaxClip();
 	bool Player::getLeftClicked();
 	bool Player::getNormReloadClicked();
 	bool Player::getQuickReloadClicked();
+
+	Gun* Player::getCurrentGun();
 
 private:
 	//sf::Texture crosshairImage;
@@ -63,25 +71,25 @@ private:
 	bool crhRecoilCalculated;
 	bool crhRecoilUp;
 
-	bool outOfControl;
+	//bool outOfControl;
 
 	bool quickReloadActive;
 	bool quickReloadClicked;
 	bool normalReloadClicked;
 
-	float random;
-	float randomXSway;
+	//float random;
+	//float randomXSway;
 
 	float crhRecoilSpeed;
 	float crhRecoilDistance;
 
-	float pistolRecoilCoolDownTime;
-	float recoilCoolDown;
+	//float pistolRecoilCoolDownTime;
+	//float recoilCoolDown;
 
-	float yPistolRecoil;
-	float yPistolRecoilStrength;
-	float yPistolRecoilStrengthTemp;
-	float pistolRecoilMultiplier;
+	//float yPistolRecoil;
+	//float yPistolRecoilStrength;
+	//float yPistolRecoilStrengthTemp;
+	//float pistolRecoilMultiplier;
 
 	float quickReloadTime;
 	float quickReloadTimer;
@@ -89,11 +97,11 @@ private:
 	float normalReloadTime;
 	float normalReloadTimer;
 
-	//float gameTime;
-	//float gameOverTime;
+	float gameTime;
+	float gameOverTime;
 
-	float smgFireRate;
-	float smgFireRateTimer;
+	//float smgFireRate;
+	//float smgFireRateTimer;
 
 	//float targetRespawn;
 	//float targetRespawnTime;
@@ -111,6 +119,10 @@ private:
 	sf::Text gunClipText;
 	//sf::Text gameTimeText;
 	std::stringstream ss;
+
+	//list<Gun*> guns;
+	map<int, Gun*> guns;
+	Gun* currentGun;
 
 };
 

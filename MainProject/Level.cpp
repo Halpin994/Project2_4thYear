@@ -149,6 +149,7 @@ void Level::DrawOverlayUI(sf::RenderWindow& window)
 	ss << gameTime;
 	gameTimeText.setString(ss.str());
 	window.draw(gameTimeText);
+	
 	if (levelState == LevelStates::TUTORIAL)
 	{
 		if (tut_ShootInfoDraw == true)

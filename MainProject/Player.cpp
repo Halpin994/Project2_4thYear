@@ -55,8 +55,8 @@ Player::Player()
 	normalReloadTime = 2.0;
 	normalReloadTimer = normalReloadTime;
 
-	//gameTime = 0;
-	//gameOverTime = 0;
+	gameTime = 0;
+	gameOverTime = 0;
 
 	//smgFireRate = 0.08;
 	//smgFireRateTimer = smgFireRate;
@@ -116,6 +116,9 @@ void Player::SetUp()
 	//crosshairSprite.setOrigin(75, 75);
 	//crosshairSprite.setTexture(crosshairImage, true);
 
+	AddGun(Gun::PISTOL);
+	currentGun = guns[Gun::PISTOL];
+
 	clipBulletSprite.setTexture(clipBulletImage, true);
 
 	reloadNormalSprite.setTexture(reloadNormalImage, true);
@@ -138,6 +141,11 @@ void Player::SetUp()
 	//gameTimeText.setCharacterSize(50);
 	//gameTimeText.setPosition(900, 635);
 	//gameTimeText.setColor(sf::Color::Yellow);
+}
+
+void Player::AddGun(int type)
+{
+	guns[type] = new Gun(type);
 }
 
 //! Draw the player
@@ -189,6 +197,8 @@ void Player::Draw(sf::RenderWindow& window)
 	//window.draw(gameTimeText);
 
 	//window.draw(crosshairSprite);
+
+	currentGun->Draw(window);
 }
 
 //void Player::DrawResult(sf::RenderWindow& window)
@@ -214,7 +224,7 @@ void Player::Update(sf::RenderWindow& window, float frameTime)
 {
 	//gameTime += frameTime;
 	UpdateReloadTimes(frameTime);
-	smgFireRateTimer -= frameTime;
+	//smgFireRateTimer -= frameTime;
 
 	quickReloadClicked = false;
 
@@ -228,6 +238,15 @@ void Player::Update(sf::RenderWindow& window, float frameTime)
 	{
 		rightMousePressed = false;
 	}
+
+	if (sf::Mouse::isButtonPressed(sf::Mouse::Left))
+	{
+		
+		currentGun->Shoot();
+		//leftMousePressed = false;
+	}
+
+	currentGun->Update(window);
 
 
 	/*if (sf::Mouse::isButtonPressed(sf::Mouse::Left) && leftMousePressed == false && normalReloadClicked == false)
@@ -327,7 +346,7 @@ void Player::Reload()
 
 void Player::UpdateReloadTimes(float frameTime)
 {
-	if (recoilTimerActive == true && recoilType == 2)
+	/*if (recoilTimerActive == true && recoilType == 2)
 	{
 		recoilCoolDown -= frameTime;
 		if (recoilCoolDown <= 0)
@@ -357,7 +376,7 @@ void Player::UpdateReloadTimes(float frameTime)
 		{
 			Reload();
 		}
-	}
+	}*/
 }
 
 //! Shoot bullets
@@ -482,27 +501,32 @@ void Player::CrosshairRecoil(sf::RenderWindow& window, float frameTime)
 	//}
 }
 
-sf::Vector2f Player::PistolBulletRecoil()
+//sf::Vector2f Player::PistolBulletRecoil()
+//{
+//	sf::Vector2f rec;
+//	if (outOfControl == false)
+//	{
+//		yPistolRecoilStrengthTemp *= pistolRecoilMultiplier;
+//		rec = sf::Vector2f(getRandomSway().x, yPistolRecoil -= yPistolRecoilStrengthTemp);
+//	}
+//	if (yPistolRecoil < -100 && outOfControl == false)
+//	{
+//		outOfControl = true;
+//	}
+//	if (outOfControl == true)
+//	{
+//		randomXSway = rand() % 1000;
+//		randomXSway = (randomXSway / 10) - 50;
+//		float randomYSway = rand() % 1000;
+//		randomYSway = (randomYSway / 50) - 10;
+//		rec = sf::Vector2f(randomXSway, yPistolRecoil -= randomYSway);
+//	}
+//	return rec;
+//}
+
+Gun* Player::getCurrentGun()
 {
-	sf::Vector2f rec;
-	if (outOfControl == false)
-	{
-		yPistolRecoilStrengthTemp *= pistolRecoilMultiplier;
-		rec = sf::Vector2f(getRandomSway().x, yPistolRecoil -= yPistolRecoilStrengthTemp);
-	}
-	if (yPistolRecoil < -100 && outOfControl == false)
-	{
-		outOfControl = true;
-	}
-	if (outOfControl == true)
-	{
-		randomXSway = rand() % 1000;
-		randomXSway = (randomXSway / 10) - 50;
-		float randomYSway = rand() % 1000;
-		randomYSway = (randomYSway / 50) - 10;
-		rec = sf::Vector2f(randomXSway, yPistolRecoil -= randomYSway);
-	}
-	return rec;
+	return currentGun;
 }
 
 //! Normalize a vector passed on call
@@ -541,21 +565,21 @@ float Player::getcrhRecoilDistance()
 	return crhRecoilDistance;
 }
 
-sf::Vector2f Player::getRandomSway()
-{
-	randomXSway = rand() % 1000;
-	randomXSway = (randomXSway / 100) - 5;
-	return sf::Vector2f(randomXSway, 0);
-}
+//sf::Vector2f Player::getRandomSway()
+//{
+//	randomXSway = rand() % 1000;
+//	randomXSway = (randomXSway / 100) - 5;
+//	return sf::Vector2f(randomXSway, 0);
+//}
 
 int Player::getClipCount()
 {
-	return pistolClip;
+	return currentGun->getCurrentClip();
 }
 
 int Player::getMaxClip()
 {
-	return pistolClipSize;
+	return currentGun->getMaxClip();
 }
 
 bool Player::getLeftClicked()
