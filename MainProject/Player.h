@@ -59,17 +59,17 @@ private:
 	sf::Texture reloadUnavailableImage;
 	sf::Sprite reloadUnavailableSprite;
 	
-	sf::Vector2f crhRecoilDirection;
-	sf::Vector2f crhOffset;
-	sf::Vector2f myOffset;
+	//sf::Vector2f crhRecoilDirection;
+	//sf::Vector2f crhOffset;
+	//sf::Vector2f myOffset;
 
 	bool rightMousePressed;
 	bool leftMousePressed;
-	bool crhRecoilActive;
-	bool recoilTimerActive;
+	//bool crhRecoilActive;
+	//bool recoilTimerActive;
 
-	bool crhRecoilCalculated;
-	bool crhRecoilUp;
+	//bool crhRecoilCalculated;
+	//bool crhRecoilUp;
 
 	//bool outOfControl;
 
@@ -80,8 +80,8 @@ private:
 	//float random;
 	//float randomXSway;
 
-	float crhRecoilSpeed;
-	float crhRecoilDistance;
+	//float crhRecoilSpeed;
+	//float crhRecoilDistance;
 
 	//float pistolRecoilCoolDownTime;
 	//float recoilCoolDown;
@@ -106,14 +106,14 @@ private:
 	//float targetRespawn;
 	//float targetRespawnTime;
 
-	int recoilType;
+	//int recoilType;
 
 	//enum class Crosshairs { redCircleCross, redDot, clearDot, redHorizon, whiteHorizon, greenHorizon, greenHalfCirc, pistol, smg, predator};
 	//Crosshairs crosshairType;
 	//Crosshairs currentCrosshair;
 
-	int pistolClipSize;
-	int pistolClip;
+	//int pistolClipSize;
+	//int pistolClip;
 
 	sf::Font font;
 	sf::Text gunClipText;

@@ -156,39 +156,39 @@ void Player::AddGun(int type)
 */
 void Player::Draw(sf::RenderWindow& window)
 {
-	for (int i = 0; i < pistolClip; i++)
-	{
-		if (crhRecoilActive)
-		{
-			clipBulletSprite.setPosition(181 + i * 12, 650); //offset to less than the bullet width to create the illusion of the bullets moving up the clip
-			window.draw(clipBulletSprite);
-		}
-		else
-		{
-			clipBulletSprite.setPosition(175 + i * 12, 650);
-			window.draw(clipBulletSprite);
-		}
-	}
-	window.draw(pistolClipSprite);
-	if (pistolClip == pistolClipSize || normalReloadClicked == true)
-	{
-		window.draw(reloadUnavailableSprite);
-	}
-	if (normalReloadClicked == false && quickReloadActive == false && pistolClip < pistolClipSize)
-	{
-		window.draw(reloadNormalSprite);
-	}
-	if (quickReloadActive == true)
-	{
-		window.draw(reloadQuickSprite);
-	}
-	ss.str(std::string());
-	ss << pistolClip;
-	gunClipText.setString(ss.str());
-	if (pistolClip <= 3){ gunClipText.setColor(sf::Color::Red); }
-	else{ gunClipText.setColor(sf::Color::Yellow); }
-	if (pistolClip == 0){ gunClipText.setColor(sf::Color::Black); }
-	window.draw(gunClipText);
+	//for (int i = 0; i < pistolClip; i++)
+	//{
+	//	if (crhRecoilActive)
+	//	{
+	//		clipBulletSprite.setPosition(181 + i * 12, 650); //offset to less than the bullet width to create the illusion of the bullets moving up the clip
+	//		window.draw(clipBulletSprite);
+	//	}
+	//	else
+	//	{
+	//		clipBulletSprite.setPosition(175 + i * 12, 650);
+	//		window.draw(clipBulletSprite);
+	//	}
+	//}
+	//window.draw(pistolClipSprite);
+	//if (pistolClip == pistolClipSize || normalReloadClicked == true)
+	//{
+	//	window.draw(reloadUnavailableSprite);
+	//}
+	//if (normalReloadClicked == false && quickReloadActive == false && pistolClip < pistolClipSize)
+	//{
+	//	window.draw(reloadNormalSprite);
+	//}
+	//if (quickReloadActive == true)
+	//{
+	//	window.draw(reloadQuickSprite);
+	//}
+	//ss.str(std::string());
+	//ss << pistolClip;
+	//gunClipText.setString(ss.str());
+	//if (pistolClip <= 3){ gunClipText.setColor(sf::Color::Red); }
+	//else{ gunClipText.setColor(sf::Color::Yellow); }
+	//if (pistolClip == 0){ gunClipText.setColor(sf::Color::Black); }
+	//window.draw(gunClipText);
 
 	//ss.str(std::string());
 	//gameTime = roundf(gameTime * 100) / 100;
@@ -223,10 +223,10 @@ void Player::Draw(sf::RenderWindow& window)
 void Player::Update(sf::RenderWindow& window, float frameTime)
 {
 	//gameTime += frameTime;
-	UpdateReloadTimes(frameTime);
+	//UpdateReloadTimes(frameTime);
 	//smgFireRateTimer -= frameTime;
 
-	quickReloadClicked = false;
+	//quickReloadClicked = false;
 
 	//crosshairSprite.setPosition(sf::Mouse::getPosition(window).x + crhOffset.x, sf::Mouse::getPosition(window).y + crhOffset.y);
 
@@ -238,15 +238,17 @@ void Player::Update(sf::RenderWindow& window, float frameTime)
 	{
 		rightMousePressed = false;
 	}
-
-	if (sf::Mouse::isButtonPressed(sf::Mouse::Left))
+	if (sf::Mouse::isButtonPressed(sf::Mouse::Left) && leftMousePressed == false)
 	{
 		
 		currentGun->Shoot();
-		//leftMousePressed = false;
+		if (currentGun->PISTOL == Gun::PISTOL)
+		{
+			leftMousePressed = true;
+		}
 	}
 
-	currentGun->Update(window);
+	currentGun->Update(window, frameTime);
 
 
 	/*if (sf::Mouse::isButtonPressed(sf::Mouse::Left) && leftMousePressed == false && normalReloadClicked == false)
@@ -332,12 +334,13 @@ void Player::Update(sf::RenderWindow& window, float frameTime)
 
 void Player::Restart()
 {
-	pistolClip = pistolClipSize;
+	//pistolClip = pistolClipSize;
+	
 }
 
 void Player::Reload()
 {
-	pistolClip = pistolClipSize;
+	//pistolClip = pistolClipSize;
 	quickReloadTimer = quickReloadTime;
 	normalReloadTimer = normalReloadTime;
 	quickReloadActive = false;
@@ -529,41 +532,41 @@ Gun* Player::getCurrentGun()
 	return currentGun;
 }
 
-//! Normalize a vector passed on call
-/*!
-\When this method is called a vector of type float must be passed. This method then normalises it (creates a unit vector)
-\return Vector2f
-\sa
-*/
-sf::Vector2f Player::Normalize(sf::Vector2f NormaliseMe)
-{
-	float length;
-	sf::Vector2f normalisedV(0, 0);
-	length = sqrtf(powf(NormaliseMe.x, 2) + powf(NormaliseMe.y, 2));
-	if (length != 0)
-	{
-		normalisedV = sf::Vector2f(NormaliseMe.x / length, NormaliseMe.y / length);
-	}
-	return normalisedV;
-}
-
-//! Returns a vector's length
-/*!
-\When called, this method must be passed a vector of type int. It then calculates the length of this vector
-\This is currently not used/needed
-\return float
-\sa
-*/
-float Player::getVectorLength(sf::Vector2i vec)
-{
-	return sqrtf(powf(vec.x, 2) + powf(vec.y, 2));
-}
-
-float Player::getcrhRecoilDistance()
-{
-	crhRecoilDistance = sqrtf(powf(0 - crhOffset.x, 2) + powf(0 - crhOffset.y, 2));
-	return crhRecoilDistance;
-}
+////! Normalize a vector passed on call
+///*!
+//\When this method is called a vector of type float must be passed. This method then normalises it (creates a unit vector)
+//\return Vector2f
+//\sa
+//*/
+//sf::Vector2f Player::Normalize(sf::Vector2f NormaliseMe)
+//{
+//	float length;
+//	sf::Vector2f normalisedV(0, 0);
+//	length = sqrtf(powf(NormaliseMe.x, 2) + powf(NormaliseMe.y, 2));
+//	if (length != 0)
+//	{
+//		normalisedV = sf::Vector2f(NormaliseMe.x / length, NormaliseMe.y / length);
+//	}
+//	return normalisedV;
+//}
+//
+////! Returns a vector's length
+///*!
+//\When called, this method must be passed a vector of type int. It then calculates the length of this vector
+//\This is currently not used/needed
+//\return float
+//\sa
+//*/
+//float Player::getVectorLength(sf::Vector2i vec)
+//{
+//	return sqrtf(powf(vec.x, 2) + powf(vec.y, 2));
+//}
+//
+//float Player::getcrhRecoilDistance()
+//{
+//	crhRecoilDistance = sqrtf(powf(0 - crhOffset.x, 2) + powf(0 - crhOffset.y, 2));
+//	return crhRecoilDistance;
+//}
 
 //sf::Vector2f Player::getRandomSway()
 //{

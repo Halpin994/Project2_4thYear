@@ -11,12 +11,21 @@ public:
 	~Gun();
 	static const int REDCIRCLECROSS = 0, GREENHALFCIRC = 1, PISTOL = 2, SMG = 3;
 
-	void Update(sf::RenderWindow& window);
+	void Update(sf::RenderWindow& window, float frameTime);
 	void Draw(sf::RenderWindow& window);
 
-	sf::Vector2f Gun::BulletRecoil();
+	sf::Vector2f BulletRecoil();
+	void UpdateCrosshairRecoil();
 
 	void Shoot();
+
+	void UpdateBulletRecoilValues(float);
+
+	void CalculateCrosshairRecoil(sf::RenderWindow& window, float frameTime);
+
+	sf::Vector2f Normalize(sf::Vector2f);
+	float getVectorLength(sf::Vector2i);
+	float getcrhRecoilDistance();
 
 	int getCurrentClip();
 	int getMaxClip();
@@ -25,8 +34,10 @@ private:
 	int current_Clip;
 	float recoilCooldownTime;
 	float recoilCooldownTimer;
+	float yStrength;
 	float yRecoilStrength;
 	float yRecoil;
+	float yRecoilMax;
 	float recoilMultiplier;
 
 	float fireRate;
@@ -35,6 +46,16 @@ private:
 	float reloadTime;
 	float reloadTimer;
 
+	float crhRecoilSpeed;
+	float crhRecoilDistance;
+	float crhRecoilMax;
+
+	float scale;
+
+	sf::Vector2f crhRecoilDirection;
+	sf::Vector2f crhOffset;
+	sf::Vector2f myOffset;
+
 	sf::String gunName;
 
 	sf::Texture pistolImage;
@@ -42,6 +63,11 @@ private:
 	sf::Sprite crosshairSprite;
 
 	bool outOfControl;
+	bool recoilActive;
+	bool shotFired;
+	bool crosshair_RecoilActive;
+	bool crosshair_RecoilCalculated;
+	bool crhRecoilUp;
 	
 };
 #endif 
