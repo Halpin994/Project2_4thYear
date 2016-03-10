@@ -117,7 +117,8 @@ void Player::SetUp()
 	//crosshairSprite.setTexture(crosshairImage, true);
 
 	AddGun(Gun::PISTOL);
-	currentGun = guns[Gun::PISTOL];
+	AddGun(Gun::SMG);
+	currentGun = guns[Gun::SMG];
 
 	clipBulletSprite.setTexture(clipBulletImage, true);
 
@@ -156,20 +157,20 @@ void Player::AddGun(int type)
 */
 void Player::Draw(sf::RenderWindow& window)
 {
-	//for (int i = 0; i < pistolClip; i++)
-	//{
-	//	if (crhRecoilActive)
-	//	{
-	//		clipBulletSprite.setPosition(181 + i * 12, 650); //offset to less than the bullet width to create the illusion of the bullets moving up the clip
-	//		window.draw(clipBulletSprite);
-	//	}
-	//	else
-	//	{
-	//		clipBulletSprite.setPosition(175 + i * 12, 650);
-	//		window.draw(clipBulletSprite);
-	//	}
-	//}
-	//window.draw(pistolClipSprite);
+	for (int i = 0; i < currentGun->getCurrentClip(); i++)
+	{
+		if (currentGun->getShotFired())
+		{
+			clipBulletSprite.setPosition(182 + i * 12, 650); //offset to less than the bullet width to create the illusion of the bullets moving up the clip
+			window.draw(clipBulletSprite);
+		}
+		else
+		{
+			clipBulletSprite.setPosition(175 + i * 12, 650);
+			window.draw(clipBulletSprite);
+		}
+	}
+	window.draw(pistolClipSprite);
 	//if (pistolClip == pistolClipSize || normalReloadClicked == true)
 	//{
 	//	window.draw(reloadUnavailableSprite);
@@ -242,7 +243,7 @@ void Player::Update(sf::RenderWindow& window, float frameTime)
 	{
 		
 		currentGun->Shoot();
-		if (currentGun->PISTOL == Gun::PISTOL)
+		if (currentGun->getGunType() == Gun::PISTOL)
 		{
 			leftMousePressed = true;
 		}

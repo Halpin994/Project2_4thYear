@@ -19,8 +19,8 @@ Gun::Gun(int type)
 	switch (type)
 	{
 	case PISTOL:
-		gunName = "Pistol";
-		clipSize = 112;
+		gunType = PISTOL;
+		clipSize = 12;
 		current_Clip = clipSize;
 		recoilCooldownTime = 0.3;
 		recoilCooldownTimer = 0;
@@ -44,17 +44,17 @@ Gun::Gun(int type)
 	break;
 
 	case SMG:
-		gunName = "SMG";
+		gunType = SMG;
 		clipSize = 30;
 		current_Clip = clipSize;
-		recoilCooldownTime = 0.2;
+		recoilCooldownTime = 0.5;
 		recoilCooldownTimer = 0;
-		recoilMultiplier = 2.0;
-		yStrength = 5;
+		recoilMultiplier = 1.2;
+		yStrength = 4;
 		yRecoilStrength = yStrength;
 		yRecoil = 0;
 		yRecoilMax = 100;
-		fireRate = 0.08;
+		fireRate = 0.1;
 		fireRateTimer = 0;
 		reloadTime = 2.0;
 		reloadTimer = 0;
@@ -63,10 +63,11 @@ Gun::Gun(int type)
 		crosshairSprite.setScale(scale, scale);
 		crosshairSprite.setOrigin(sf::Vector2f(75.5, 75));
 		crosshairSprite.setTexture(smgImage);
-		crhRecoilSpeed = 150;
+		crhRecoilSpeed = 350;
 		crhRecoilDirection = sf::Vector2f(0, 1);
-		crhRecoilMax = 100;
+		crhRecoilMax = 10;
 		crhOffset = sf::Vector2f(0, 0);
+		updateFireRate = false;
 	break;
 	}
 }
@@ -78,6 +79,10 @@ Gun::~Gun()
 
 void Gun::Update(sf::RenderWindow& window, float frameTime)
 {
+	if (updateFireRate)
+	{
+		fireRateTimer += frameTime;
+	}
 	cout << frameTime << endl;
 	if (crosshair_RecoilActive)
 	{
@@ -95,38 +100,44 @@ void Gun::Draw(sf::RenderWindow& window)
 
 void Gun::Shoot()
 {
-	crhOffset = sf::Vector2f(0, 0);
-	crhRecoilUp = false;
+	//crhOffset = sf::Vector2f(0, 0);
+	//crhRecoilUp = false;
+	updateFireRate = true;
 
+	if (fireRateTimer >= fireRate)
+	{
+		fireRateTimer = 0;
+		updateFireRate = false;
+			
 	recoilActive = true;
 	shotFired = true;
 	crosshair_RecoilActive = true;
-
-	//If the current gun clip is empty play the out of ammo sound
-	if (current_Clip == 0)
-	{
-		SoundManager::GetInstance()->PlayOutOfAmmo();
-	}
-	//If the current gun clip is not empty, take 1 from the clip, play the shoot sfx, check target collision, if no target collision adda bullet at the position fired
-	else if (current_Clip > 0)
-	{
-		current_Clip -= 1;
-		SoundManager::GetInstance()->PlayPistolGunShot();
-
-		if (recoilCooldownTimer == 0)
+		//If the current gun clip is not empty, take 1 from the clip, play the shoot sfx, check target collision, if no target collision adda bullet at the position fired
+		if (current_Clip > 0)
 		{
-			if (!CollisionManager::GetInstance()->CheckTargetCollision(sf::Vector2f(crosshairSprite.getPosition().x, crosshairSprite.getPosition().y)))
+			current_Clip -= 1;
+			SoundManager::GetInstance()->PlayPistolGunShot();
+
+			if (recoilCooldownTimer == 0)
 			{
-				BulletManager::GetInstance()->AddBullet(crosshairSprite.getPosition());
+				if (!CollisionManager::GetInstance()->CheckTargetCollision(sf::Vector2f(crosshairSprite.getPosition().x, crosshairSprite.getPosition().y)))
+				{
+					BulletManager::GetInstance()->AddBullet(crosshairSprite.getPosition());
+				}
+			}
+			else if (recoilCooldownTimer > 0)
+			{
+				sf::Vector2f recoil = BulletRecoil();
+				if (!CollisionManager::GetInstance()->CheckTargetCollision(sf::Vector2f(crosshairSprite.getPosition().x, crosshairSprite.getPosition().y) + recoil))
+				{
+					BulletManager::GetInstance()->AddBullet(crosshairSprite.getPosition() + recoil);//+ //sf::Vector2f(randomXSway, yPistolRecoil));
+				}
 			}
 		}
-		else if (recoilCooldownTimer > 0)
+		//If the current gun clip is empty play the out of ammo sound
+		else if (current_Clip == 0)
 		{
-			sf::Vector2f recoil = BulletRecoil();
-			if (!CollisionManager::GetInstance()->CheckTargetCollision(sf::Vector2f(crosshairSprite.getPosition().x, crosshairSprite.getPosition().y) + recoil))
-			{
-				BulletManager::GetInstance()->AddBullet(crosshairSprite.getPosition() + recoil);//+ //sf::Vector2f(randomXSway, yPistolRecoil));
-			}
+			SoundManager::GetInstance()->PlayOutOfAmmo();
 		}
 	}
 }
@@ -251,4 +262,14 @@ int Gun::getCurrentClip()
 int Gun::getMaxClip()
 {
 	return clipSize;
+}
+
+bool Gun::getShotFired()
+{
+	return crosshair_RecoilActive;
+}
+
+int Gun::getGunType()
+{
+	return gunType;
 }

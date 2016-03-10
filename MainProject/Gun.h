@@ -29,6 +29,8 @@ public:
 
 	int getCurrentClip();
 	int getMaxClip();
+	bool getShotFired();
+	int getGunType();
 private:
 	int clipSize;
 	int current_Clip;
@@ -56,7 +58,7 @@ private:
 	sf::Vector2f crhOffset;
 	sf::Vector2f myOffset;
 
-	sf::String gunName;
+	int gunType;
 
 	sf::Texture pistolImage;
 	sf::Texture smgImage;
@@ -68,6 +70,7 @@ private:
 	bool crosshair_RecoilActive;
 	bool crosshair_RecoilCalculated;
 	bool crhRecoilUp;
+	bool updateFireRate;
 	
 };
 #endif 
