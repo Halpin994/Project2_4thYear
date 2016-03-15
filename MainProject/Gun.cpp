@@ -45,11 +45,11 @@ Gun::Gun(int type)
 
 	case SMG:
 		gunType = SMG;
-		clipSize = 30;
+		clipSize = 130;
 		current_Clip = clipSize;
-		recoilCooldownTime = 0.5;
+		recoilCooldownTime = 0.2;
 		recoilCooldownTimer = 0;
-		recoilMultiplier = 1.2;
+		recoilMultiplier = 1.4;
 		yStrength = 4;
 		yRecoilStrength = yStrength;
 		yRecoil = 0;
@@ -104,41 +104,39 @@ void Gun::Shoot()
 	//crhRecoilUp = false;
 	updateFireRate = true;
 
-	if (fireRateTimer >= fireRate)
+	//If the current gun clip is not empty, take 1 from the clip, play the shoot sfx, check target collision, if no target collision adda bullet at the position fired
+	if (current_Clip > 0 && fireRateTimer >= fireRate)
 	{
 		fireRateTimer = 0;
-		updateFireRate = false;
+		//updateFireRate = false;
 			
-	recoilActive = true;
-	shotFired = true;
-	crosshair_RecoilActive = true;
-		//If the current gun clip is not empty, take 1 from the clip, play the shoot sfx, check target collision, if no target collision adda bullet at the position fired
-		if (current_Clip > 0)
-		{
-			current_Clip -= 1;
-			SoundManager::GetInstance()->PlayPistolGunShot();
+		recoilActive = true;
+		shotFired = true;
+		crosshair_RecoilActive = true;
 
-			if (recoilCooldownTimer == 0)
-			{
-				if (!CollisionManager::GetInstance()->CheckTargetCollision(sf::Vector2f(crosshairSprite.getPosition().x, crosshairSprite.getPosition().y)))
-				{
-					BulletManager::GetInstance()->AddBullet(crosshairSprite.getPosition());
-				}
-			}
-			else if (recoilCooldownTimer > 0)
-			{
-				sf::Vector2f recoil = BulletRecoil();
-				if (!CollisionManager::GetInstance()->CheckTargetCollision(sf::Vector2f(crosshairSprite.getPosition().x, crosshairSprite.getPosition().y) + recoil))
-				{
-					BulletManager::GetInstance()->AddBullet(crosshairSprite.getPosition() + recoil);//+ //sf::Vector2f(randomXSway, yPistolRecoil));
-				}
-			}
-		}
-		//If the current gun clip is empty play the out of ammo sound
-		else if (current_Clip == 0)
+		current_Clip -= 1;
+		SoundManager::GetInstance()->PlayPistolGunShot();
+
+		if (recoilCooldownTimer == 0)
 		{
-			SoundManager::GetInstance()->PlayOutOfAmmo();
+			if (!CollisionManager::GetInstance()->CheckTargetCollision(sf::Vector2f(crosshairSprite.getPosition().x, crosshairSprite.getPosition().y)))
+			{
+				BulletManager::GetInstance()->AddBullet(crosshairSprite.getPosition());
+			}
 		}
+		else if (recoilCooldownTimer > 0)
+		{
+			sf::Vector2f recoil = BulletRecoil();
+			if (!CollisionManager::GetInstance()->CheckTargetCollision(sf::Vector2f(crosshairSprite.getPosition().x, crosshairSprite.getPosition().y) + recoil))
+			{
+				BulletManager::GetInstance()->AddBullet(crosshairSprite.getPosition() + recoil);//+ //sf::Vector2f(randomXSway, yPistolRecoil));
+			}
+		}
+	}
+	//If the current gun clip is empty play the out of ammo sound
+	else if (current_Clip == 0)
+	{
+		SoundManager::GetInstance()->PlayOutOfAmmo();
 	}
 }
 
