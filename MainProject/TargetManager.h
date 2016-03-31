@@ -28,6 +28,7 @@ public:
 	list<Target*>& TargetManager::GetListOfTargets();
 	int TargetManager::GetSizeOfTargets();
 	void TargetManager::targetsEliminatedPlus();
+	void TargetManager::Update(float ft);
 
 private:
 	TargetManager()

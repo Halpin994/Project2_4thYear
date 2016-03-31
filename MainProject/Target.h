@@ -29,6 +29,10 @@ public:
 	void Target::SetPosition(sf::Vector2f);
 	void Target::AddBullet(sf::Vector2f);
 	int Target::GetLayer();
+	float Target::GetTimeToLive();
+
+	void Update(float);
+
 
 private:
 	sf::Texture targetTexture;
@@ -36,6 +40,8 @@ private:
 
 	float targetHealth;
 	int targetLayer; //layers 1-3
+
+	float timeToLive;
 
 	list<BulletHole*>bullets;
 

@@ -118,7 +118,7 @@ void Player::SetUp()
 
 	AddGun(Gun::PISTOL);
 	AddGun(Gun::SMG);
-	currentGun = guns[Gun::SMG];
+	currentGun = guns[Gun::PISTOL];
 
 	clipBulletSprite.setTexture(clipBulletImage, true);
 

@@ -36,7 +36,7 @@ public:
 private:
 	Level()
 	{
-		levelState = LevelStates::TUTORIAL;
+		levelState = LevelStates::LEVEL1;
 
 		tut_ShootInfoDisplayed = false;
 		tut_ReloadInfoDisplayed = false;

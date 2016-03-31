@@ -18,7 +18,9 @@
 */
 int main()
 {
+	//sf::View view(sf::FloatRect(0, 0, 1200, 700));
 	sf::RenderWindow window(sf::VideoMode(1200, 700), "Main Project");
+	//window.setView(view);
 	sf::Mouse::setPosition(sf::Vector2i(window.getSize().x / 2, window.getSize().y / 2), window);
 	window.setMouseCursorVisible(false);
 	window.setVerticalSyncEnabled(true);

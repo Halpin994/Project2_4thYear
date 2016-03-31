@@ -68,8 +68,34 @@ void TargetManager::Draw(sf::RenderWindow& window, int layer)
 	//for (targetITER = targets.end(); targetITER != targets.begin(); --targetITER)
 	for (Target* t: targets)
 	{
-		if (t->GetLayer() == layer)
+		if (t->GetLayer() == layer && t->GetTimeToLive() > 0)
 		t->Draw(window);
+	}
+}
+
+void TargetManager::Update(float ft)
+{
+	for (std::list<Target*>::iterator targetIter = targets.begin(), endIter = targets.end(); targetIter != endIter; )
+	{
+		//Pull the pointer from the iterator
+		//Target* currentTarget = (*targetIter);
+
+		//If we have a TTL, update
+		if ((*targetIter)->GetTimeToLive() > 0)
+		{
+			(*targetIter)->Update(ft);
+
+			//And then update the iterator here
+			targetIter++;
+		}
+		else
+		{
+			//Delete target
+			delete (*targetIter);
+
+			//Update iterator by erasing
+			targetIter = targets.erase(targetIter);
+		}
 	}
 }
 

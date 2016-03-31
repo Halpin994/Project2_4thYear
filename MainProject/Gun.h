@@ -58,11 +58,20 @@ private:
 	sf::Vector2f crhOffset;
 	sf::Vector2f myOffset;
 
+	float myScale;
+	float scaleSpeed;
+	float scaleDefault;
+
 	int gunType;
 
 	sf::Texture pistolImage;
 	sf::Texture smgImage;
 	sf::Sprite crosshairSprite;
+
+	float outOfControlXMax;
+	float outOfControlXMin;
+	float outOfControlYMax;
+	float outOfControlYMin;
 
 	bool outOfControl;
 	bool recoilActive;

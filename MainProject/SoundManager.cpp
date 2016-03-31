@@ -48,6 +48,8 @@ void SoundManager::SetUp()
 	pistolReload_sfx.setBuffer(pistolReload_buff);
 	pistolQuickReload_sfx.setBuffer(pistolQuickReload_buff);
 	infoSoundEffect_sfx.setBuffer(infoSoundEffect_buff);
+
+	SetVolume();
 }
 
 void SoundManager::IncreaseVolume()

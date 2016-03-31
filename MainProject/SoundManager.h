@@ -36,10 +36,10 @@ public:
 private:
 	SoundManager()
 	{
+		volume = 0;
+
 		Load();
 		SetUp();
-
-		volume = 25;
 	}
 	static bool instanceFlag;
 	static SoundManager* instance;

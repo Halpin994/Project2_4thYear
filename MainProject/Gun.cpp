@@ -4,7 +4,6 @@
 #include "BulletManager.h"
 #include "CollisionManager.h"
 
-
 Gun::Gun(int type)
 {
 	outOfControl = false;
@@ -28,38 +27,42 @@ Gun::Gun(int type)
 		yStrength = 10;
 		yRecoilStrength = yStrength;
 		yRecoil = 0;
-		yRecoilMax = 120;
+		yRecoilMax = 50;
 		fireRate = 0;
 		fireRateTimer = 0;
 		reloadTime = 2.0;
 		reloadTimer = 0;
 		pistolImage.loadFromFile("Assets/Images/Game/Crosshairs/crosshair_pistol.png");
-		scale = 4;
+		scaleDefault = 4;
+		scale = scaleDefault;
+		scaleSpeed = 5;
 		crosshairSprite.setScale(scale, scale);
 		crosshairSprite.setTexture(pistolImage); 
 		crhRecoilSpeed = 150;
 		crhRecoilDirection = sf::Vector2f(0, 1);
-		crhRecoilMax = 12;
+		crhRecoilMax = 8;
 		crhOffset = sf::Vector2f(0, 0);
 	break;
 
 	case SMG:
 		gunType = SMG;
-		clipSize = 130;
+		clipSize = 30;
 		current_Clip = clipSize;
 		recoilCooldownTime = 0.2;
 		recoilCooldownTimer = 0;
-		recoilMultiplier = 1.4;
-		yStrength = 4;
+		recoilMultiplier = 1.5;
+		yStrength = 5;
 		yRecoilStrength = yStrength;
 		yRecoil = 0;
-		yRecoilMax = 100;
+		yRecoilMax = 20;
 		fireRate = 0.1;
 		fireRateTimer = 0;
 		reloadTime = 2.0;
 		reloadTimer = 0;
 		smgImage.loadFromFile("Assets/Images/Game/Crosshairs/crosshair_smg.png");
-		scale = 4;
+		scaleDefault = 4;
+		scale = scaleDefault;
+		scaleSpeed = 15;
 		crosshairSprite.setScale(scale, scale);
 		crosshairSprite.setOrigin(sf::Vector2f(75.5, 75));
 		crosshairSprite.setTexture(smgImage);
@@ -83,7 +86,7 @@ void Gun::Update(sf::RenderWindow& window, float frameTime)
 	{
 		fireRateTimer += frameTime;
 	}
-	cout << frameTime << endl;
+	//cout << frameTime << endl;
 	if (crosshair_RecoilActive)
 	{
 		CalculateCrosshairRecoil(window, frameTime);
@@ -143,23 +146,40 @@ void Gun::Shoot()
 sf::Vector2f Gun::BulletRecoil()
 {
 	sf::Vector2f rec;
+	if (yRecoil < -yRecoilMax && outOfControl == false)
+	{
+		outOfControl = true;
+	}
 	if (outOfControl == false)
 	{
 		yRecoilStrength *= recoilMultiplier;
 		yRecoil -= yRecoilStrength;
 		rec = sf::Vector2f(0, yRecoil);
+
+		cout << "outOfControlYMin: RESET" << endl;
 	}
-	if (yRecoil < -yRecoilMax && outOfControl == false)
-	{
-		outOfControl = true;
-	}
+
 	if (outOfControl == true)
 	{
-		float randomXSway = rand() % 1000;
-		randomXSway = (randomXSway / 10) - 50;
-		float randomYSway = rand() % 1000;
-		randomYSway = (randomYSway / 50) - 10;
-		rec = sf::Vector2f(randomXSway, yRecoil -= randomYSway);
+		outOfControlXMax = -25;
+		outOfControlXMin = 25;
+		outOfControlYMax = -2;
+		outOfControlYMin = -50;
+
+		//float randomXSway = rand() % 1000;
+		//randomXSway = (randomXSway / 10) - 50;
+		//float randomXSway = rand() % (outOfControlXMax - (outOfControlXMin)) + (outOfControlXMin);
+		//(float(rand()) / float(RAND_MAX)) * (Max - Min)) + Min;
+		float randomXSway = ((float(rand()) / float(RAND_MAX)) * (outOfControlXMax - outOfControlXMin)) + outOfControlXMin;
+		//float randomYSway = rand() % 1000;
+		//randomYSway = (randomYSway / 50) - 10;
+		//float randomYSway = rand() % (outOfControlYMax - (outOfControlYMin)) + (outOfControlYMin);
+		float randomYSway = ((float(rand()) / float(RAND_MAX)) * (outOfControlYMax - outOfControlYMin)) + outOfControlYMin;
+		cout << randomYSway << endl;
+		//randomYSway = randomYSway / 100;
+		rec = sf::Vector2f(randomXSway, yRecoil + randomYSway);
+
+
 	}
 	return rec;
 }
@@ -189,30 +209,37 @@ void Gun::CalculateCrosshairRecoil(sf::RenderWindow& window, float frameTime)
 {
 	Normalize(crhRecoilDirection); //Make recoilDirection a unit vector
 	myOffset = crhRecoilDirection * crhRecoilSpeed * frameTime;
+	myScale = scaleSpeed * frameTime;
 	crosshair_RecoilCalculated = true;
 }
 
 void Gun::UpdateCrosshairRecoil()
 {
-	if (crhRecoilUp == true && getcrhRecoilDistance() <= 5)
+	if (crhRecoilUp == true && getcrhRecoilDistance() < 5)
 	{
 		crhOffset = sf::Vector2f(0, 0);
 		crhRecoilUp = false;
+		scale = scaleDefault;
 		crosshair_RecoilActive = false;
+		crosshairSprite.setScale(scale, scale);
 	}
 	if (getcrhRecoilDistance() < crhRecoilMax && crhRecoilUp == false)
 	{
+		scale += myScale;
 		crhOffset.x += myOffset.x;
 		crhOffset.y -= myOffset.y;
 		if (getcrhRecoilDistance() > crhRecoilMax)
 		{
 			crhRecoilUp = true;
 		}
+		crosshairSprite.setScale(scale, scale);
 	}
 	else if (crhRecoilUp == true)
 	{
+		scale -= myScale;
 		crhOffset.x -= myOffset.x;
 		crhOffset.y += myOffset.y;
+		crosshairSprite.setScale(scale, scale);
 	}
 }
 

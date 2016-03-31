@@ -170,6 +170,8 @@ void Level::DrawOverlayUI(sf::RenderWindow& window)
 void Level::Update(Player *player, float frameTime)
 {
 	gameTime += frameTime;
+
+	TargetManager::GetInstance()->Update(frameTime);
 	
 	if (levelState == LevelStates::TUTORIAL)
 	{

@@ -23,6 +23,7 @@ void Target::SetUp(sf::Vector2f targetPos, sf::Texture* targetImage, sf::Texture
 	targetSprite.setPosition(targetPos.x - targetSprite.getGlobalBounds().width / 2, targetPos.y);
 	bulletWoodTexture = bulletImage;
 	targetLayer = layer;
+	timeToLive = 3.0;
 	if (targetLayer == 1)
 	{
 		targetSprite.setScale(0.52, 0.52);
@@ -48,6 +49,11 @@ void Target::Draw(sf::RenderWindow& window)
 	}
 }
 
+void Target::Update(float ft)
+{
+	timeToLive -= ft;
+}
+
 //! Get the target position
 /*!
 \Returns the target sprite's position when called
@@ -62,6 +68,11 @@ sf::Vector2f Target::GetPosition()
 int Target::GetLayer()
 {
 	return targetLayer;
+}
+
+float Target::GetTimeToLive()
+{
+	return timeToLive;
 }
 
 void Target::SetPosition(sf::Vector2f pos)
