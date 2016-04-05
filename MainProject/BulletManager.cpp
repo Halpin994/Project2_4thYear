@@ -36,9 +36,9 @@ BulletManager* BulletManager::GetInstance()
 \return none
 \sa
 */
-void BulletManager::AddBullet(sf::Vector2f bulletHPos)
+void BulletManager::AddBullet(sf::Vector2f bulletHPos, static int bulletType)
 {
-	BulletHole* b = new BulletHole(bulletHPos, &bulletMetalTexture);
+	BulletHole* b = new BulletHole(bulletHPos, bulletType, &bulletMetalTexture);
 	bulletHoles.push_back(b);
 }
 

@@ -6,6 +6,7 @@
 
 #include "CollisionManager.h"
 #include "Player.h"
+#include "ScoreManager.h"
 
 bool CollisionManager::instanceFlag = false;
 CollisionManager* CollisionManager::instance = NULL;
@@ -30,18 +31,19 @@ CollisionManager* CollisionManager::GetInstance()
 	}
 }
 
-bool CollisionManager::CheckTargetCollision(sf::Vector2f crosshairPos)
+bool CollisionManager::CheckTargetCollision(sf::Vector2f bulletPos, static int gunType)
 {
 	list<Target*>& targets = TargetManager::GetInstance()->GetListOfTargets();
 	list<Target*>::iterator targetITER = targets.begin();
 
 	for (targetITER = targets.begin(); targetITER != targets.end(); ) 
 	{
-		if ((crosshairPos.x > (*targetITER)->GetPosition().x && crosshairPos.x < (*targetITER)->GetPosition().x + (*targetITER)->GetWidth()
-			&& crosshairPos.y >(*targetITER)->GetPosition().y + 10 && crosshairPos.y < (*targetITER)->GetPosition().y + (*targetITER)->GetHeight()))
+		if ((bulletPos.x > (*targetITER)->GetPosition().x && bulletPos.x < (*targetITER)->GetPosition().x + (*targetITER)->GetWidth()
+			&& bulletPos.y >(*targetITER)->GetPosition().y + 10 && bulletPos.y < (*targetITER)->GetPosition().y + (*targetITER)->GetHeight()))
 			{
 				(*targetITER)->SetHealth();
-				(*targetITER)->AddBullet(crosshairPos);
+				(*targetITER)->AddBullet(bulletPos, gunType);
+				CheckTargetColourCollision(bulletPos, targetITER);
 				if ((*targetITER)->GetHealth() <= 0)
 				{
 					TargetManager::GetInstance()->targetsEliminatedPlus();
@@ -56,6 +58,61 @@ bool CollisionManager::CheckTargetCollision(sf::Vector2f crosshairPos)
 		}
 	}
 	return false;
+}
+
+void CollisionManager::CheckTargetColourCollision(sf::Vector2f bulletPos, list<Target*>::iterator targetITER)
+{
+	float distanceBotTarg = sqrtf(
+		powf(bulletPos.x - ((*targetITER)->GetPosition().x + ((*targetITER)->GetWidth() / 2)), 2)
+		+ 
+		powf(bulletPos.y - ((*targetITER)->GetPosition().y + ((*targetITER)->GetHeight() / (170.0f / 111.0f))), 2)
+		);
+	float distanceTopTarg = sqrtf(
+		powf(bulletPos.x - ((*targetITER)->GetPosition().x + ((*targetITER)->GetWidth() / 2)), 2)
+		+
+		powf(bulletPos.y - ((*targetITER)->GetPosition().y + ((*targetITER)->GetHeight() / (170.0f / 53.0f))), 2)
+		);
+
+	if (distanceBotTarg <= ((*targetITER)->GetWidth() / 2) / (50.0f / 30.0f))
+	{
+		if (distanceBotTarg <= ((*targetITER)->GetWidth() / 2) / (50.0f / 7.0f))
+		{
+			ScoreManager::GetInstance()->AddScore(25, bulletPos, "yellow");
+		}
+		else if (distanceBotTarg <= ((*targetITER)->GetWidth() / 2) / (50.0f / 14.0f))
+		{
+			ScoreManager::GetInstance()->AddScore(20, bulletPos, "red");
+		}
+		else if (distanceBotTarg <= ((*targetITER)->GetWidth() / 2) / (50.0f / 21.0f))
+		{
+			ScoreManager::GetInstance()->AddScore(15, bulletPos, "blue");
+		}
+		else //if (distance <= ((*targetITER)->GetWidth() / 2) / (50.0f / 30.0f))
+		{
+			ScoreManager::GetInstance()->AddScore(10, bulletPos, "white");
+		}
+	}
+	else if (distanceTopTarg <= ((*targetITER)->GetWidth() / 2) / (50.0f / 14.0f))
+	{
+		if (distanceTopTarg <= ((*targetITER)->GetWidth() / 2) / (50.0f / 3.0f))
+		{
+			ScoreManager::GetInstance()->AddScore(50, bulletPos, "yellow");
+		}
+		else if (distanceTopTarg <= ((*targetITER)->GetWidth() / 2) / (50.0f / 6.0f))
+		{
+			ScoreManager::GetInstance()->AddScore(40, bulletPos, "red");
+		}
+		else if (distanceTopTarg <= ((*targetITER)->GetWidth() / 2) / (50.0f / 10.0f))
+		{
+			ScoreManager::GetInstance()->AddScore(25, bulletPos, "blue");
+		}
+		else //if (distance <= ((*targetITER)->GetWidth() / 2) / (50.0f / 30.0f))
+		{
+			ScoreManager::GetInstance()->AddScore(20, bulletPos, "white");
+		}
+	}
+
+
 }
 
 bool CollisionManager::CheckReloadCollision(sf::Vector2f crosshairPos, sf::Vector2f reloadPos, sf::FloatRect reloadBounds)
@@ -78,5 +135,4 @@ bool CollisionManager::CheckMenuElementCollision(sf::Vector2i crosshairPos, sf::
 	}
 	else
 		return false;
-
 }

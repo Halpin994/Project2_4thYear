@@ -13,7 +13,7 @@ public:
 	{
 		cout << "Bullets deleted" << endl;
 	}
-	BulletHole(sf::Vector2f, sf::Texture* bulletImage);
+	BulletHole(sf::Vector2f, static int bulletType, sf::Texture* bulletImage);
 	void Draw(sf::RenderWindow& window);
 	sf::Vector2f BulletHole::GetBulletPosition();
 	

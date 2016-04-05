@@ -19,9 +19,9 @@ Gun::Gun(int type)
 	{
 	case PISTOL:
 		gunType = PISTOL;
-		clipSize = 12;
+		clipSize = 152;
 		current_Clip = clipSize;
-		recoilCooldownTime = 0.3;
+		recoilCooldownTime = 0.7;
 		recoilCooldownTimer = 0;
 		recoilMultiplier = 1.5;
 		yStrength = 10;
@@ -122,17 +122,17 @@ void Gun::Shoot()
 
 		if (recoilCooldownTimer == 0)
 		{
-			if (!CollisionManager::GetInstance()->CheckTargetCollision(sf::Vector2f(crosshairSprite.getPosition().x, crosshairSprite.getPosition().y)))
+			if (!CollisionManager::GetInstance()->CheckTargetCollision(sf::Vector2f(crosshairSprite.getPosition().x, crosshairSprite.getPosition().y), gunType))
 			{
-				BulletManager::GetInstance()->AddBullet(crosshairSprite.getPosition());
+				BulletManager::GetInstance()->AddBullet(crosshairSprite.getPosition(), gunType);
 			}
 		}
 		else if (recoilCooldownTimer > 0)
 		{
 			sf::Vector2f recoil = BulletRecoil();
-			if (!CollisionManager::GetInstance()->CheckTargetCollision(sf::Vector2f(crosshairSprite.getPosition().x, crosshairSprite.getPosition().y) + recoil))
+			if (!CollisionManager::GetInstance()->CheckTargetCollision(sf::Vector2f(crosshairSprite.getPosition().x, crosshairSprite.getPosition().y) + recoil, gunType))
 			{
-				BulletManager::GetInstance()->AddBullet(crosshairSprite.getPosition() + recoil);//+ //sf::Vector2f(randomXSway, yPistolRecoil));
+				BulletManager::GetInstance()->AddBullet(crosshairSprite.getPosition() + recoil, gunType);//+ //sf::Vector2f(randomXSway, yPistolRecoil));
 			}
 		}
 	}
@@ -155,8 +155,6 @@ sf::Vector2f Gun::BulletRecoil()
 		yRecoilStrength *= recoilMultiplier;
 		yRecoil -= yRecoilStrength;
 		rec = sf::Vector2f(0, yRecoil);
-
-		cout << "outOfControlYMin: RESET" << endl;
 	}
 
 	if (outOfControl == true)
@@ -188,7 +186,10 @@ void Gun::UpdateBulletRecoilValues(float ft)
 {
 	if (shotFired)
 	{
-		recoilCooldownTimer = 0;
+		if (recoilActive)
+		{
+			recoilCooldownTimer = recoilCooldownTime / 2;
+		}
 		shotFired = false;
 	}
 	if (recoilActive)
@@ -297,4 +298,9 @@ bool Gun::getShotFired()
 int Gun::getGunType()
 {
 	return gunType;
+}
+
+sf::Vector2f Gun::getGunPos()
+{
+	return crosshairSprite.getPosition();
 }

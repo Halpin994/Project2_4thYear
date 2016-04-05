@@ -16,7 +16,7 @@ BulletHole::BulletHole()
 \return none
 \sa
 */
-BulletHole::BulletHole(sf::Vector2f bulletPos, sf::Texture* bulletImage)
+BulletHole::BulletHole(sf::Vector2f bulletPos, static int bulletType ,sf::Texture* bulletImage)
 {
 	bulletHoleSprite.setTexture(*bulletImage, true);
 	bulletHoleSprite.setPosition(bulletPos);
@@ -32,7 +32,6 @@ BulletHole::BulletHole(sf::Vector2f bulletPos, sf::Texture* bulletImage)
 */
 void BulletHole::Draw(sf::RenderWindow& window)
 {
-	//if (targetCollided != 0)
 	window.draw(bulletHoleSprite);
 }
 

@@ -27,7 +27,7 @@ public:
 	float Target::GetHealth();
 	void Target::SetHealth();
 	void Target::SetPosition(sf::Vector2f);
-	void Target::AddBullet(sf::Vector2f);
+	void Target::AddBullet(sf::Vector2f, static int bulletType);
 	int Target::GetLayer();
 	float Target::GetTimeToLive();
 

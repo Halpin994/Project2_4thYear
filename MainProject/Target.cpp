@@ -23,7 +23,7 @@ void Target::SetUp(sf::Vector2f targetPos, sf::Texture* targetImage, sf::Texture
 	targetSprite.setPosition(targetPos.x - targetSprite.getGlobalBounds().width / 2, targetPos.y);
 	bulletWoodTexture = bulletImage;
 	targetLayer = layer;
-	timeToLive = 3.0;
+	timeToLive = 100;
 	if (targetLayer == 1)
 	{
 		targetSprite.setScale(0.52, 0.52);
@@ -112,8 +112,8 @@ void Target::SetHealth()
 	targetHealth -= 20;
 }
 
-void Target::AddBullet(sf::Vector2f pos)
+void Target::AddBullet(sf::Vector2f pos, static int bulletType)
 {
-	BulletHole* b = new BulletHole(pos, bulletWoodTexture);
+	BulletHole* b = new BulletHole(pos, bulletType, bulletWoodTexture);
 	bullets.push_back(b);
 }

@@ -23,7 +23,7 @@ public:
 	static BulletManager* GetInstance();
 
 	void BulletManager::Draw(sf::RenderWindow& window);
-	void BulletManager::AddBullet(sf::Vector2f);
+	void BulletManager::AddBullet(sf::Vector2f, static int bulletType);
 	list<BulletHole*>& BulletManager::GetListOfBullets();
 
 private:

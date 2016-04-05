@@ -7,6 +7,7 @@
 #include "TargetManager.h"
 #include "SoundManager.h"
 #include "BulletManager.h"
+#include "ScoreManager.h"
 
 bool Level::instanceFlag = false;
 Level* Level::instance = NULL;
@@ -106,6 +107,13 @@ void Level::SetUp()
 	gameTimeText.setCharacterSize(50);
 	gameTimeText.setPosition(900, 635);
 	gameTimeText.setColor(sf::Color::Yellow);
+
+	frameRateText.setFont(font);
+	frameRateText.setCharacterSize(18);
+	frameRateText.setPosition(10, 0);
+	frameRateText.setColor(sf::Color::Yellow);
+
+	frameNum = 1;
 }
 
 //! Draw the level
@@ -145,10 +153,18 @@ void Level::Draw(sf::RenderWindow& window)
 void Level::DrawOverlayUI(sf::RenderWindow& window)
 {
 	ss.str(std::string());
-	gameTime = roundf(gameTime * 100) / 100;
+	gameTime = roundf(gameTime * 100) / 100; //1000 means game time will be rounded to three decimal places
 	ss << gameTime;
 	gameTimeText.setString(ss.str());
 	window.draw(gameTimeText);
+
+	ss.str(std::string());
+	frameRate = roundf(frameRate * 1) / 1; //1000 means game time will be rounded to three decimal places
+	ss << frameRate;
+	frameRateText.setString(ss.str());
+	window.draw(frameRateText);
+
+	ScoreManager::GetInstance()->Draw(window);
 	
 	if (levelState == LevelStates::TUTORIAL)
 	{
@@ -170,7 +186,22 @@ void Level::DrawOverlayUI(sf::RenderWindow& window)
 void Level::Update(Player *player, float frameTime)
 {
 	gameTime += frameTime;
+	//frameRate = 1 / frameTime;
 
+	if (frameNum <= 100)
+	{
+		frameRateSum += frameTime;
+		if (frameNum == 100)
+		{
+			frameNum = 1;
+			frameRate = 1 / (frameRateSum / 100);
+			frameRateSum = 0;
+		}
+		frameNum++;
+	}
+
+	
+	ScoreManager::GetInstance()->Update(frameTime, player);
 	TargetManager::GetInstance()->Update(frameTime);
 	
 	if (levelState == LevelStates::TUTORIAL)
@@ -181,7 +212,7 @@ void Level::Update(Player *player, float frameTime)
 			if (targetRespawn < 0)
 			{
 				TargetManager::GetInstance()->AddTargets(sf::Vector2f(395, 180), 100, 0);
-				TargetManager::GetInstance()->AddTargets(sf::Vector2f(600, 180), 100, 0);
+				TargetManager::GetInstance()->AddTargets(sf::Vector2f(600, 180), 10000, 0);
 				TargetManager::GetInstance()->AddTargets(sf::Vector2f(810, 180), 100, 0);
 				SoundManager::GetInstance()->PlayClick();
 				targetRespawn = targetRespawnTime;
@@ -190,6 +221,7 @@ void Level::Update(Player *player, float frameTime)
 
 		UpdateTut(player, frameTime);
 	}
+
 	if (levelState == LevelStates::LEVEL1)
 	{
 		bgSprite.setTexture(level1BgTexture, true);

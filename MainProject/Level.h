@@ -36,7 +36,7 @@ public:
 private:
 	Level()
 	{
-		levelState = LevelStates::LEVEL1;
+		levelState = LevelStates::TUTORIAL;
 
 		tut_ShootInfoDisplayed = false;
 		tut_ReloadInfoDisplayed = false;
@@ -84,12 +84,16 @@ private:
 
 	float gameTime;
 	float gameOverTime;
+	float frameRate;
+	float frameRateSum;
+	int frameNum;
 
 	float targetRespawn;
 	float targetRespawnTime;
 
 	sf::Font font;
 	sf::Text gameTimeText;
+	sf::Text frameRateText;
 	std::stringstream ss;
 
 	//Sprite stuff

@@ -31,6 +31,8 @@ public:
 	int getMaxClip();
 	bool getShotFired();
 	int getGunType();
+
+	sf::Vector2f getGunPos();
 private:
 	int clipSize;
 	int current_Clip;
