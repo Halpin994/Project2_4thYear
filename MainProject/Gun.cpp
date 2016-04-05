@@ -23,8 +23,8 @@ Gun::Gun(int type)
 		current_Clip = clipSize;
 		recoilCooldownTime = 0.7;
 		recoilCooldownTimer = 0;
-		recoilMultiplier = 1.5;
-		yStrength = 10;
+		recoilMultiplier = 1.2;
+		yStrength = 5;
 		yRecoilStrength = yStrength;
 		yRecoil = 0;
 		yRecoilMax = 50;
@@ -152,12 +152,13 @@ sf::Vector2f Gun::BulletRecoil()
 	}
 	if (outOfControl == false)
 	{
+		//yRecoilStrength = recoilMultiplier;
 		yRecoilStrength *= recoilMultiplier;
-		yRecoil -= yRecoilStrength;
+		yRecoil -= yRecoilStrength * (recoilCooldownTime / recoilCooldownTimer);
 		rec = sf::Vector2f(0, yRecoil);
+		
 	}
-
-	if (outOfControl == true)
+	else if (outOfControl == true)
 	{
 		outOfControlXMax = -25;
 		outOfControlXMin = 25;
@@ -186,11 +187,8 @@ void Gun::UpdateBulletRecoilValues(float ft)
 {
 	if (shotFired)
 	{
-		if (recoilActive)
-		{
-			recoilCooldownTimer = recoilCooldownTime / 2;
-		}
 		shotFired = false;
+		recoilCooldownTimer = 0;
 	}
 	if (recoilActive)
 	{
