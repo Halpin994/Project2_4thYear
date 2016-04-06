@@ -46,15 +46,15 @@ Gun::Gun(int type)
 
 	case SMG:
 		gunType = SMG;
-		clipSize = 30;
+		clipSize = 130;
 		current_Clip = clipSize;
-		recoilCooldownTime = 0.2;
+		recoilCooldownTime = 0.5;
 		recoilCooldownTimer = 0;
-		recoilMultiplier = 1.5;
-		yStrength = 5;
+		recoilMultiplier = 1.2;
+		yStrength = 2;
 		yRecoilStrength = yStrength;
 		yRecoil = 0;
-		yRecoilMax = 20;
+		yRecoilMax = 50;
 		fireRate = 0.1;
 		fireRateTimer = 0;
 		reloadTime = 2.0;

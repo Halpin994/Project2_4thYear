@@ -80,9 +80,9 @@ void Menu::SetUp()
 
 	//Set Position
 	menuBG_spr.setPosition(0, 0);
-	playGame_spr.setPosition(100, 150);
-	options_spr.setPosition(100, 200);
-	quit_spr.setPosition(100, 250);
+	playGame_spr.setPosition(100, 250);
+	options_spr.setPosition(playGame_spr.getPosition().x, playGame_spr.getPosition().y + 50);
+	quit_spr.setPosition(playGame_spr.getPosition().x, options_spr.getPosition().y + 50);
 
 	volume_spr.setPosition(options_spr.getPosition().x + options_spr.getGlobalBounds().width + 100, options_spr.getPosition().y);
 	volumeDown_spr.setPosition(volume_spr.getPosition().x + volume_spr.getGlobalBounds().width + 20, volume_spr.getPosition().y);
