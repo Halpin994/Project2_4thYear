@@ -4,13 +4,6 @@ using namespace std;
 #ifndef GAMESTATEMANAGER
 #define GAMESTATEMANAGER
 
-
-//!  GetInstance returns pointer to GameStateManager (singleton) 
-/*!
-more detail here
-and yet more
-etc
-*/
 class GameStateManager
 {
 public:
@@ -22,7 +15,7 @@ public:
 
 	static GameStateManager* GetInstance();
 
-	enum class GameStates { MAIN_MENU, GAME, OPTIONS, QUIT };
+	enum class GameStates { MAIN_MENU, OPTIONS, GAME, GAMEOVER, QUIT };
 
 	void SetGameState(GameStates);
 	GameStates GetGameState();
@@ -36,8 +29,6 @@ private:
 	static GameStateManager* instance;
 
 	GameStates gameState;
-
-
 
 };
 #endif 

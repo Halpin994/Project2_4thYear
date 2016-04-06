@@ -1,4 +1,5 @@
 #include <iostream>
+#include <sstream>
 using namespace std;
 
 #ifndef MENU
@@ -10,23 +11,59 @@ public:
 	Menu();
 	void Menu::Load();
 	void Menu::SetUp();
+
 	void Menu::Draw(sf::RenderWindow& window);
+	void Menu::DrawOptions(sf::RenderWindow& window);
+	void Menu::DrawCrosshair(sf::RenderWindow& window);
+
 	void Menu::Update(sf::RenderWindow& window);
-	void Menu::Select(sf::RenderWindow& window);
+
+	void Menu::CheckMouseMenu(sf::RenderWindow& window);
+	void Menu::CheckMouseOptions(sf::RenderWindow& window);
+
 
 	//GameStateManager stateManager;
 
 private:
-	sf::Texture menuBG_img;
-	sf::Texture playGame_img;
-	sf::Texture options_img;
-	sf::Texture quit_img;
-	sf::Texture crosshair_img;
+	sf::Texture menuBG_tex;
+	sf::Texture volumeOption_tex;
+	sf::Texture playGame_tex;
+	sf::Texture playGameHighlight_tex;
+	sf::Texture options_tex;
+	sf::Texture optionsHighlight_tex;
+	sf::Texture quit_tex;
+	sf::Texture quitHighlight_tex;
+	sf::Texture crosshair_tex;
+
+	sf::Texture volume_tex;
+	sf::Texture volumeUp_tex;
+	sf::Texture volumeUpHighlight_tex;
+	sf::Texture volumeDown_tex;
+	sf::Texture volumeDownHighlight_tex;
+	
+	//sf::Texture volumeOptionHighlight_tex;
 
 	sf::Sprite menuBG_spr;
 	sf::Sprite playGame_spr;
 	sf::Sprite options_spr;
 	sf::Sprite quit_spr;
 	sf::Sprite crosshair_spr;
+
+	sf::Sprite volume_spr;
+	sf::Sprite volumeUp_spr;
+	sf::Sprite volumeDown_spr;
+
+	bool highlighted;
+	bool optionsHighlighted;
+
+	bool volumeClicked;
+
+	float volUpPos_x;
+	float volDownPos_x;
+
+	sf::Font font;
+	sf::Text volumeText;
+	std::stringstream ss;
+
 };
 #endif 

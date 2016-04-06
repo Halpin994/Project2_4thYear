@@ -10,31 +10,32 @@ BulletHole::BulletHole()
 
 }
 
-//void BulletHole::SetUp()
-//{
-//	bulletMetalSprite.setTexture(bulletMetalImage, true);
-//	bulletWoodSprite.setTexture(bulletWoodImage, true);
-//
-//	bulletMetalSprite.setOrigin(bulletMetalSprite.getGlobalBounds().width / 2, bulletMetalSprite.getGlobalBounds().height / 2);
-//	bulletWoodSprite.setOrigin(bulletWoodSprite.getGlobalBounds().width / 2, bulletWoodSprite.getGlobalBounds().height / 2);
-//
-//	bulletMetalSprite.setScale(0.5, 0.5);
-//	bulletWoodSprite.setScale(0.5, 0.5);
-//}
-
-void BulletHole::SetUp(int textureType, sf::Vector2f bulletPos, sf::Texture* bulletMetalImage, sf::Texture* bulletWoodImage)
+//! Overload function
+/*!
+\When called, sets the texture type, position(crosshair pos), origin (to centre of sprite)
+\return none
+\sa
+*/
+BulletHole::BulletHole(sf::Vector2f bulletPos, static int bulletType ,sf::Texture* bulletImage)
 {
-	if (textureType == 1)
-		bulletHoleSprite.setTexture(*bulletMetalImage, true);
-	if (textureType == 2)
-		bulletHoleSprite.setTexture(*bulletWoodImage, true);
-
+	bulletHoleSprite.setTexture(*bulletImage, true);
 	bulletHoleSprite.setPosition(bulletPos);
 	bulletHoleSprite.setOrigin(bulletHoleSprite.getGlobalBounds().width / 2, bulletHoleSprite.getGlobalBounds().height / 2);
-	bulletHoleSprite.setScale(0.38, 0.38);
+	bulletHoleSprite.setScale(0.27, 0.27);
 }
 
+//! Draw the bullet holes
+/*!
+\Draws the bullet holes on to the window
+\return none
+\sa
+*/
 void BulletHole::Draw(sf::RenderWindow& window)
 {
 	window.draw(bulletHoleSprite);
+}
+
+sf::Vector2f BulletHole::GetBulletPosition()
+{
+	return bulletHoleSprite.getPosition();
 }
