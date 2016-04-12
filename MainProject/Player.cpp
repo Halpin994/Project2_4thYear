@@ -22,6 +22,8 @@ Player::Player()
 	normalReloadClicked = false;
 	quickReloadClicked = false;
 
+	leftMousePressed = true;
+
 	quickReloadTime = 1.2;
 	quickReloadTimer = quickReloadTime;
 

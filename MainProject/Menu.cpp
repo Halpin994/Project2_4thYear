@@ -189,7 +189,7 @@ void Menu::CheckMouseMenu(sf::RenderWindow& window)
 		{
 			sf::Mouse::setPosition(sf::Vector2i(window.getSize().x / 2, window.getSize().y / 2), window);
 			GameStateManager::GetInstance()->SetGameState(GameStateManager::GameStates::GAME);
-			LevelManager::GetInstance()->CreateLevel("Level2");
+			LevelManager::GetInstance()->CreateLevel("Level1");
 		}
 	}
 	else if (CollisionManager::GetInstance()->CheckMenuElementCollision(sf::Mouse::getPosition(window), options_spr))

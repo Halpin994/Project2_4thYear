@@ -16,6 +16,7 @@ ScorePopup::ScorePopup(float points, sf::Vector2f pos, sf::Font& font, const cha
 
 	timeToLive = 1.0f;
 	stallTime = 0.5f;
+	stallTimer = stallTime;
 	
 
 	pointsText.setFont(font);
@@ -49,14 +50,14 @@ float ScorePopup::GetTimeToLive()
 
 void ScorePopup::Update(float ft, Player *player)
 {
-	stallTime -= ft;
-	if (stallTime <= 0)
+	stallTimer -= ft;
+	if (stallTimer <= 0)
 	{
 		//pointsText.setPosition(player->getCurrentGun()->getGunPos() + offset);
 		if (position.x < ScoreManager::GetInstance()->GetScorePos().x && position.y > ScoreManager::GetInstance()->GetScorePos().y)
 		{
 			timeToLive -= ft;
-			position += direction * 2.0f * ft;
+			position += direction * 1.5f * ft;
 			pointsText.setPosition(position);
 		}
 		else
@@ -86,14 +87,14 @@ sf::Vector2f ScorePopup::Normalize(sf::Vector2f NormaliseMe)
 
 float ScorePopup::GetStallTime()
 {
-	return stallTime;
+	return stallTimer;
 }
 
 void ScorePopup::AddScore(float points)
 {
-	if (stallTime <= 0.5)
+	if (stallTimer <= stallTime)
 	{
-		stallTime = 0.5;
+		stallTimer = stallTime;
 	}
 	number += points;
 }

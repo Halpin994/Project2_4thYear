@@ -25,6 +25,7 @@ private:
 	float number;
 	float timeToLive;
 	float stallTime;
+	float stallTimer;
 	sf::Vector2f offset;
 	sf::Vector2f direction;
 	sf::Vector2f position;

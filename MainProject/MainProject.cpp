@@ -23,8 +23,7 @@ int main()
 	//window.setView(view);
 	sf::Mouse::setPosition(sf::Vector2i(window.getSize().x / 2, window.getSize().y / 2), window);
 	window.setMouseCursorVisible(false);
-	window.setVerticalSyncEnabled(true);
-	//window.setFramerateLimit(60);
+	//window.setVerticalSyncEnabled(true);
 	GameStateManager::GetInstance()->SetGameState(GameStateManager::GameStates::MAIN_MENU);
 	sf::Clock clock;
 	Menu *menu = new Menu();
@@ -34,8 +33,6 @@ int main()
 
 	while (window.isOpen())
 	{
-		float time = clock.getElapsedTime().asSeconds();
-		clock.restart();
 		//cout << time << endl;
 
 

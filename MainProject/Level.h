@@ -23,12 +23,12 @@ public:
 	void Load();
 	void SetUp();
 	void Draw(sf::RenderWindow& window, int layer);
-	void Update(Player *player, float);
+	void Update(Player *player, double frameTime);
 	void Restart();
 	void DrawResult(sf::RenderWindow& window);
 	void Level::DrawOverlayUI(sf::RenderWindow& window);
 
-	void Level::UpdateTut(Player *player, float frameTime);
+	void Level::UpdateTut(Player *player, double frameTime);
 	void SetLevel(int lvl);
 	//LevelStates Level::GetLevelState();
 
@@ -85,7 +85,7 @@ private:
 	float tut_displayTime;
 	float tut_displayTimer;
 
-	float gameTime;
+	double gameTime;
 	float gameOverTime;
 	float frameRate;
 	float frameRateSum;

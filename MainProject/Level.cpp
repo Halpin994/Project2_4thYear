@@ -171,14 +171,16 @@ void Level::Draw(sf::RenderWindow& window, int layer)
 void Level::DrawOverlayUI(sf::RenderWindow& window)
 {
 	ss.str(std::string());
-	gameTime = roundf(gameTime * 100) / 100;
-	ss << gameTime;
+	float gt = gameTime;
+	gt = roundf(gt * 100) / 100;
+	ss << gt;
 	gameTimeText.setString(ss.str());
 	window.draw(gameTimeText);
 
 	ss.str(std::string());
-	frameRate = roundf(frameRate * 1) / 1; //replace 1 with 1000 and game time will be rounded to three decimal places
-	ss << frameRate;
+	float fr = frameRate;
+	fr = roundf(fr * 1) / 1; //replace 1 with 1000 and game time will be rounded to three decimal places
+	ss << fr;
 	frameRateText.setString(ss.str());
 	window.draw(frameRateText);
 
@@ -201,18 +203,18 @@ void Level::DrawOverlayUI(sf::RenderWindow& window)
 	//}
 }
 
-void Level::Update(Player *player, float frameTime)
+void Level::Update(Player *player, double frameTime)
 {
 	gameTime += frameTime;
-	//frameRate = 1 / frameTime;
 
 	if (frameNum <= 100)
 	{
 		frameRateSum += frameTime;
 		if (frameNum == 100)
 		{
-			frameNum = 1;
-			frameRate = 1 / (frameRateSum / 100);
+			
+			frameRate = 1.0f / (frameRateSum / 100.0f);
+			frameNum = 0;
 			frameRateSum = 0;
 		}
 		frameNum++;

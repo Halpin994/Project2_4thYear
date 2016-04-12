@@ -77,38 +77,38 @@ void CollisionManager::CheckTargetColourCollision(sf::Vector2f bulletPos, list<T
 	{
 		if (distanceBotTarg <= ((*targetITER)->GetWidth() / 2) / (50.0f / 7.0f))
 		{
-			ScoreManager::GetInstance()->AddScore(25, bulletPos, "yellow");
+			ScoreManager::GetInstance()->AddScore(25, bulletPos, "yellow", "bottom");
 		}
 		else if (distanceBotTarg <= ((*targetITER)->GetWidth() / 2) / (50.0f / 14.0f))
 		{
-			ScoreManager::GetInstance()->AddScore(20, bulletPos, "red");
+			ScoreManager::GetInstance()->AddScore(20, bulletPos, "red", "bottom");
 		}
 		else if (distanceBotTarg <= ((*targetITER)->GetWidth() / 2) / (50.0f / 21.0f))
 		{
-			ScoreManager::GetInstance()->AddScore(15, bulletPos, "blue");
+			ScoreManager::GetInstance()->AddScore(15, bulletPos, "blue", "bottom");
 		}
 		else //if (distance <= ((*targetITER)->GetWidth() / 2) / (50.0f / 30.0f))
 		{
-			ScoreManager::GetInstance()->AddScore(10, bulletPos, "white");
+			ScoreManager::GetInstance()->AddScore(10, bulletPos, "white", "bottom");
 		}
 	}
 	else if (distanceTopTarg <= ((*targetITER)->GetWidth() / 2) / (50.0f / 14.0f))
 	{
 		if (distanceTopTarg <= ((*targetITER)->GetWidth() / 2) / (50.0f / 3.0f))
 		{
-			ScoreManager::GetInstance()->AddScore(50, bulletPos, "yellow");
+			ScoreManager::GetInstance()->AddScore(50, bulletPos, "yellow", "top");
 		}
 		else if (distanceTopTarg <= ((*targetITER)->GetWidth() / 2) / (50.0f / 6.0f))
 		{
-			ScoreManager::GetInstance()->AddScore(40, bulletPos, "red");
+			ScoreManager::GetInstance()->AddScore(40, bulletPos, "red", "top");
 		}
 		else if (distanceTopTarg <= ((*targetITER)->GetWidth() / 2) / (50.0f / 10.0f))
 		{
-			ScoreManager::GetInstance()->AddScore(25, bulletPos, "blue");
+			ScoreManager::GetInstance()->AddScore(25, bulletPos, "blue", "top");
 		}
 		else //if (distance <= ((*targetITER)->GetWidth() / 2) / (50.0f / 30.0f))
 		{
-			ScoreManager::GetInstance()->AddScore(20, bulletPos, "white");
+			ScoreManager::GetInstance()->AddScore(20, bulletPos, "white", "top");
 		}
 	}
 

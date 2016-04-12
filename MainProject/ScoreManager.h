@@ -18,6 +18,10 @@ public:
 		scoreText.setCharacterSize(22);
 		scoreText.setPosition(1050, 100);
 		scoreText.setColor(sf::Color::Yellow);
+		multiplier = 1.0f;
+		topTarget_multiplier = 1.0f;
+		bottomTarget_multiplier = 0.4f;
+		base_multiplier = 0.1f;
 	}
 	~ScoreManager()
 	{
@@ -30,7 +34,7 @@ public:
 	}
 	static ScoreManager* GetInstance();
 
-	void ScoreManager::AddScore(float, sf::Vector2f&, const char*);
+	void ScoreManager::AddScore(float, sf::Vector2f&, const char*, const char*);
 	void ScoreManager::SetScore(float);
 	float ScoreManager::GetScore();
 
@@ -45,6 +49,15 @@ private:
 	static ScoreManager* instance;
 
 	float score;
+	float prevPoints;
+
+	float multiplier;
+	float topTarget_multiplier;
+	float bottomTarget_multiplier;
+	float base_multiplier;
+
+	string prevTargHit;
+
 	std::list<ScorePopup*> scorePopUps;
 
 	sf::Font font;

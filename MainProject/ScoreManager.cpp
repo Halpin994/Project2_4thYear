@@ -30,34 +30,51 @@ ScoreManager* ScoreManager::GetInstance()
 	}
 }
 
-void ScoreManager::AddScore(float points, sf::Vector2f &pos, const char* colour)
+void ScoreManager::AddScore(float points, sf::Vector2f &pos, const char* colour, const char* targetHit)
 {
 	if (scorePopUps.size() == 0)
 	{
 		ScorePopup* s = new ScorePopup(points, pos, font, colour);
 		scorePopUps.push_back(s);
+		prevPoints = points;
+		score += points;
+		multiplier = 1.0f;
 	}
 	else
 	{
 		std::list<ScorePopup*>::iterator popUpIter = scorePopUps.begin();
 
-		if ((*popUpIter)->GetStallTime() < 0)
+		if ((*popUpIter)->GetStallTime() > 0 && prevPoints == points)
 		{
-			ScorePopup* s = new ScorePopup(points, pos, font, colour);
-			scorePopUps.push_front(s);
+			if (targetHit == "top"){multiplier += topTarget_multiplier;}
+			else if (targetHit == "bottom"){multiplier += bottomTarget_multiplier;}
+			(*popUpIter)->AddScore(points * multiplier);
+			(*popUpIter)->SetColour(colour);
+			score += points * multiplier;
 		}
 		else if ((*popUpIter)->GetStallTime() > 0)
 		{
-			(*popUpIter)->AddScore(points);
+			multiplier += base_multiplier;
+			(*popUpIter)->AddScore(points * multiplier);
 			(*popUpIter)->SetColour(colour);
+			score += points * multiplier;
+		}
+		else //((*popUpIter)->GetStallTime() < 0)
+		{
+			ScorePopup* s = new ScorePopup(points, pos, font, colour);
+			scorePopUps.push_front(s);
+			score += points;
+			multiplier = 1.0f;
 		}
 	}
-	score += points;
+	prevPoints = points;
+	prevTargHit = targetHit;
+	
 }
 
-void ScoreManager::SetScore(float f)
+void ScoreManager::SetScore(float s)
 {
-	score = f;
+	score = s;
 }
 
 float ScoreManager::GetScore()
@@ -99,7 +116,7 @@ void ScoreManager::Update(float ft, Player *player)
 void ScoreManager::Draw(sf::RenderWindow& window)
 {
 	ss.str(std::string());
-	score = roundf(score * 1) / 1; //1000 means game time will be rounded to three decimal places
+	score = roundf(score * 100) / 100; //1000 means game time will be rounded to three decimal places
 	ss << "Score: " << score;
 	scoreText.setString(ss.str());
 	window.draw(scoreText);
