@@ -24,14 +24,14 @@ void Target::SetUp(sf::Vector2f targetPos, sf::Texture* targetImage, sf::Texture
 	bulletWoodTexture = bulletImage;
 	targetLayer = layer;
 	timeToLive = 100;
-	if (targetLayer == 1)
-	{
-		targetSprite.setScale(0.52, 0.52);
-	}
-	if (targetLayer == 3)
-	{
-		targetSprite.setScale(2, 2);
-	}
+	//if (targetLayer == 1)
+	//{
+	//	targetSprite.setScale(0.52, 0.52);
+	//}
+	//if (targetLayer == 3)
+	//{
+	//	targetSprite.setScale(2, 2);
+	//}
 }
 
 //! Draw the target
@@ -51,7 +51,7 @@ void Target::Draw(sf::RenderWindow& window)
 
 void Target::Update(float ft)
 {
-	timeToLive -= ft;
+	//timeToLive -= ft;
 }
 
 //! Get the target position

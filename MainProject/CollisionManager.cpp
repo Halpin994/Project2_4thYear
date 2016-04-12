@@ -33,10 +33,10 @@ CollisionManager* CollisionManager::GetInstance()
 
 bool CollisionManager::CheckTargetCollision(sf::Vector2f bulletPos, static int gunType)
 {
-	list<Target*>& targets = TargetManager::GetInstance()->GetListOfTargets();
+	list<Target*>& targets = LevelManager::GetInstance()->GetCurrentLevel()->GetListOfTargets();
 	list<Target*>::iterator targetITER = targets.begin();
 
-	for (targetITER = targets.begin(); targetITER != targets.end(); ) 
+	for (targetITER = targets.begin(); targetITER != targets.end(); )
 	{
 		if ((bulletPos.x > (*targetITER)->GetPosition().x && bulletPos.x < (*targetITER)->GetPosition().x + (*targetITER)->GetWidth()
 			&& bulletPos.y >(*targetITER)->GetPosition().y + 10 && bulletPos.y < (*targetITER)->GetPosition().y + (*targetITER)->GetHeight()))
@@ -44,12 +44,12 @@ bool CollisionManager::CheckTargetCollision(sf::Vector2f bulletPos, static int g
 				(*targetITER)->SetHealth();
 				(*targetITER)->AddBullet(bulletPos, gunType);
 				CheckTargetColourCollision(bulletPos, targetITER);
-				if ((*targetITER)->GetHealth() <= 0)
-				{
-					TargetManager::GetInstance()->targetsEliminatedPlus();
-					delete (*targetITER);
-					targetITER = targets.erase(targetITER);
-				}
+				//if ((*targetITER)->GetHealth() <= 0)
+				//{
+				//	TargetManager::GetInstance()->targetsEliminatedPlus();
+				//	delete (*targetITER);
+				//	targetITER = targets.erase(targetITER);
+				//}
 				return true;
 			}
 		else

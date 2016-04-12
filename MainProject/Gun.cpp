@@ -19,7 +19,7 @@ Gun::Gun(int type)
 	{
 	case PISTOL:
 		gunType = PISTOL;
-		clipSize = 152;
+		clipSize = 20;
 		current_Clip = clipSize;
 		recoilCooldownTime = 0.7;
 		recoilCooldownTimer = 0;
@@ -55,7 +55,7 @@ Gun::Gun(int type)
 		yRecoilStrength = yStrength;
 		yRecoil = 0;
 		yRecoilMax = 50;
-		fireRate = 0.1;
+		fireRate = 0.12;
 		fireRateTimer = 0;
 		reloadTime = 2.0;
 		reloadTimer = 0;

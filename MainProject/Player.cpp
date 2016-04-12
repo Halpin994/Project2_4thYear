@@ -18,36 +18,9 @@
 */
 Player::Player()
 {
-	leftMousePressed = true;
-	rightMousePressed = true;
-
-	//randomXSway = 0;
-	//crhOffset = sf::Vector2f(0, 0);
-	//recoilType = 2;
-	//crosshairType = Crosshairs::greenHalfCirc;
-	//currentCrosshair = crosshairType;
-
-	//crhRecoilActive = false;
-	//crhRecoilSpeed = 50;
-	//crhRecoilCalculated = false;
-	//crhRecoilUp = false;
-
-	//outOfControl = false;
-
 	quickReloadActive = false;
 	normalReloadClicked = false;
 	quickReloadClicked = false;
-
-	/*yPistolRecoilStrength = 5;
-	yPistolRecoilStrengthTemp = yPistolRecoilStrength;
-	yPistolRecoil = 0;
-	pistolRecoilMultiplier = 1.8;
-	pistolRecoilCoolDownTime = 0.3;*/
-
-	//recoilCoolDown = pistolRecoilCoolDownTime;
-
-	//pistolClipSize = 12;
-	//pistolClip = pistolClipSize;
 
 	quickReloadTime = 1.2;
 	quickReloadTimer = quickReloadTime;
@@ -57,12 +30,6 @@ Player::Player()
 
 	gameTime = 0;
 	gameOverTime = 0;
-
-	//smgFireRate = 0.08;
-	//smgFireRateTimer = smgFireRate;
-
-	//targetRespawnTime = 0.4;
-	//targetRespawn = targetRespawnTime;
 
 	Load();
 	SetUp();
@@ -91,20 +58,6 @@ void Player::Load()
 	font.loadFromFile("Assets/imagine_font.ttf");
 }
 
-//void Player::LoadCrosshair()
-//{
-//	if (currentCrosshair == Crosshairs::redCircleCross){ crosshairImage.loadFromFile("Assets/Images/Game/Crosshairs/crosshair_redCircleCross.png"); crosshairSprite.setScale(1, 1); }
-//	else if (currentCrosshair == Crosshairs::greenHalfCirc){ crosshairImage.loadFromFile("Assets/Images/Game/Crosshairs/crosshair_greenHalfCirc.png"); crosshairSprite.setScale(1, 1); }
-//	else if (currentCrosshair == Crosshairs::whiteHorizon){ crosshairImage.loadFromFile("Assets/Images/Game/Crosshairs/crosshair_whiteHorizon.png"); crosshairSprite.setScale(1, 1); }
-//	else if (currentCrosshair == Crosshairs::redHorizon){ crosshairImage.loadFromFile("Assets/Images/Game/Crosshairs/crosshair_redHorizon.png"); crosshairSprite.setScale(1, 1); }
-//	else if (currentCrosshair == Crosshairs::greenHorizon){ crosshairImage.loadFromFile("Assets/Images/Game/Crosshairs/crosshair_greenHorizon.png"); crosshairSprite.setScale(1, 1); }
-//	else if (currentCrosshair == Crosshairs::clearDot){ crosshairImage.loadFromFile("Assets/Images/Game/Crosshairs/crosshair_clearDot.png"); crosshairSprite.setScale(1, 1); }
-//	else if (currentCrosshair == Crosshairs::redDot){ crosshairImage.loadFromFile("Assets/Images/Game/Crosshairs/crosshair_redDot.png"); crosshairSprite.setScale(1, 1); }
-//	else if (currentCrosshair == Crosshairs::pistol){ crosshairImage.loadFromFile("Assets/Images/Game/Crosshairs/crosshair_pistol.png"); crosshairSprite.setScale(4, 4); crosshairSprite.setOrigin(sf::Vector2f(75, 75)); }
-//	else if (currentCrosshair == Crosshairs::smg){ crosshairImage.loadFromFile("Assets/Images/Game/Crosshairs/crosshair_smg.png"); crosshairSprite.setScale(4, 4); crosshairSprite.setOrigin(sf::Vector2f(75.5, 75)); }
-//	else if (currentCrosshair == Crosshairs::predator){ crosshairImage.loadFromFile("Assets/Images/Game/Crosshairs/crosshair_predator.png"); crosshairSprite.setScale(1, 1); }
-//}
-
 //! Setup the player crosshair sprite
 /*!
 \Set the sprites origin to the centre of the sprite. Sets the texture for the sprite
@@ -113,12 +66,9 @@ void Player::Load()
 */
 void Player::SetUp()
 {
-	//crosshairSprite.setOrigin(75, 75);
-	//crosshairSprite.setTexture(crosshairImage, true);
-
 	AddGun(Gun::PISTOL);
 	AddGun(Gun::SMG);
-	currentGun = guns[Gun::SMG];
+	currentGun = guns[Gun::PISTOL];
 
 	clipBulletSprite.setTexture(clipBulletImage, true);
 
@@ -137,11 +87,6 @@ void Player::SetUp()
 	gunClipText.setCharacterSize(50);
 	gunClipText.setPosition(100, 635);
 	gunClipText.setColor(sf::Color::Yellow);
-
-	//gameTimeText.setFont(font);
-	//gameTimeText.setCharacterSize(50);
-	//gameTimeText.setPosition(900, 635);
-	//gameTimeText.setColor(sf::Color::Yellow);
 }
 
 void Player::AddGun(int type)
@@ -171,6 +116,7 @@ void Player::Draw(sf::RenderWindow& window)
 		}
 	}
 	window.draw(pistolClipSprite);
+
 	//if (pistolClip == pistolClipSize || normalReloadClicked == true)
 	//{
 	//	window.draw(reloadUnavailableSprite);
@@ -183,36 +129,9 @@ void Player::Draw(sf::RenderWindow& window)
 	//{
 	//	window.draw(reloadQuickSprite);
 	//}
-	//ss.str(std::string());
-	//ss << pistolClip;
-	//gunClipText.setString(ss.str());
-	//if (pistolClip <= 3){ gunClipText.setColor(sf::Color::Red); }
-	//else{ gunClipText.setColor(sf::Color::Yellow); }
-	//if (pistolClip == 0){ gunClipText.setColor(sf::Color::Black); }
-	//window.draw(gunClipText);
-
-	//ss.str(std::string());
-	//gameTime = roundf(gameTime * 100) / 100;
-	//ss << gameTime;
-	//gameTimeText.setString(ss.str());
-	//window.draw(gameTimeText);
-
-	//window.draw(crosshairSprite);
 
 	currentGun->Draw(window);
 }
-
-//void Player::DrawResult(sf::RenderWindow& window)
-//{
-//	ss.str(std::string());
-//	gameTime = roundf(gameTime * 100) / 100;
-//	ss << gameTime;
-//	string txt = "You shot 6 targets in: ";
-//	gameTimeText.setString(txt + ss.str() + " seconds");
-//	gameTimeText.setPosition(50, 600);
-//
-//	window.draw(gameTimeText);
-//}
 
 //! Update the Player
 /*!
@@ -223,14 +142,6 @@ void Player::Draw(sf::RenderWindow& window)
 */
 void Player::Update(sf::RenderWindow& window, float frameTime)
 {
-	//gameTime += frameTime;
-	//UpdateReloadTimes(frameTime);
-	//smgFireRateTimer -= frameTime;
-
-	//quickReloadClicked = false;
-
-	//crosshairSprite.setPosition(sf::Mouse::getPosition(window).x + crhOffset.x, sf::Mouse::getPosition(window).y + crhOffset.y);
-
 	if (!sf::Mouse::isButtonPressed(sf::Mouse::Left))
 	{
 		leftMousePressed = false;
@@ -392,48 +303,6 @@ void Player::UpdateReloadTimes(float frameTime)
 */
 void Player::Shoot(sf::RenderWindow& window)
 {
-	////cout << "Shot Fired" << endl;
-	//if (pistolClip == 0 && CollisionManager::GetInstance()->CheckReloadCollision(crosshairSprite.getPosition(), reloadNormalSprite.getPosition(), reloadNormalSprite.getGlobalBounds()) == false){
-	//	SoundManager::GetInstance()->PlayOutOfAmmo();
-	//}
-	//if (pistolClip > 0 && CollisionManager::GetInstance()->CheckReloadCollision(crosshairSprite.getPosition(), reloadNormalSprite.getPosition(), reloadNormalSprite.getGlobalBounds()) == false)
-	//{
-	//	pistolClip -= 1;
-	//	SoundManager::GetInstance()->PlayPistolGunShot();
-	//	if (recoilType == 1)
-	//	{
-	//		if (!CollisionManager::GetInstance()->CheckTargetCollision(sf::Vector2f(crosshairSprite.getPosition().x, crosshairSprite.getPosition().y)) == true)
-	//		{
-	//			BulletManager::GetInstance()->AddBullet(crosshairSprite.getPosition());
-	//		}
-	//			
-	//	} //END Recoil Type 1
-	//	if (recoilType == 2)
-	//	{
-	//		if (recoilCoolDown == pistolRecoilCoolDownTime)
-	//		{
-	//			if (!CollisionManager::GetInstance()->CheckTargetCollision(sf::Vector2f(crosshairSprite.getPosition().x, crosshairSprite.getPosition().y)) == true)
-	//			{
-	//				BulletManager::GetInstance()->AddBullet(crosshairSprite.getPosition());
-	//			}
-	//		}
-	//		else if (recoilCoolDown < pistolRecoilCoolDownTime)
-	//		{
-	//			if (!CollisionManager::GetInstance()->CheckTargetCollision(sf::Vector2f(crosshairSprite.getPosition().x, crosshairSprite.getPosition().y) + PistolBulletRecoil()) == true)
-	//			{
-	//				BulletManager::GetInstance()->AddBullet(crosshairSprite.getPosition() + sf::Vector2f(randomXSway, yPistolRecoil));
-	//				//CollisionManager::GetInstance()->SetBulletTargCollision(crosshairSprite.getPosition() + sf::Vector2f(randomXSway, yPistolRecoil));
-	//			}
-	//			cout << "yRecoil: " << yPistolRecoil << endl;
-	//		}
-	//		if (recoilTimerActive == true && recoilType == 2)
-	//		{
-	//			recoilCoolDown = pistolRecoilCoolDownTime;
-	//		}
-	//		recoilTimerActive = true;
-	//	} //END Recoil Type 2
-	//	crhRecoilActive = true;
-	//}
 }
 
 //! Applys recoil to the crosshair sprite
@@ -444,89 +313,7 @@ void Player::Shoot(sf::RenderWindow& window)
 */
 void Player::CrosshairRecoil(sf::RenderWindow& window, float frameTime)
 {
-	//if (crhRecoilCalculated == false)
-	//{
-	//	if (recoilType == 1)
-	//	{
-	//		//crhRecoilDirection = sf::Vector2f(getRandomSway().x, 5);
-	//		crhRecoilDirection = sf::Vector2f(0, 5);
-	//		Normalize(crhRecoilDirection); //Make recoilDirection a unit vector
-	//		myOffset = crhRecoilDirection * crhRecoilSpeed * frameTime;
-	//		crhRecoilCalculated = true;
-	//	}
-	//	if (recoilType == 2)
-	//	{
-	//		crhRecoilDirection = sf::Vector2f(0, 5);
-	//		Normalize(crhRecoilDirection); //Make recoilDirection a unit vector
-	//		myOffset = crhRecoilDirection * crhRecoilSpeed * frameTime;
-	//		crhRecoilCalculated = true;
-	//	}
-	//}
-
-	//if (recoilType == 1)
-	//{
-	//	if (getcrhRecoilDistance() < 10)
-	//	{
-	//		crhOffset.x += myOffset.x;
-	//		crhOffset.y -= myOffset.y;
-	//	}
-	//	else
-	//	{
-	//		sf::Mouse::setPosition(sf::Vector2i(crosshairSprite.getPosition().x, crosshairSprite.getPosition().y), window);
-	//		crhOffset = sf::Vector2f(0, 0);
-	//		crhRecoilCalculated = false;
-	//		crhRecoilActive = false;
-	//	}
-	//}
-	//if (recoilType == 2)
-	//{
-	//	if (getcrhRecoilDistance() < 10 && crhRecoilUp == false)
-	//	{
-	//		//crhOffset -= myOffset;
-	//		crhOffset.x += myOffset.x;
-	//		crhOffset.y -= myOffset.y;
-	//		if (getcrhRecoilDistance() > 10)
-	//		{
-	//			crhRecoilUp = true;
-	//		}
-	//	}
-	//	if (crhRecoilUp == true)
-	//	{
-	//		crhOffset.x -= myOffset.x;
-	//		crhOffset.y += myOffset.y;
-	//	}
-	//	if (crhRecoilUp == true && getcrhRecoilDistance() <= 1)
-	//	{
-	//		//crhOffset = sf::Vector2f(0, 0);
-	//		crhRecoilUp = false;
-	//		crhRecoilActive = false;
-	//		crhRecoilCalculated = false;
-	//	}
-	//}
 }
-
-//sf::Vector2f Player::PistolBulletRecoil()
-//{
-//	sf::Vector2f rec;
-//	if (outOfControl == false)
-//	{
-//		yPistolRecoilStrengthTemp *= pistolRecoilMultiplier;
-//		rec = sf::Vector2f(getRandomSway().x, yPistolRecoil -= yPistolRecoilStrengthTemp);
-//	}
-//	if (yPistolRecoil < -100 && outOfControl == false)
-//	{
-//		outOfControl = true;
-//	}
-//	if (outOfControl == true)
-//	{
-//		randomXSway = rand() % 1000;
-//		randomXSway = (randomXSway / 10) - 50;
-//		float randomYSway = rand() % 1000;
-//		randomYSway = (randomYSway / 50) - 10;
-//		rec = sf::Vector2f(randomXSway, yPistolRecoil -= randomYSway);
-//	}
-//	return rec;
-//}
 
 Gun* Player::getCurrentGun()
 {

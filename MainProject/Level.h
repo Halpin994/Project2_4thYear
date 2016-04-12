@@ -1,6 +1,7 @@
 #include <iostream>
 using namespace std;
 #include "Player.h"
+#include "Target.h"
 #include <sstream>
 
 
@@ -11,17 +12,17 @@ class Level
 {
 public:
 
-	static Level* GetInstance();
+	//static Level* GetInstance();
 
-	~Level()
-	{
-		instanceFlag = false;
-	}
-	enum LevelStates { TUTORIAL, LEVEL1 };
-
+	//~Level()
+	//{
+	//	instanceFlag = false;
+	//}
+	//enum LevelStates { LEVEL1, LEVEL2 };
+	Level(string lvl);
 	void Load();
 	void SetUp();
-	void Draw(sf::RenderWindow& window);
+	void Draw(sf::RenderWindow& window, int layer);
 	void Update(Player *player, float);
 	void Restart();
 	void DrawResult(sf::RenderWindow& window);
@@ -29,32 +30,34 @@ public:
 
 	void Level::UpdateTut(Player *player, float frameTime);
 	void SetLevel(int lvl);
-	LevelStates Level::GetLevelState();
+	//LevelStates Level::GetLevelState();
 
-	
+	void AddTarget(sf::Vector2f pos, sf::Texture* targetImage, sf::Texture* bulletImage, float health, int layer);
+	void AddLevelSprite(sf::Texture* levelImage, int layer, sf::Vector2f position);
+
+	list<Target*> Level::GetListOfTargets();
 
 private:
-	Level()
-	{
-		levelState = LevelStates::TUTORIAL;
+	//{
+	//	levelState = LevelStates::LEVEL1;
 
-		tut_ShootInfoDisplayed = false;
-		tut_ReloadInfoDisplayed = false;
-		tut_QuickReloadDisplayed = false;
+	//	tut_ShootInfoDisplayed = false;
+	//	tut_ReloadInfoDisplayed = false;
+	//	tut_QuickReloadDisplayed = false;
 
-		tut_ShootInfoDraw = false;
-		tut_ReloadInfoDraw = false;
-		tut_QuickReloadDraw = false;
+	//	tut_ShootInfoDraw = false;
+	//	tut_ReloadInfoDraw = false;
+	//	tut_QuickReloadDraw = false;
 
-		gameTime = 0;
-		gameOverTime = 0;
+	//	gameTime = 0;
+	//	gameOverTime = 0;
 
-		targetRespawnTime = 0.4;
-		targetRespawn = targetRespawnTime;
-	}
+	//	targetRespawnTime = 0.4;
+	//	targetRespawn = targetRespawnTime;
+	//}
 
-	static bool instanceFlag;
-	static Level* instance;
+	//static bool instanceFlag;
+	//static Level* instance;
 
 
 	sf::Texture rangeBgTexture;
@@ -107,7 +110,16 @@ private:
 
 	sf::Sprite infoSprite;
 
-	LevelStates levelState;
+	list<Target*> targets;
+	list<std::pair<sf::Sprite, int>> levelSprites;
+
+	sf::String currentLevel;
+
+	//std::multimap<sf::Sprite, int> myMap;
+	//myMap.insert(std::pair<char, char>('A', 'B'));
+	//myMap.insert(std::pair<char, char>('A', 'C'));
+
+	//LevelStates levelState;
 
 	//Sprite stuff
 };

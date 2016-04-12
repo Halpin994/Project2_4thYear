@@ -8,6 +8,7 @@ using namespace std;
 
 #include "TargetManager.h"
 #include "BulletManager.h"
+#include "LevelManager.h"
 
 class CollisionManager
 {

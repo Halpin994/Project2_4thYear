@@ -1,5 +1,5 @@
 #include "stdafx.h"
-#include "SFML/Graphics.hpp"
+#include <SFML/Graphics.hpp>
 #include <SFML/OpenGL.hpp>
 
 #include <iostream>
@@ -9,22 +9,22 @@
 #include "BulletManager.h"
 #include "ScoreManager.h"
 
-bool Level::instanceFlag = false;
-Level* Level::instance = NULL;
-
-Level* Level::GetInstance()
-{
-	if (!instanceFlag)
-	{
-		instance = new Level;
-		instanceFlag = true;
-		return instance;
-	}
-	else
-	{
-		return instance;
-	}
-}
+//bool Level::instanceFlag = false;
+//Level* Level::instance = NULL;
+//
+//Level* Level::GetInstance()
+//{
+//	if (!instanceFlag)
+//	{
+//		instance = new Level;
+//		instanceFlag = true;
+//		return instance;
+//	}
+//	else
+//	{
+//		return instance;
+//	}
+//}
 
 //! Default Constructor
 /*!
@@ -32,6 +32,15 @@ Level* Level::GetInstance()
 \return none
 \sa
 */
+Level::Level(string lvl)
+{
+	gameTime = 0;
+	list<Target*> targets = list<Target*>();
+	Load();
+	SetUp();
+	currentLevel = lvl;
+	//gameOverTime = 0;
+}
 
 //! Load in assets
 /*!
@@ -41,17 +50,16 @@ Level* Level::GetInstance()
 */
 void Level::Load()
 {
-	rangeBgTexture.loadFromFile("Assets/Images/Game/basicRange.png");
-	level1BgTexture.loadFromFile("Assets/Images/Game/Level 2/lvl2_bg.png");
-	//rangeTexture.loadFromFile("Assets/Images/Game/Level 2/bg_level2.png"); 
-	shootInfoTexture.loadFromFile("Assets/Images/Game/Tutorial/tut_shoot.png");
-	reloadInfoTexture.loadFromFile("Assets/Images/Game/Tutorial/tut_reload.png");
-	quickReloadTexture.loadFromFile("Assets/Images/Game/Tutorial/tut_quickreload.png");
+	//rangeBgTexture.loadFromFile("Assets/Images/Game/basicRange.png");
+	//level1BgTexture.loadFromFile("Assets/Images/Game/Level 2/lvl2_bg.png");
+	//shootInfoTexture.loadFromFile("Assets/Images/Game/Tutorial/tut_shoot.png");
+	//reloadInfoTexture.loadFromFile("Assets/Images/Game/Tutorial/tut_reload.png");
+	//quickReloadTexture.loadFromFile("Assets/Images/Game/Tutorial/tut_quickreload.png");
 
-	texture_level1Layer1.loadFromFile("Assets/Images/Game/Level 2/lvl2_buildings_back.png");
-	texture_level1Layer2.loadFromFile("Assets/Images/Game/Level 2/lvl2_buildings_front.png");
-	texture_level1Layer3.loadFromFile("Assets/Images/Game/Level 2/lvl2_twoStones.png");
-	texture_level1Layer4.loadFromFile("Assets/Images/Game/Level 2/lvl2_foreground_sandbags.png");
+	//texture_level1Layer1.loadFromFile("Assets/Images/Game/Level 2/lvl2_buildings_back.png");
+	//texture_level1Layer2.loadFromFile("Assets/Images/Game/Level 2/lvl2_buildings_front.png");
+	//texture_level1Layer3.loadFromFile("Assets/Images/Game/Level 2/lvl2_twoStones.png");
+	//texture_level1Layer4.loadFromFile("Assets/Images/Game/Level 2/lvl2_foreground_sandbags.png");
 
 	font.loadFromFile("Assets/imagine_font.ttf");
 }
@@ -64,42 +72,42 @@ void Level::Load()
 */
 void Level::SetUp()
 {
-	if (levelState == LevelStates::TUTORIAL)
-	{
-		bgSprite.setTexture(rangeBgTexture, true);
-		TargetManager::GetInstance()->AddTargets(sf::Vector2f(395, 180), 100, 0);
-		TargetManager::GetInstance()->AddTargets(sf::Vector2f(600, 180), 100, 0);
-		TargetManager::GetInstance()->AddTargets(sf::Vector2f(810, 180), 100, 0);
-	}
+	//if (levelState == LevelStates::LEVEL1)
+	//{
+	//	bgSprite.setTexture(rangeBgTexture, true);
+	//	TargetManager::GetInstance()->AddTargets(sf::Vector2f(395, 180), 100, 0);
+	//	TargetManager::GetInstance()->AddTargets(sf::Vector2f(600, 180), 10000, 0);
+	//	TargetManager::GetInstance()->AddTargets(sf::Vector2f(810, 180), 100, 0);
+	//}
 
-	if (levelState == LevelStates::LEVEL1)
-	{
-		spr_level1Layer1.setTexture(texture_level1Layer1);
-		spr_level1Layer2.setTexture(texture_level1Layer2);
-		spr_level1Layer3.setTexture(texture_level1Layer3);
-		spr_level1Layer4.setTexture(texture_level1Layer4);
+	//if (levelState == LevelStates::LEVEL2)
+	//{
+	//	spr_level1Layer1.setTexture(texture_level1Layer1);
+	//	spr_level1Layer2.setTexture(texture_level1Layer2);
+	//	spr_level1Layer3.setTexture(texture_level1Layer3);
+	//	spr_level1Layer4.setTexture(texture_level1Layer4);
 
-		//Right side building
-		TargetManager::GetInstance()->AddTargets(sf::Vector2f(840, 200), 100, 1);
-		TargetManager::GetInstance()->AddTargets(sf::Vector2f(790, 200), 100, 1);
-		//Right side building
+	//	//Right side building
+	//	TargetManager::GetInstance()->AddTargets(sf::Vector2f(840, 200), 100, 1);
+	//	TargetManager::GetInstance()->AddTargets(sf::Vector2f(790, 200), 100, 1);
+	//	//Right side building
 
-		//Back sandbags
-		TargetManager::GetInstance()->AddTargets(sf::Vector2f(395, 240), 100, 1);
-		//Back sandbags
+	//	//Back sandbags
+	//	TargetManager::GetInstance()->AddTargets(sf::Vector2f(395, 240), 100, 1);
+	//	//Back sandbags
 
-		//Left fake building
-		TargetManager::GetInstance()->AddTargets(sf::Vector2f(220, 240), 100, 1);
-		//Left fake building
+	//	//Left fake building
+	//	TargetManager::GetInstance()->AddTargets(sf::Vector2f(220, 240), 100, 1);
+	//	//Left fake building
 
-		//Foreground rock
-		TargetManager::GetInstance()->AddTargets(sf::Vector2f(600, 380), 100, 2);
-		//Foreground rock
+	//	//Foreground rock
+	//	TargetManager::GetInstance()->AddTargets(sf::Vector2f(600, 380), 100, 2);
+	//	//Foreground rock
 
-		//Foreground sandbags
-		TargetManager::GetInstance()->AddTargets(sf::Vector2f(810, 300), 100, 3);
-		//Foreground sandbags
-	}
+	//	//Foreground sandbags
+	//	TargetManager::GetInstance()->AddTargets(sf::Vector2f(810, 300), 100, 3);
+	//	//Foreground sandbags
+	//}
 
 
 
@@ -122,65 +130,75 @@ void Level::SetUp()
 \return none
 \sa
 */
-void Level::Draw(sf::RenderWindow& window)
+void Level::Draw(sf::RenderWindow& window, int layer)
 {
-	if (levelState == LevelStates::TUTORIAL)
+	for (std::list<std::pair<sf::Sprite, int>>::iterator iter = levelSprites.begin(), end = levelSprites.end(); iter != end; iter++)
 	{
-		window.draw(bgSprite);
-		BulletManager::GetInstance()->Draw(window);
-		TargetManager::GetInstance()->Draw(window, 0);
+		if (iter->second == layer)
+		{
+			window.draw(iter->first);
+		}
 	}
-	else if (levelState == LevelStates::LEVEL1)
-	{
-		window.draw(bgSprite);
 
-		window.draw(spr_level1Layer1);
-		//Draw enemies behind the buildings and in the watch tower here
-		TargetManager::GetInstance()->Draw(window, 1);
-		window.draw(spr_level1Layer2);
-		//Draw enemies behind the stones here
-		TargetManager::GetInstance()->Draw(window, 2);
-		window.draw(spr_level1Layer3);
-		//Draw enemies behind the foreground sandbags here
-		TargetManager::GetInstance()->Draw(window, 3);
-		window.draw(spr_level1Layer4);
+	TargetManager::GetInstance()->Draw(window, layer, targets);
 
-		BulletManager::GetInstance()->Draw(window);
-		//TargetManager::GetInstance()->Draw(window);
-	}
+	//if (levelState == LevelStates::LEVEL1)
+	//{
+	//	window.draw(bgSprite);
+	//	BulletManager::GetInstance()->Draw(window);
+	//	TargetManager::GetInstance()->Draw(window, 0);
+	//}
+	//else if (levelState == LevelStates::LEVEL2)
+	//{
+	//	window.draw(bgSprite);
+
+	//	window.draw(spr_level1Layer1);
+	//	//Draw enemies behind the buildings and in the watch tower here
+	//	TargetManager::GetInstance()->Draw(window, 1);
+	//	window.draw(spr_level1Layer2);
+	//	//Draw enemies behind the stones here
+	//	TargetManager::GetInstance()->Draw(window, 2);
+	//	window.draw(spr_level1Layer3);
+	//	//Draw enemies behind the foreground sandbags here
+	//	TargetManager::GetInstance()->Draw(window, 3);
+	//	window.draw(spr_level1Layer4);
+
+	//	BulletManager::GetInstance()->Draw(window);
+	//	//TargetManager::GetInstance()->Draw(window);
+	//}
 }
 
 void Level::DrawOverlayUI(sf::RenderWindow& window)
 {
 	ss.str(std::string());
-	gameTime = roundf(gameTime * 100) / 100; //1000 means game time will be rounded to three decimal places
+	gameTime = roundf(gameTime * 100) / 100;
 	ss << gameTime;
 	gameTimeText.setString(ss.str());
 	window.draw(gameTimeText);
 
 	ss.str(std::string());
-	frameRate = roundf(frameRate * 1) / 1; //1000 means game time will be rounded to three decimal places
+	frameRate = roundf(frameRate * 1) / 1; //replace 1 with 1000 and game time will be rounded to three decimal places
 	ss << frameRate;
 	frameRateText.setString(ss.str());
 	window.draw(frameRateText);
 
 	ScoreManager::GetInstance()->Draw(window);
 	
-	if (levelState == LevelStates::TUTORIAL)
-	{
-		if (tut_ShootInfoDraw == true)
-		{
-			window.draw(infoSprite);
-		}
-		if (tut_ReloadInfoDraw == true)
-		{
-			window.draw(infoSprite);
-		}
-		if (tut_QuickReloadDraw == true)
-		{
-			window.draw(infoSprite);
-		}
-	}
+	//if (levelState == LevelStates::LEVEL1)
+	//{
+	//	if (tut_ShootInfoDraw == true)
+	//	{
+	//		window.draw(infoSprite);
+	//	}
+	//	if (tut_ReloadInfoDraw == true)
+	//	{
+	//		window.draw(infoSprite);
+	//	}
+	//	if (tut_QuickReloadDraw == true)
+	//	{
+	//		window.draw(infoSprite);
+	//	}
+	//}
 }
 
 void Level::Update(Player *player, float frameTime)
@@ -202,30 +220,30 @@ void Level::Update(Player *player, float frameTime)
 
 	
 	ScoreManager::GetInstance()->Update(frameTime, player);
-	TargetManager::GetInstance()->Update(frameTime);
+	TargetManager::GetInstance()->Update(frameTime, &targets);
 	
-	if (levelState == LevelStates::TUTORIAL)
-	{
-		if (TargetManager::GetInstance()->GetSizeOfTargets() == 0)
-		{
-			targetRespawn -= frameTime;
-			if (targetRespawn < 0)
-			{
-				TargetManager::GetInstance()->AddTargets(sf::Vector2f(395, 180), 100, 0);
-				TargetManager::GetInstance()->AddTargets(sf::Vector2f(600, 180), 10000, 0);
-				TargetManager::GetInstance()->AddTargets(sf::Vector2f(810, 180), 100, 0);
-				SoundManager::GetInstance()->PlayClick();
-				targetRespawn = targetRespawnTime;
-			}
-		}
+	//if (levelState == LevelStates::LEVEL1)
+	//{
+	//	if (TargetManager::GetInstance()->GetSizeOfTargets() == 0)
+	//	{
+	//		targetRespawn -= frameTime;
+	//		if (targetRespawn < 0)
+	//		{
+	//			TargetManager::GetInstance()->AddTargets(sf::Vector2f(395, 180), 100, 0);
+	//			TargetManager::GetInstance()->AddTargets(sf::Vector2f(600, 180), 10000, 0);
+	//			TargetManager::GetInstance()->AddTargets(sf::Vector2f(810, 180), 100, 0);
+	//			SoundManager::GetInstance()->PlayClick();
+	//			targetRespawn = targetRespawnTime;
+	//		}
+	//	}
 
-		UpdateTut(player, frameTime);
-	}
+	//	UpdateTut(player, frameTime);
+	//}
 
-	if (levelState == LevelStates::LEVEL1)
-	{
-		bgSprite.setTexture(level1BgTexture, true);
-	}
+	//if (levelState == LevelStates::LEVEL2)
+	//{
+	//	bgSprite.setTexture(level1BgTexture, true);
+	//}
 }
 
 void Level::Restart()
@@ -272,61 +290,82 @@ void Level::DrawResult(sf::RenderWindow& window)
 	window.draw(buttonText);
 }
 
-void Level::UpdateTut(Player *player, float frameTime)
+//void Level::UpdateTut(Player *player, float frameTime)
+//{
+//	if (player->getLeftClicked())
+//	{
+//		tut_ShootInfoDraw = false;
+//	}
+//	if (player->getNormReloadClicked())
+//	{
+//		tut_ReloadInfoDraw = false;
+//	}
+//	if (player->getQuickReloadClicked())
+//	{
+//		tut_QuickReloadDraw = false;
+//	}
+//
+//	if (tut_ShootInfoDisplayed == false && gameTime > 1.0f)
+//	{
+//		tut_ShootInfoDraw = true;
+//		tut_ShootInfoDisplayed = true;
+//		infoSprite.setTexture(shootInfoTexture, true);
+//		SoundManager::GetInstance()->PlayInfoSoundEffect();
+//		infoSprite.setPosition(750, 460);
+//	}
+//	if (tut_ReloadInfoDisplayed == false && player->getClipCount() < player->getMaxClip() / 2 && tut_ShootInfoDraw == false && tut_QuickReloadDraw == false)
+//	{
+//		tut_ReloadInfoDraw = true;
+//		tut_ReloadInfoDisplayed = true;
+//		infoSprite.setTexture(reloadInfoTexture, true);
+//		SoundManager::GetInstance()->PlayInfoSoundEffect();
+//		infoSprite.setPosition(475, 460);
+//	}
+//	if (tut_QuickReloadDisplayed == false && player->getClipCount() <= 3 && tut_ShootInfoDraw == false && tut_ReloadInfoDraw == false && player->getNormReloadClicked() == false)
+//	{
+//		tut_QuickReloadDraw = true;
+//		tut_QuickReloadDisplayed = true;
+//		infoSprite.setTexture(quickReloadTexture, true);
+//		SoundManager::GetInstance()->PlayInfoSoundEffect();
+//		//infoSprite.setPosition(475, 460);
+//	}
+//
+//	if (tut_ShootInfoDraw == true || tut_ReloadInfoDraw == true || tut_QuickReloadDraw == true)
+//	{
+//		tut_displayTimer += frameTime;
+//	}
+//}
+
+//void Level::SetLevel(int lvl)
+//{
+//	if (lvl == 1)
+//	{
+//		levelState = LevelStates::LEVEL1;
+//	}
+//}
+
+//Level::LevelStates Level::GetLevelState()
+//{
+//	return levelState;
+//}
+
+void Level::AddTarget(sf::Vector2f pos, sf::Texture* targetImage, sf::Texture* bulletImage, float health, int layer)
 {
-	if (player->getLeftClicked())
-	{
-		tut_ShootInfoDraw = false;
-	}
-	if (player->getNormReloadClicked())
-	{
-		tut_ReloadInfoDraw = false;
-	}
-	if (player->getQuickReloadClicked())
-	{
-		tut_QuickReloadDraw = false;
-	}
-
-	if (tut_ShootInfoDisplayed == false && gameTime > 1.0f)
-	{
-		tut_ShootInfoDraw = true;
-		tut_ShootInfoDisplayed = true;
-		infoSprite.setTexture(shootInfoTexture, true);
-		SoundManager::GetInstance()->PlayInfoSoundEffect();
-		infoSprite.setPosition(750, 460);
-	}
-	if (tut_ReloadInfoDisplayed == false && player->getClipCount() < player->getMaxClip() / 2 && tut_ShootInfoDraw == false && tut_QuickReloadDraw == false)
-	{
-		tut_ReloadInfoDraw = true;
-		tut_ReloadInfoDisplayed = true;
-		infoSprite.setTexture(reloadInfoTexture, true);
-		SoundManager::GetInstance()->PlayInfoSoundEffect();
-		infoSprite.setPosition(475, 460);
-	}
-	if (tut_QuickReloadDisplayed == false && player->getClipCount() <= 3 && tut_ShootInfoDraw == false && tut_ReloadInfoDraw == false && player->getNormReloadClicked() == false)
-	{
-		tut_QuickReloadDraw = true;
-		tut_QuickReloadDisplayed = true;
-		infoSprite.setTexture(quickReloadTexture, true);
-		SoundManager::GetInstance()->PlayInfoSoundEffect();
-		//infoSprite.setPosition(475, 460);
-	}
-
-	if (tut_ShootInfoDraw == true || tut_ReloadInfoDraw == true || tut_QuickReloadDraw == true)
-	{
-		tut_displayTimer += frameTime;
-	}
+	Target* t = new Target();
+	t->SetUp(pos, targetImage, bulletImage, health, layer);
+	targets.push_back(t);
 }
 
-void Level::SetLevel(int lvl)
+void Level::AddLevelSprite(sf::Texture* levelImage, int layer, sf::Vector2f position)
 {
-	if (lvl == 1)
-	{
-		levelState = LevelStates::LEVEL1;
-	}
+	sf::Sprite s;
+	s.setTexture(*levelImage);
+	s.setPosition(position);
+	levelSprites.push_back(std::make_pair(s, layer));
+
 }
 
-Level::LevelStates Level::GetLevelState()
+list<Target*> Level::GetListOfTargets()
 {
-	return levelState;
+	return targets;
 }

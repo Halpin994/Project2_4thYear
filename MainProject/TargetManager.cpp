@@ -41,16 +41,16 @@ TargetManager* TargetManager::GetInstance()
 */
 void TargetManager::AddTargets(sf::Vector2f targetPos, float tHealth, int tLayer)
 {
-	Target* t = new Target();
-	if (Level::GetInstance()->GetLevelState() == Level::GetInstance()->TUTORIAL)
-	{
-		t->SetUp(targetPos, &targetTexture, &bulletWoodTexture, tHealth, tLayer);
-	}
-	else if (Level::GetInstance()->GetLevelState() == Level::GetInstance()->LEVEL1)
-	{
-		t->SetUp(targetPos, &target2Texture, &bulletWoodTexture, tHealth, tLayer);
-	}
-	targets.push_back(t);
+	//Target* t = new Target();
+	//if (Level::GetInstance()->GetLevelState() == Level::GetInstance()->LEVEL1)
+	//{
+	//	t->SetUp(targetPos, &targetTexture, &bulletWoodTexture, tHealth, tLayer);
+	//}
+	//else if (Level::GetInstance()->GetLevelState() == Level::GetInstance()->LEVEL2)
+	//{
+	//	t->SetUp(targetPos, &target2Texture, &bulletWoodTexture, tHealth, tLayer);
+	//}
+	//targets.push_back(t);
 }
 
 
@@ -62,26 +62,26 @@ void TargetManager::AddTargets(sf::Vector2f targetPos, float tHealth, int tLayer
 \return none
 \sa
 */
-void TargetManager::Draw(sf::RenderWindow& window, int layer)
+void TargetManager::Draw(sf::RenderWindow& window, int layer, list<Target*> targets)
 {
 	//list<Target>::iterator targetITER = targets.end();
 	//for (targetITER = targets.end(); targetITER != targets.begin(); --targetITER)
 	for (Target* t: targets)
 	{
-		if (t->GetLayer() == layer && t->GetTimeToLive() > 0)
+		if (t->GetLayer() == layer)// && t->GetTimeToLive() > 0)
 		t->Draw(window);
 	}
 }
 
-void TargetManager::Update(float ft)
+void TargetManager::Update(float ft, list<Target*>* targets)
 {
-	for (std::list<Target*>::iterator targetIter = targets.begin(), endIter = targets.end(); targetIter != endIter; )
+	for (std::list<Target*>::iterator targetIter = targets->begin(), endIter = targets->end(); targetIter != endIter;)
 	{
 		//Pull the pointer from the iterator
 		//Target* currentTarget = (*targetIter);
 
 		//If we have a TTL, update
-		if ((*targetIter)->GetTimeToLive() > 0)
+		if ((*targetIter)->GetHealth() > 0)
 		{
 			(*targetIter)->Update(ft);
 
@@ -90,24 +90,25 @@ void TargetManager::Update(float ft)
 		}
 		else
 		{
+			
 			//Delete target
 			delete (*targetIter);
-
 			//Update iterator by erasing
-			targetIter = targets.erase(targetIter);
+			targetIter = targets->erase(targetIter);
+			
 		}
 	}
 }
 
-list<Target*>& TargetManager::GetListOfTargets()
-{
-	return targets;
-}
-
-int TargetManager::GetSizeOfTargets()
-{
-	return targets.size();
-}
+//list<Target*>& TargetManager::GetListOfTargets()
+//{
+//	return targets;
+//}
+//
+//int TargetManager::GetSizeOfTargets()
+//{
+//	return targets.size();
+//}
 
 void TargetManager::targetsEliminatedPlus()
 {

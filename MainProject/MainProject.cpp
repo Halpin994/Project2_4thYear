@@ -3,7 +3,7 @@
 
 #include "Player.h"
 #include "Menu.h"
-#include "Level.h"
+#include "LevelManager.h"
 #include "Target.h"
 #include "GameStateManager.h"
 #include "BulletManager.h"
@@ -76,32 +76,32 @@ int main()
 			break;
 		case GameStateManager::GameStates::GAME: //Game state
 
-			Level::GetInstance()->Update(player, time);
+			LevelManager::GetInstance()->Update(player, time);
 			player->Update(window, time);
 
 			window.clear(); //clear the previous screen
 
-			Level::GetInstance()->Draw(window);
+			LevelManager::GetInstance()->Draw(window);
 			player->Draw(window);
-			Level::GetInstance()->DrawOverlayUI(window);
+			//Level::GetInstance()->DrawOverlayUI(window);
 
 			window.display(); //display the updated screen
 			break;
 		case GameStateManager::GameStates::GAMEOVER: //Gameover state
 			window.clear(); //clear the previous screen
-			Level::GetInstance()->DrawResult(window);
+			//Level::GetInstance()->DrawResult(window);
 			window.display(); //display the updated screen
 			if (sf::Keyboard::isKeyPressed(sf::Keyboard::R))
 			{
 				player->Restart();
-				Level::GetInstance()->Restart();
+				//Level::GetInstance()->Restart();
 				GameStateManager::GetInstance()->SetGameState(GameStateManager::GameStates::GAME);
 			}
 			else if (sf::Keyboard::isKeyPressed(sf::Keyboard::C))
 			{
-				Level::GetInstance()->SetLevel(1);
+				//Level::GetInstance()->SetLevel(1);
 				player->Restart();
-				Level::GetInstance()->Restart();
+				//Level::GetInstance()->Restart();
 				GameStateManager::GetInstance()->SetGameState(GameStateManager::GameStates::GAME);
 			}
 			break;
