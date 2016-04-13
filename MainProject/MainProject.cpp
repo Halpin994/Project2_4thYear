@@ -104,6 +104,18 @@ int main()
 				GameStateManager::GetInstance()->SetGameState(GameStateManager::GameStates::GAME);
 			}
 			break;
+		case GameStateManager::GameStates::LEVEL_SELECT:
+
+			menu->Update(window);
+			menu->CheckMouseLevelSelect(window);
+
+			window.clear(); //clear the previous screen
+			menu->Draw(window);
+			menu->DrawLevelSelect(window);
+			menu->DrawCrosshair(window);
+			window.display(); //display the updated screen
+
+			break;
 		case GameStateManager::GameStates::QUIT: //Quit game state
 			window.close();
 			break;

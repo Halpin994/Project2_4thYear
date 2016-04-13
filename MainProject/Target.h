@@ -30,6 +30,7 @@ public:
 	void Target::AddBullet(sf::Vector2f, static int bulletType);
 	int Target::GetLayer();
 	float Target::GetTimeToLive();
+	sf::FloatRect Target::GetGlobalBounds();
 
 	void Update(float);
 

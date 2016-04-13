@@ -15,7 +15,7 @@ public:
 
 	static GameStateManager* GetInstance();
 
-	enum class GameStates { MAIN_MENU, OPTIONS, GAME, GAMEOVER, QUIT };
+	enum class GameStates { MAIN_MENU, LEVEL_SELECT, OPTIONS, GAME, GAMEOVER, QUIT };
 
 	void SetGameState(GameStates);
 	GameStates GetGameState();

@@ -117,7 +117,9 @@ void Player::Draw(sf::RenderWindow& window)
 			window.draw(clipBulletSprite);
 		}
 	}
+
 	window.draw(pistolClipSprite);
+	currentGun->Draw(window);
 
 	//if (pistolClip == pistolClipSize || normalReloadClicked == true)
 	//{
@@ -132,7 +134,6 @@ void Player::Draw(sf::RenderWindow& window)
 	//	window.draw(reloadQuickSprite);
 	//}
 
-	currentGun->Draw(window);
 }
 
 //! Update the Player
@@ -154,7 +155,6 @@ void Player::Update(sf::RenderWindow& window, float frameTime)
 	}
 	if (sf::Mouse::isButtonPressed(sf::Mouse::Left) && leftMousePressed == false)
 	{
-		
 		currentGun->Shoot();
 		if (currentGun->getGunType() == Gun::PISTOL)
 		{

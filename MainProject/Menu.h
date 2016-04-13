@@ -20,8 +20,9 @@ public:
 
 	void Menu::CheckMouseMenu(sf::RenderWindow& window);
 	void Menu::CheckMouseOptions(sf::RenderWindow& window);
+	void Menu::CheckMouseLevelSelect(sf::RenderWindow& window);
 
-
+	void Menu::DrawLevelSelect(sf::RenderWindow& window);
 	//GameStateManager stateManager;
 
 private:
@@ -55,6 +56,7 @@ private:
 
 	bool highlighted;
 	bool optionsHighlighted;
+	bool levelHighlighted;
 
 	bool volumeClicked;
 
@@ -64,6 +66,11 @@ private:
 	sf::Font font;
 	sf::Text volumeText;
 	std::stringstream ss;
+
+	sf::Text Level_1_Text;
+	sf::Text Level_1_Headshots_Text;
+	sf::Text Level_1_Score_Text;
+	sf::Text Level_1_Speed_Text;
 
 };
 #endif 

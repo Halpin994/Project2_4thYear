@@ -65,6 +65,11 @@ sf::Vector2f Target::GetPosition()
 	return targetSprite.getPosition();
 }
 
+sf::FloatRect Target::GetGlobalBounds()
+{
+	return targetSprite.getGlobalBounds();
+}
+
 int Target::GetLayer()
 {
 	return targetLayer;
