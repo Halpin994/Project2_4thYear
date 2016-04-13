@@ -57,6 +57,9 @@ private:
 	bool highlighted;
 	bool optionsHighlighted;
 	bool levelHighlighted;
+	bool levelModeHighlighted;
+	bool displayLevel1Modes;
+	bool displayLevel2Modes;
 
 	bool volumeClicked;
 
@@ -72,5 +75,9 @@ private:
 	sf::Text Level_1_Score_Text;
 	sf::Text Level_1_Speed_Text;
 
+	sf::Text Level_2_Text;
+	sf::Text Level_2_Headshots_Text;
+	sf::Text Level_2_Score_Text;
+	sf::Text Level_2_Speed_Text;
 };
 #endif 

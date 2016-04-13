@@ -99,29 +99,52 @@ void Menu::SetUp()
 	volumeText.setColor(sf::Color::Green);
 
 	Level_1_Text.setFont(font);
-	Level_1_Headshots_Text.setFont(font);
-	Level_1_Score_Text.setFont(font);
-	Level_1_Speed_Text.setFont(font);
-
 	Level_1_Text.setCharacterSize(22);
-	Level_1_Headshots_Text.setCharacterSize(22);
-	Level_1_Score_Text.setCharacterSize(22);
-	Level_1_Speed_Text.setCharacterSize(22);
+	Level_1_Text.setColor(sf::Color::White);
+	Level_1_Text.setString("Level 1");
+	Level_1_Text.setPosition(sf::Vector2f(playGame_spr.getPosition().x + playGame_spr.getGlobalBounds().width + 50, playGame_spr.getPosition().y - playGame_spr.getGlobalBounds().height / 1.5));
 
-	Level_1_Text.setPosition(sf::Vector2f(playGame_spr.getPosition().x + playGame_spr.getGlobalBounds().width + 50, playGame_spr.getPosition().y - playGame_spr.getGlobalBounds().height/1.5));
-	Level_1_Headshots_Text.setPosition(sf::Vector2f(Level_1_Text.getPosition().x, Level_1_Text.getPosition().y + 30));
-	Level_1_Score_Text.setPosition(sf::Vector2f(Level_1_Headshots_Text.getPosition().x, Level_1_Headshots_Text.getPosition().y + 30));
+	Level_1_Score_Text.setFont(font);
+	Level_1_Score_Text.setCharacterSize(22);
+	Level_1_Score_Text.setColor(sf::Color::White);
+	Level_1_Score_Text.setString("HighScore");
+	Level_1_Score_Text.setPosition(sf::Vector2f(sf::Vector2f(Level_1_Text.getPosition().x + Level_1_Text.getGlobalBounds().width + 50, Level_1_Text.getPosition().y)));
+
+	Level_1_Speed_Text.setFont(font);
+	Level_1_Speed_Text.setCharacterSize(22);
+	Level_1_Speed_Text.setColor(sf::Color::White);
+	Level_1_Speed_Text.setString("HighSpeed");
 	Level_1_Speed_Text.setPosition(sf::Vector2f(Level_1_Score_Text.getPosition().x, Level_1_Score_Text.getPosition().y + 30));
 
-	Level_1_Text.setColor(sf::Color::White);
+	Level_1_Headshots_Text.setFont(font);
+	Level_1_Headshots_Text.setCharacterSize(22);
 	Level_1_Headshots_Text.setColor(sf::Color::White);
-	Level_1_Score_Text.setColor(sf::Color::White);
-	Level_1_Speed_Text.setColor(sf::Color::White);
+	Level_1_Headshots_Text.setString("Headshots");
+	Level_1_Headshots_Text.setPosition(sf::Vector2f(Level_1_Speed_Text.getPosition().x, Level_1_Speed_Text.getPosition().y + 30));
 
-	Level_1_Text.setString("Level 1");
-	Level_1_Headshots_Text.setString("Level 1 - Headshots");
-	Level_1_Score_Text.setString("Level 1 - HighScore");
-	Level_1_Speed_Text.setString("Level 1 - HighSpeed");
+	Level_2_Text.setFont(font);
+	Level_2_Text.setCharacterSize(22);
+	Level_2_Text.setColor(sf::Color::White);
+	Level_2_Text.setString("Level 2");
+	Level_2_Text.setPosition(sf::Vector2f(Level_1_Text.getPosition().x, Level_1_Text.getPosition().y + 30));
+
+	Level_2_Score_Text.setFont(font);
+	Level_2_Score_Text.setCharacterSize(22);
+	Level_2_Score_Text.setColor(sf::Color::White);
+	Level_2_Score_Text.setString("HighScore");
+	Level_2_Score_Text.setPosition(sf::Vector2f(sf::Vector2f(Level_1_Text.getPosition().x + Level_1_Text.getGlobalBounds().width + 50, Level_2_Text.getPosition().y)));
+
+	Level_2_Speed_Text.setFont(font);
+	Level_2_Speed_Text.setCharacterSize(22);
+	Level_2_Speed_Text.setColor(sf::Color::White);
+	Level_2_Speed_Text.setString("HighSpeed");
+	Level_2_Speed_Text.setPosition(sf::Vector2f(Level_2_Score_Text.getPosition().x, Level_2_Score_Text.getPosition().y + 30));
+
+	Level_2_Headshots_Text.setFont(font);
+	Level_2_Headshots_Text.setCharacterSize(22);
+	Level_2_Headshots_Text.setColor(sf::Color::White);
+	Level_2_Headshots_Text.setString("Headshots");
+	Level_2_Headshots_Text.setPosition(sf::Vector2f(Level_2_Speed_Text.getPosition().x, Level_2_Speed_Text.getPosition().y + 30));
 }
 
 //! Draw the menu
@@ -159,9 +182,19 @@ void Menu::DrawOptions(sf::RenderWindow& window)
 void Menu::DrawLevelSelect(sf::RenderWindow& window)
 {
 	window.draw(Level_1_Text);
-	window.draw(Level_1_Headshots_Text);
-	window.draw(Level_1_Score_Text);
-	window.draw(Level_1_Speed_Text);
+	window.draw(Level_2_Text);
+	if (displayLevel1Modes)
+	{
+		window.draw(Level_1_Headshots_Text);
+		window.draw(Level_1_Score_Text);
+		window.draw(Level_1_Speed_Text);
+	}
+	if (displayLevel2Modes)
+	{
+		window.draw(Level_2_Headshots_Text);
+		window.draw(Level_2_Score_Text);
+		window.draw(Level_2_Speed_Text);
+	}
 }
 
 
@@ -321,70 +354,164 @@ void Menu::CheckMouseLevelSelect(sf::RenderWindow& window)
 	{
 		if (levelHighlighted == false)
 		{
-			Level_1_Text.setString("->Level 1");
+			
 			Level_1_Text.setColor(sf::Color::Yellow);
 			SoundManager::GetInstance()->PlayClick();
 			levelHighlighted = true;
+
+			
+			displayLevel2Modes = false;
 		}
 		if (sf::Mouse::isButtonPressed(sf::Mouse::Left))
 		{
-			LevelManager::GetInstance()->CreateLevel("Level1");
-			GameStateManager::GetInstance()->SetGameState(GameStateManager::GameStates::GAME);
+			Level_1_Text.setString("Level  1 -> ");
+			displayLevel1Modes = true;
+			//LevelManager::GetInstance()->CreateLevel("Level1");
+			//GameStateManager::GetInstance()->SetGameState(GameStateManager::GameStates::GAME);
 		}
 	}
-	else
+	else// if (displayLevel1Modes == false)
 	{
+		if (displayLevel1Modes == false)
+		{
+			Level_1_Text.setString("Level  1");
+		}
+		//displayLevelModes = false;
 		levelHighlighted = false;
-		Level_1_Text.setString("Level 1");
 		Level_1_Text.setColor(sf::Color::White);
 	}
 
-	if (Level_1_Headshots_Text.getGlobalBounds().contains(sf::Vector2f(sf::Mouse::getPosition(window))))
+	if (Level_2_Text.getGlobalBounds().contains(sf::Vector2f(sf::Mouse::getPosition(window))))
 	{
-		Level_1_Headshots_Text.setString("->Level 1 - Headshots");
-		Level_1_Headshots_Text.setColor(sf::Color::Yellow);
+		if (levelHighlighted == false)
+		{
+			
+			Level_2_Text.setColor(sf::Color::Yellow);
+			SoundManager::GetInstance()->PlayClick();
+			levelHighlighted = true;
+
+			displayLevel1Modes = false;
+			
+		}
 		if (sf::Mouse::isButtonPressed(sf::Mouse::Left))
 		{
-			LevelManager::GetInstance()->CreateLevel("Level1");
-			GameStateManager::GetInstance()->SetGameState(GameStateManager::GameStates::GAME);
+			Level_2_Text.setString("Level 2 -> ");
+			displayLevel2Modes = true;
+			//LevelManager::GetInstance()->CreateLevel("Level1");
+			//GameStateManager::GetInstance()->SetGameState(GameStateManager::GameStates::GAME);
 		}
 	}
-	else
+	else //if (displayLevel2Modes == false)
 	{
-		Level_1_Headshots_Text.setString("Level 1 - Headshots");
-		Level_1_Headshots_Text.setColor(sf::Color::White);
-	}
-
-	if (Level_1_Score_Text.getGlobalBounds().contains(sf::Vector2f(sf::Mouse::getPosition(window))))
-	{
-		Level_1_Score_Text.setString("->Level 1 - Highscore");
-		Level_1_Score_Text.setColor(sf::Color::Yellow);
-		if (sf::Mouse::isButtonPressed(sf::Mouse::Left))
+		if (displayLevel2Modes == false)
 		{
-			LevelManager::GetInstance()->CreateLevel("Level1");
-			GameStateManager::GetInstance()->SetGameState(GameStateManager::GameStates::GAME);
+			Level_2_Text.setString("Level 2");
 		}
-	}
-	else
-	{
-		Level_1_Score_Text.setString("Level 1 - Highscore");
-		Level_1_Score_Text.setColor(sf::Color::White);
+		//displayLevelModes = false;
+		levelHighlighted = false;
+		Level_2_Text.setColor(sf::Color::White);
 	}
 
-	if (Level_1_Speed_Text.getGlobalBounds().contains(sf::Vector2f(sf::Mouse::getPosition(window))))
+	//LEVEL MODES
+	if (displayLevel1Modes)
 	{
-		Level_1_Speed_Text.setString("->Level 1 - Highspeed");
-		Level_1_Speed_Text.setColor(sf::Color::Yellow);
-		if (sf::Mouse::isButtonPressed(sf::Mouse::Left))
+		if (Level_1_Headshots_Text.getGlobalBounds().contains(sf::Vector2f(sf::Mouse::getPosition(window))))
 		{
-			LevelManager::GetInstance()->CreateLevel("Level1");
-			GameStateManager::GetInstance()->SetGameState(GameStateManager::GameStates::GAME);
+			//Level_1_Headshots_Text.setString("->Level 1 - Headshots");
+			Level_1_Headshots_Text.setColor(sf::Color::Yellow);
+			if (sf::Mouse::isButtonPressed(sf::Mouse::Left))
+			{
+				//LevelManager::GetInstance()->CreateLevel("Level1");
+				//GameStateManager::GetInstance()->SetGameState(GameStateManager::GameStates::GAME);
+			}
+		}
+		else
+		{
+			//Level_1_Headshots_Text.setString("Level 1 - Headshots");
+			Level_1_Headshots_Text.setColor(sf::Color::White);
+		}
+
+		if (Level_1_Score_Text.getGlobalBounds().contains(sf::Vector2f(sf::Mouse::getPosition(window))))
+		{
+			//Level_1_Score_Text.setString("->Level 1 - Highscore");
+			Level_1_Score_Text.setColor(sf::Color::Yellow);
+			if (sf::Mouse::isButtonPressed(sf::Mouse::Left))
+			{
+				LevelManager::GetInstance()->CreateLevel("Level1");
+				GameStateManager::GetInstance()->SetGameState(GameStateManager::GameStates::GAME);
+			}
+		}
+		else
+		{
+			//Level_1_Score_Text.setString("Level 1 - Highscore");
+			Level_1_Score_Text.setColor(sf::Color::White);
+		}
+
+		if (Level_1_Speed_Text.getGlobalBounds().contains(sf::Vector2f(sf::Mouse::getPosition(window))))
+		{
+			//Level_1_Speed_Text.setString("->Level 1 - Highspeed");
+			Level_1_Speed_Text.setColor(sf::Color::Yellow);
+			if (sf::Mouse::isButtonPressed(sf::Mouse::Left))
+			{
+				//LevelManager::GetInstance()->CreateLevel("Level1");
+				//GameStateManager::GetInstance()->SetGameState(GameStateManager::GameStates::GAME);
+			}
+		}
+		else
+		{
+			//Level_1_Speed_Text.setString("Level 1 - Highspeed");
+			Level_1_Speed_Text.setColor(sf::Color::White);
 		}
 	}
-	else
-	{
-		Level_1_Speed_Text.setString("Level 1 - Highspeed");
-		Level_1_Speed_Text.setColor(sf::Color::White);
-	}
 
+	if (displayLevel2Modes)
+	{
+		if (Level_2_Headshots_Text.getGlobalBounds().contains(sf::Vector2f(sf::Mouse::getPosition(window))))
+		{
+			//Level_1_Headshots_Text.setString("->Level 1 - Headshots");
+			Level_2_Headshots_Text.setColor(sf::Color::Yellow);
+			if (sf::Mouse::isButtonPressed(sf::Mouse::Left))
+			{
+				//LevelManager::GetInstance()->CreateLevel("Level1");
+				//GameStateManager::GetInstance()->SetGameState(GameStateManager::GameStates::GAME);
+			}
+		}
+		else
+		{
+			//Level_1_Headshots_Text.setString("Level 1 - Headshots");
+			Level_2_Headshots_Text.setColor(sf::Color::White);
+		}
+
+		if (Level_2_Score_Text.getGlobalBounds().contains(sf::Vector2f(sf::Mouse::getPosition(window))))
+		{
+			//Level_1_Score_Text.setString("->Level 1 - Highscore");
+			Level_2_Score_Text.setColor(sf::Color::Yellow);
+			if (sf::Mouse::isButtonPressed(sf::Mouse::Left))
+			{
+				//LevelManager::GetInstance()->CreateLevel("Level1");
+				//GameStateManager::GetInstance()->SetGameState(GameStateManager::GameStates::GAME);
+			}
+		}
+		else
+		{
+			//Level_1_Score_Text.setString("Level 1 - Highscore");
+			Level_2_Score_Text.setColor(sf::Color::White);
+		}
+
+		if (Level_2_Speed_Text.getGlobalBounds().contains(sf::Vector2f(sf::Mouse::getPosition(window))))
+		{
+			//Level_1_Speed_Text.setString("->Level 1 - Highspeed");
+			Level_2_Speed_Text.setColor(sf::Color::Yellow);
+			if (sf::Mouse::isButtonPressed(sf::Mouse::Left))
+			{
+				//LevelManager::GetInstance()->CreateLevel("Level1");
+				//GameStateManager::GetInstance()->SetGameState(GameStateManager::GameStates::GAME);
+			}
+		}
+		else
+		{
+			//Level_1_Speed_Text.setString("Level 1 - Highspeed");
+			Level_2_Speed_Text.setColor(sf::Color::White);
+		}
+	}
 }
