@@ -35,14 +35,14 @@ void Menu::Load()
 	optionsHighlight_tex.loadFromFile("Assets/Images/Menu/optionsHighlight_img.png");
 	quit_tex.loadFromFile("Assets/Images/Menu/quit_img.png");
 	quitHighlight_tex.loadFromFile("Assets/Images/Menu/quitHighlight_img.png");
-	crosshair_tex.loadFromFile("Assets/Images/crosshair.png");
-
+	
 	volume_tex.loadFromFile("Assets/Images/Menu/Options/volume_img.png");
 	volumeDown_tex.loadFromFile("Assets/Images/Menu/Options/volumeDown_img.png");
 	volumeDownHighlight_tex.loadFromFile("Assets/Images/Menu/Options/volumeDownHighlight_img.png");
 	volumeUp_tex.loadFromFile("Assets/Images/Menu/Options/volumeUp_img.png");
 	volumeUpHighlight_tex.loadFromFile("Assets/Images/Menu/Options/volumeUpHighlight_img.png");
 
+	crosshair_tex.loadFromFile("Assets/Images/crosshair.png");
 	font.loadFromFile("Assets/imagine_font.ttf");
 }
 
