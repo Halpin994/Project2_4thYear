@@ -437,7 +437,7 @@ void Menu::CheckMouseLevelSelect(sf::RenderWindow& window)
 			Level_1_Score_Text.setColor(sf::Color::Yellow);
 			if (sf::Mouse::isButtonPressed(sf::Mouse::Left))
 			{
-				LevelManager::GetInstance()->CreateLevel("Level1");
+				LevelManager::GetInstance()->CreateLevel("Level1-Highscore");
 				GameStateManager::GetInstance()->SetGameState(GameStateManager::GameStates::GAME);
 			}
 		}
@@ -453,8 +453,8 @@ void Menu::CheckMouseLevelSelect(sf::RenderWindow& window)
 			Level_1_Speed_Text.setColor(sf::Color::Yellow);
 			if (sf::Mouse::isButtonPressed(sf::Mouse::Left))
 			{
-				//LevelManager::GetInstance()->CreateLevel("Level1");
-				//GameStateManager::GetInstance()->SetGameState(GameStateManager::GameStates::GAME);
+				LevelManager::GetInstance()->CreateLevel("Level1-Highspeed");
+				GameStateManager::GetInstance()->SetGameState(GameStateManager::GameStates::GAME);
 			}
 		}
 		else

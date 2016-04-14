@@ -35,10 +35,13 @@
 Level::Level(string lvl)
 {
 	gameTime = 0;
+	gameOverTime = 15.0f;
 	list<Target*> targets = list<Target*>();
 	Load();
 	SetUp();
 	currentLevel = lvl;
+	levelEnd = false;
+
 	//gameOverTime = 0;
 }
 
@@ -220,24 +223,12 @@ void Level::Update(Player *player, double frameTime)
 		frameNum++;
 	}
 
-	
 	ScoreManager::GetInstance()->Update(frameTime, player);
 	TargetManager::GetInstance()->Update(frameTime, &targets);
-	
+
 	//if (levelState == LevelStates::LEVEL1)
 	//{
-	//	if (TargetManager::GetInstance()->GetSizeOfTargets() == 0)
-	//	{
-	//		targetRespawn -= frameTime;
-	//		if (targetRespawn < 0)
-	//		{
-	//			TargetManager::GetInstance()->AddTargets(sf::Vector2f(395, 180), 100, 0);
-	//			TargetManager::GetInstance()->AddTargets(sf::Vector2f(600, 180), 10000, 0);
-	//			TargetManager::GetInstance()->AddTargets(sf::Vector2f(810, 180), 100, 0);
-	//			SoundManager::GetInstance()->PlayClick();
-	//			targetRespawn = targetRespawnTime;
-	//		}
-	//	}
+		
 
 	//	UpdateTut(player, frameTime);
 	//}
@@ -246,6 +237,65 @@ void Level::Update(Player *player, double frameTime)
 	//{
 	//	bgSprite.setTexture(level1BgTexture, true);
 	//}
+}
+
+void Level::AddTarget(sf::Vector2f pos, sf::Texture* targetImage, sf::Texture* bulletImage, float health, int layer)
+{
+	Target* t = new Target();
+	t->SetUp(pos, targetImage, bulletImage, health, layer);
+	targets.push_back(t);
+}
+
+void Level::AddLevelSprite(sf::Texture* levelImage, int layer, sf::Vector2f position)
+{
+	sf::Sprite s;
+	s.setTexture(*levelImage);
+	s.setPosition(position);
+	levelSprites.push_back(std::make_pair(s, layer));
+}
+
+list<Target*> Level::GetListOfTargets()
+{
+	return targets;
+}
+
+bool Level::CheckEndState()
+{
+	if (currentLevel == "Highscore" && gameTime >= gameOverTime)
+	{
+		levelEnd = true;
+	}
+	else if (currentLevel == "Highspeed" && targets.size() == 0)
+	{
+		levelEnd = true;
+	}
+	else if (currentLevel == "Headshots")
+	{
+		levelEnd = true;
+	}
+	return levelEnd;
+}
+
+void Level::DrawResult(sf::RenderWindow& window)
+{
+	//sf::Text buttonText;
+	//buttonText.setString("Press R to restart the level \n\nPress C to continue to level 2");
+	//buttonText.setPosition(50, 100);
+
+	//buttonText.setFont(font);
+	//buttonText.setCharacterSize(50);
+	//buttonText.setColor(sf::Color::White);
+
+
+	//ss.str(std::string());
+	//gameTime = roundf(gameTime * 100) / 100;
+	//ss << gameTime;
+	//string txt = "You shot 6 targets in: ";
+	//gameTimeText.setString(txt + ss.str() + " seconds");
+	//gameTimeText.setPosition(50, 600);
+
+	//window.draw(gameTimeText);
+	//window.draw(buttonText);
 }
 
 void Level::Restart()
@@ -268,28 +318,6 @@ void Level::Restart()
 	//	TargetManager::GetInstance()->AddTargets(sf::Vector2f(810, 180), 100, 0);
 	//}
 	SetUp();
-}
-
-void Level::DrawResult(sf::RenderWindow& window)
-{
-	sf::Text buttonText;
-	buttonText.setString("Press R to restart the level \n\nPress C to continue to level 2");
-	buttonText.setPosition(50, 100);
-
-	buttonText.setFont(font);
-	buttonText.setCharacterSize(50);
-	buttonText.setColor(sf::Color::White);
-
-
-	ss.str(std::string());
-	gameTime = roundf(gameTime * 100) / 100;
-	ss << gameTime;
-	string txt = "You shot 6 targets in: ";
-	gameTimeText.setString(txt + ss.str() + " seconds");
-	gameTimeText.setPosition(50, 600);
-
-	window.draw(gameTimeText);
-	window.draw(buttonText);
 }
 
 //void Level::UpdateTut(Player *player, float frameTime)
@@ -351,23 +379,7 @@ void Level::DrawResult(sf::RenderWindow& window)
 //	return levelState;
 //}
 
-void Level::AddTarget(sf::Vector2f pos, sf::Texture* targetImage, sf::Texture* bulletImage, float health, int layer)
+string Level::GetLevelType()
 {
-	Target* t = new Target();
-	t->SetUp(pos, targetImage, bulletImage, health, layer);
-	targets.push_back(t);
-}
-
-void Level::AddLevelSprite(sf::Texture* levelImage, int layer, sf::Vector2f position)
-{
-	sf::Sprite s;
-	s.setTexture(*levelImage);
-	s.setPosition(position);
-	levelSprites.push_back(std::make_pair(s, layer));
-
-}
-
-list<Target*> Level::GetListOfTargets()
-{
-	return targets;
+	return currentLevel;
 }

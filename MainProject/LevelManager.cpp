@@ -29,19 +29,33 @@ LevelManager::LevelManager(){}
 
 void LevelManager::CreateLevel(string lvl)
 {
-	if (lvl == "Level1")
+	if (lvl == "Level1-Highscore")
 	{
 		targetImage.loadFromFile("Assets/Images/Game/target.png");
 		bulletImage.loadFromFile("Assets/Images/Game/bulletHole_wood.png");
 		delete level;
-		level = new Level(lvl);
-		level->AddTarget(sf::Vector2f(395, 180), &targetImage, &bulletImage, 1000, 1);
-		level->AddTarget(sf::Vector2f(600, 180), &targetImage, &bulletImage, 1000, 1);
-		level->AddTarget(sf::Vector2f(810, 180), &targetImage, &bulletImage, 1000, 1);
+		level = new Level("Highscore");
+		level->AddTarget(sf::Vector2f(395, 180), &targetImage, &bulletImage, 100, 1);
+		level->AddTarget(sf::Vector2f(600, 180), &targetImage, &bulletImage, 100, 1);
+		level->AddTarget(sf::Vector2f(810, 180), &targetImage, &bulletImage, 100, 1);
 
 		layer0_Image.loadFromFile("Assets/Images/Game/basicRange.png");
 		level->AddLevelSprite(&layer0_Image, 0, sf::Vector2f(0, 0));
 	}
+	if (lvl == "Level1-Highspeed")
+	{
+		targetImage.loadFromFile("Assets/Images/Game/target.png");
+		bulletImage.loadFromFile("Assets/Images/Game/bulletHole_wood.png");
+		delete level;
+		level = new Level("Highspeed");
+		level->AddTarget(sf::Vector2f(395, 180), &targetImage, &bulletImage, 100, 1);
+		level->AddTarget(sf::Vector2f(600, 180), &targetImage, &bulletImage, 100, 1);
+		level->AddTarget(sf::Vector2f(810, 180), &targetImage, &bulletImage, 100, 1);
+
+		layer0_Image.loadFromFile("Assets/Images/Game/basicRange.png");
+		level->AddLevelSprite(&layer0_Image, 0, sf::Vector2f(0, 0));
+	}
+
 	else if (lvl == "Level2")
 	{
 		targetImage.loadFromFile("Assets/Images/Game/target2.png");
@@ -96,6 +110,23 @@ void LevelManager::Draw(sf::RenderWindow& window)
 void LevelManager::Update(Player* player, float time)
 {
 	level->Update(player, time);
+	level->CheckEndState();
+
+	//if (GetCurrentLevel()->GetLevelType() == "Level1-Highscore")
+	//{
+	//	if (TargetManager::GetInstance()->GetSizeOfTargets() == 0)
+	//	{
+	//		targetRespawn -= frameTime;
+	//		if (targetRespawn < 0)
+	//		{
+	//			AddTarget(sf::Vector2f(395, 180), &targetImage, &bulletImage, 100, 1);
+	//			AddTarget(sf::Vector2f(600, 180), &targetImage, &bulletImage, 100, 1);
+	//			AddTarget(sf::Vector2f(810, 180), &targetImage, &bulletImage, 100, 1);
+	//			SoundManager::GetInstance()->PlayClick();
+	//			targetRespawn = targetRespawnTime;
+	//		}
+	//	}
+	//}
 }
 
 Level* LevelManager::GetCurrentLevel()

@@ -56,12 +56,14 @@ void ScorePopup::Update(float ft, Player *player)
 		//pointsText.setPosition(player->getCurrentGun()->getGunPos() + offset);
 		if (position.x < ScoreManager::GetInstance()->GetScorePos().x && position.y > ScoreManager::GetInstance()->GetScorePos().y)
 		{
+			//position.y = ScoreManager::GetInstance()->GetScorePos().y;
 			timeToLive -= ft;
 			position += direction * 1.5f * ft;
 			pointsText.setPosition(position);
 		}
 		else
 		{
+			position.y = ScoreManager::GetInstance()->GetScorePos().y;
 			timeToLive -= ft;
 		}
 	}

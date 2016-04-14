@@ -24,7 +24,7 @@ int main()
 	sf::Mouse::setPosition(sf::Vector2i(window.getSize().x / 2, window.getSize().y / 2), window);
 	window.setMouseCursorVisible(false);
 	//window.setVerticalSyncEnabled(true);
-	window.setFramerateLimit(135);
+	window.setFramerateLimit(100);
 	GameStateManager::GetInstance()->SetGameState(GameStateManager::GameStates::MAIN_MENU);
 	sf::Clock clock;
 	Menu *menu = new Menu();

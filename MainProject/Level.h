@@ -37,6 +37,11 @@ public:
 
 	list<Target*> Level::GetListOfTargets();
 
+	//void Level::SetEndState(string lvl);
+	bool Level::CheckEndState();
+
+	string Level::GetLevelType();
+
 private:
 	//{
 	//	levelState = LevelStates::LEVEL1;
@@ -81,6 +86,8 @@ private:
 	bool tut_ShootInfoDraw;
 	bool tut_ReloadInfoDraw;
 	bool tut_QuickReloadDraw;
+
+	bool levelEnd;
 
 	float tut_displayTime;
 	float tut_displayTimer;
