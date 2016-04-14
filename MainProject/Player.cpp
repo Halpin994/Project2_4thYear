@@ -118,7 +118,8 @@ void Player::Draw(sf::RenderWindow& window)
 		}
 	}
 
-	window.draw(pistolClipSprite);
+	//window.draw(pistolClipSprite);
+	window.draw(gunClipText);
 	currentGun->Draw(window);
 
 	//if (pistolClip == pistolClipSize || normalReloadClicked == true)
@@ -163,8 +164,11 @@ void Player::Update(sf::RenderWindow& window, float frameTime)
 	}
 
 	currentGun->Update(window, frameTime);
-
-
+	ss.str(std::string());
+	
+	ss << currentGun->getCurrentClip();
+	gunClipText.setString(ss.str());
+	
 	/*if (sf::Mouse::isButtonPressed(sf::Mouse::Left) && leftMousePressed == false && normalReloadClicked == false)
 	{
 		if (currentCrosshair != Crosshairs::smg)

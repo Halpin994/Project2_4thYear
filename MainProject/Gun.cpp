@@ -177,8 +177,6 @@ sf::Vector2f Gun::BulletRecoil()
 		cout << randomYSway << endl;
 		//randomYSway = randomYSway / 100;
 		rec = sf::Vector2f(randomXSway, yRecoil + randomYSway);
-
-
 	}
 	return rec;
 }

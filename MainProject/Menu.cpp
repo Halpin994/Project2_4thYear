@@ -352,19 +352,18 @@ void Menu::CheckMouseLevelSelect(sf::RenderWindow& window)
 {
 	if (Level_1_Text.getGlobalBounds().contains(sf::Vector2f(sf::Mouse::getPosition(window))))
 	{
-		if (levelHighlighted == false)
+		if (level1Highlighted == false)
 		{
 			
 			Level_1_Text.setColor(sf::Color::Yellow);
 			SoundManager::GetInstance()->PlayClick();
-			levelHighlighted = true;
-
-			
+			level1Highlighted = true;
 			displayLevel2Modes = false;
 		}
 		if (sf::Mouse::isButtonPressed(sf::Mouse::Left))
 		{
 			Level_1_Text.setString("Level  1 -> ");
+			SoundManager::GetInstance()->PlayClick();
 			displayLevel1Modes = true;
 			//LevelManager::GetInstance()->CreateLevel("Level1");
 			//GameStateManager::GetInstance()->SetGameState(GameStateManager::GameStates::GAME);
@@ -377,18 +376,18 @@ void Menu::CheckMouseLevelSelect(sf::RenderWindow& window)
 			Level_1_Text.setString("Level  1");
 		}
 		//displayLevelModes = false;
-		levelHighlighted = false;
+		level1Highlighted = false;
 		Level_1_Text.setColor(sf::Color::White);
 	}
 
 	if (Level_2_Text.getGlobalBounds().contains(sf::Vector2f(sf::Mouse::getPosition(window))))
 	{
-		if (levelHighlighted == false)
+		if (level2Highlighted == false)
 		{
 			
 			Level_2_Text.setColor(sf::Color::Yellow);
 			SoundManager::GetInstance()->PlayClick();
-			levelHighlighted = true;
+			level2Highlighted = true;
 
 			displayLevel1Modes = false;
 			
@@ -396,6 +395,7 @@ void Menu::CheckMouseLevelSelect(sf::RenderWindow& window)
 		if (sf::Mouse::isButtonPressed(sf::Mouse::Left))
 		{
 			Level_2_Text.setString("Level 2 -> ");
+			SoundManager::GetInstance()->PlayClick();
 			displayLevel2Modes = true;
 			//LevelManager::GetInstance()->CreateLevel("Level1");
 			//GameStateManager::GetInstance()->SetGameState(GameStateManager::GameStates::GAME);
@@ -408,7 +408,7 @@ void Menu::CheckMouseLevelSelect(sf::RenderWindow& window)
 			Level_2_Text.setString("Level 2");
 		}
 		//displayLevelModes = false;
-		levelHighlighted = false;
+		level2Highlighted = false;
 		Level_2_Text.setColor(sf::Color::White);
 	}
 

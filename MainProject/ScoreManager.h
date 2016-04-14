@@ -16,7 +16,7 @@ public:
 
 		scoreText.setFont(font);
 		scoreText.setCharacterSize(22);
-		scoreText.setPosition(1050, 100);
+		scoreText.setPosition(1000, 0);
 		scoreText.setColor(sf::Color::Yellow);
 		multiplier = 1.0f;
 		topTarget_multiplier = 1.0f;

@@ -56,7 +56,8 @@ private:
 
 	bool highlighted;
 	bool optionsHighlighted;
-	bool levelHighlighted;
+	bool level1Highlighted;
+	bool level2Highlighted;
 	bool levelModeHighlighted;
 	bool displayLevel1Modes;
 	bool displayLevel2Modes;
