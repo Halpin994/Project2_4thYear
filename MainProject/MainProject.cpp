@@ -10,6 +10,8 @@
 #include "TargetManager.h"
 #include "SoundManager.h"
 
+//typedef  void (Menu::*MenuMemFunc)();
+
 //! (Brief desc)
 /*!
 \(Detailed desc)
@@ -56,23 +58,22 @@ int main()
 
 			window.clear(); //clear the previous screen
 			menu->Draw(window);
-			menu->DrawCrosshair(window);
 			window.display(); //display the updated screen
 
 			break;
-		case GameStateManager::GameStates::OPTIONS: //Options state
+		//case GameStateManager::GameStates::OPTIONS: //Options state
 
-			menu->Update(window);
-			menu->CheckMouseOptions(window);
+		//	menu->Update(window);
+		//	menu->CheckMouseOptions(window);
 
-			window.clear(); //clear the previous screen
-			menu->Draw(window);
-			menu->DrawOptions(window);
-			menu->DrawCrosshair(window);
-			window.display(); //display the updated screen
+		//	window.clear(); //clear the previous screen
+		//	menu->Draw(window);
+		//	menu->DrawOptions(window);
+		//	menu->DrawCrosshair(window);
+		//	window.display(); //display the updated screen
 
 
-			break;
+		//	break;
 		case GameStateManager::GameStates::GAME: //Game state
 
 			LevelManager::GetInstance()->Update(player, time);
@@ -104,18 +105,18 @@ int main()
 				GameStateManager::GetInstance()->SetGameState(GameStateManager::GameStates::GAME);
 			}
 			break;
-		case GameStateManager::GameStates::LEVEL_SELECT:
+		//case GameStateManager::GameStates::LEVEL_SELECT:
 
-			menu->Update(window);
-			menu->CheckMouseLevelSelect(window);
+		//	menu->Update(window);
+		//	menu->CheckMouseLevelSelect(window);
 
-			window.clear(); //clear the previous screen
-			menu->Draw(window);
-			menu->DrawLevelSelect(window);
-			menu->DrawCrosshair(window);
-			window.display(); //display the updated screen
+		//	window.clear(); //clear the previous screen
+		//	menu->Draw(window);
+		//	menu->DrawLevelSelect(window);
+		//	menu->DrawCrosshair(window);
+		//	window.display(); //display the updated screen
 
-			break;
+		//	break;
 		case GameStateManager::GameStates::QUIT: //Quit game state
 			window.close();
 			break;

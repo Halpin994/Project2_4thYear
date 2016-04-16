@@ -36,7 +36,7 @@ public:
 private:
 	SoundManager()
 	{
-		volume = 0;
+		volume = 50;
 
 		Load();
 		SetUp();
