@@ -119,6 +119,7 @@ void Gun::Shoot()
 
 		current_Clip -= 1;
 		SoundManager::GetInstance()->PlayPistolGunShot();
+		SoundManager::GetInstance()->PlayFallingShell();
 
 		if (recoilCooldownTimer == 0)
 		{

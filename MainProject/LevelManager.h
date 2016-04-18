@@ -20,7 +20,7 @@ public:
 	void LevelManager::DrawOverlayUI(sf::RenderWindow& window);
 	void LevelManager::CreateLevel(string lvl);
 	void LevelManager::Draw(sf::RenderWindow& window);
-	void LevelManager::Update(Player* player, float time);
+	void LevelManager::Update(float time, sf::RenderWindow& window);
 	Level* LevelManager::GetCurrentLevel();
 private:
 	static bool instanceFlag;

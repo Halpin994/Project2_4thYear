@@ -113,7 +113,7 @@ void ScorePopup::SetColour(const char* colour)
 	}
 	else if (colour == "blue")
 	{
-		pointsText.setColor(sf::Color::Cyan);
+		pointsText.setColor(sf::Color(0,174,255));
 	}
 	else if (colour == "white")
 	{

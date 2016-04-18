@@ -8,6 +8,7 @@
 #include "SoundManager.h"
 #include "BulletManager.h"
 #include "ScoreManager.h"
+#include "Player.h"
 
 //bool Level::instanceFlag = false;
 //Level* Level::instance = NULL;
@@ -35,12 +36,13 @@
 Level::Level(string lvl)
 {
 	gameTime = 0;
-	gameOverTime = 15.0f;
+	gameOverTime = 10.0f;
 	list<Target*> targets = list<Target*>();
 	Load();
 	SetUp();
 	currentLevel = lvl;
 	levelEnd = false;
+	player = new Player();
 
 	//gameOverTime = 0;
 }
@@ -53,16 +55,11 @@ Level::Level(string lvl)
 */
 void Level::Load()
 {
-	//rangeBgTexture.loadFromFile("Assets/Images/Game/basicRange.png");
-	//level1BgTexture.loadFromFile("Assets/Images/Game/Level 2/lvl2_bg.png");
 	//shootInfoTexture.loadFromFile("Assets/Images/Game/Tutorial/tut_shoot.png");
 	//reloadInfoTexture.loadFromFile("Assets/Images/Game/Tutorial/tut_reload.png");
 	//quickReloadTexture.loadFromFile("Assets/Images/Game/Tutorial/tut_quickreload.png");
 
-	//texture_level1Layer1.loadFromFile("Assets/Images/Game/Level 2/lvl2_buildings_back.png");
-	//texture_level1Layer2.loadFromFile("Assets/Images/Game/Level 2/lvl2_buildings_front.png");
-	//texture_level1Layer3.loadFromFile("Assets/Images/Game/Level 2/lvl2_twoStones.png");
-	//texture_level1Layer4.loadFromFile("Assets/Images/Game/Level 2/lvl2_foreground_sandbags.png");
+	statsTexture.loadFromFile("Assets/Images/Game/statsBG.png");
 
 	font.loadFromFile("Assets/imagine_font.ttf");
 }
@@ -112,7 +109,8 @@ void Level::SetUp()
 	//	//Foreground sandbags
 	//}
 
-
+	statsSprite.setTexture(statsTexture);
+	statsSprite.setPosition(sf::Vector2f(0, 0));
 
 	gameTimeText.setFont(font);
 	gameTimeText.setCharacterSize(50);
@@ -133,7 +131,7 @@ void Level::SetUp()
 \return none
 \sa
 */
-void Level::Draw(sf::RenderWindow& window, int layer)
+void Level::DrawLayer(sf::RenderWindow& window, int layer)
 {
 	for (std::list<std::pair<sf::Sprite, int>>::iterator iter = levelSprites.begin(), end = levelSprites.end(); iter != end; iter++)
 	{
@@ -144,6 +142,8 @@ void Level::Draw(sf::RenderWindow& window, int layer)
 	}
 
 	TargetManager::GetInstance()->Draw(window, layer, targets);
+
+	
 
 	//if (levelState == LevelStates::LEVEL1)
 	//{
@@ -169,6 +169,11 @@ void Level::Draw(sf::RenderWindow& window, int layer)
 	//	BulletManager::GetInstance()->Draw(window);
 	//	//TargetManager::GetInstance()->Draw(window);
 	//}
+}
+
+void Level::Draw(sf::RenderWindow& window)
+{
+	player->Draw(window);
 }
 
 void Level::DrawOverlayUI(sf::RenderWindow& window)
@@ -206,7 +211,7 @@ void Level::DrawOverlayUI(sf::RenderWindow& window)
 	//}
 }
 
-void Level::Update(Player *player, double frameTime)
+void Level::Update(double frameTime, sf::RenderWindow& window)
 {
 	gameTime += frameTime;
 
@@ -225,18 +230,8 @@ void Level::Update(Player *player, double frameTime)
 
 	ScoreManager::GetInstance()->Update(frameTime, player);
 	TargetManager::GetInstance()->Update(frameTime, &targets);
-
-	//if (levelState == LevelStates::LEVEL1)
-	//{
-		
-
-	//	UpdateTut(player, frameTime);
-	//}
-
-	//if (levelState == LevelStates::LEVEL2)
-	//{
-	//	bgSprite.setTexture(level1BgTexture, true);
-	//}
+	player->Update(window, frameTime);
+	SoundManager::GetInstance()->Update();
 }
 
 void Level::AddTarget(sf::Vector2f pos, sf::Texture* targetImage, sf::Texture* bulletImage, float health, int layer)
@@ -278,6 +273,8 @@ bool Level::CheckEndState()
 
 void Level::DrawResult(sf::RenderWindow& window)
 {
+	window.draw(statsSprite);
+
 	//sf::Text buttonText;
 	//buttonText.setString("Press R to restart the level \n\nPress C to continue to level 2");
 	//buttonText.setPosition(50, 100);
@@ -364,19 +361,6 @@ void Level::Restart()
 //	{
 //		tut_displayTimer += frameTime;
 //	}
-//}
-
-//void Level::SetLevel(int lvl)
-//{
-//	if (lvl == 1)
-//	{
-//		levelState = LevelStates::LEVEL1;
-//	}
-//}
-
-//Level::LevelStates Level::GetLevelState()
-//{
-//	return levelState;
 //}
 
 string Level::GetLevelType()

@@ -55,6 +55,8 @@ void Menu::SelectLevelType()
 		{
 
 		}
+
+
 	}
 }
 
@@ -78,8 +80,8 @@ void Menu::SelectLevel()
 		LevelTypeFirstPos = levelButtons.front()->GetPosition() + sf::Vector2f(levelButtons.front()->GetBounds().width + 50, levelButtons.front()->GetBounds().height / 4);
 
 	AddButton(LevelTypeFirstPos, sf::String("Highscore"), 24, font, selectLevelTypeFunc, levelTypeButtons);
-	AddButton(LevelTypeFirstPos + sf::Vector2f(0, 30), sf::String("Highspeed"), 24, font, selectLevelTypeFunc, levelTypeButtons);
-	AddButton(LevelTypeFirstPos + sf::Vector2f(0, 60), sf::String("Headshots"), 24, font, selectLevelTypeFunc, levelTypeButtons);
+	AddButton(LevelTypeFirstPos + sf::Vector2f(0, 28), sf::String("Highspeed"), 24, font, selectLevelTypeFunc, levelTypeButtons);
+	AddButton(LevelTypeFirstPos + sf::Vector2f(0, 56), sf::String("Headshots"), 24, font, selectLevelTypeFunc, levelTypeButtons);
 
 	levelTypeButtonsAlive = true;
 }
@@ -107,8 +109,8 @@ void Menu::PlayGame()
 
 	LevelFirstPos = mainButtons.front()->GetPosition() + sf::Vector2f(mainButtons.front()->GetBounds().width + 50, mainButtons.front()->GetBounds().height/4);
 
-	AddButton(LevelFirstPos, sf::String("Level 1"), 36, font, selectLevelFunc, levelButtons);
-	AddButton(LevelFirstPos + MainSpacing, sf::String("Level 2"), 36, font, selectLevelFunc, levelButtons);
+	AddButton(LevelFirstPos, sf::String("Level 1"), 30, font, selectLevelFunc, levelButtons);
+	AddButton(LevelFirstPos + sf::Vector2f(0,35), sf::String("Level 2"), 30, font, selectLevelFunc, levelButtons);
 
 	levelButtonsAlive = true;
 }

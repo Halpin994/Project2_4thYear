@@ -6,6 +6,8 @@
 
 #include "SoundManager.h"
 
+#include <deque>
+
 bool SoundManager::instanceFlag = false;
 SoundManager* SoundManager::instance = NULL;
 
@@ -38,6 +40,9 @@ void SoundManager::Load()
 	pistolReload_buff.loadFromFile("Assets/Sounds/pistolReload.wav");
 	pistolQuickReload_buff.loadFromFile("Assets/Sounds/pistolQuickReload.wav");
 	infoSoundEffect_buff.loadFromFile("Assets/Sounds/tut_infos.wav");
+	menuGunShot_buff.loadFromFile("Assets/Sounds/menuGunShot.wav");
+	metalClang_buff.loadFromFile("Assets/Sounds/metalClang.wav");
+	woodClang_buff.loadFromFile("Assets/Sounds/woodKlang.wav");
 }
 void SoundManager::SetUp()
 {
@@ -48,8 +53,23 @@ void SoundManager::SetUp()
 	pistolReload_sfx.setBuffer(pistolReload_buff);
 	pistolQuickReload_sfx.setBuffer(pistolQuickReload_buff);
 	infoSoundEffect_sfx.setBuffer(infoSoundEffect_buff);
+	menuGunShot_sfx.setBuffer(menuGunShot_buff);
+	metalClang_sfx.setBuffer(metalClang_buff);
+	woodClang_sfx.setBuffer(woodClang_buff);
 
 	SetVolume();
+}
+
+void SoundManager::Update()
+{
+	for (int i = 0; i < soundInstances.size(); ++i)
+	{
+		if (soundInstances[i].getStatus() == sf::Sound::Stopped)
+		{	
+			soundInstances.erase(soundInstances.begin() + i);
+			--i;
+		}
+	}
 }
 
 void SoundManager::IncreaseVolume()
@@ -73,44 +93,61 @@ void SoundManager::DecreaseVolume()
 
 void SoundManager::PlayPistolGunShot()
 {
-
-	pistolGunShot_sfx.play();
+	soundInstances.push_back(sf::Sound(pistolGunShot_buff));
+	soundInstances.back().play();
 }
 
 void SoundManager::PlayClick()
 {
-	
-	click_sfx.play();
+	soundInstances.push_back(sf::Sound(click_buff));
+	soundInstances.back().play();
 }
 
 void SoundManager::PlayOutOfAmmo()
 {
-	
-	noAmmo_sfx.play();
+	soundInstances.push_back(sf::Sound(noAmmo_buff));
+	soundInstances.back().play();
 }
 
 void SoundManager::PlayFallingShell()
 {
-	
-	fallingShell_sfx.play();
+	soundInstances.push_back(sf::Sound(fallingShell_buff));
+	soundInstances.back().play();
 }
 
 void SoundManager::PlayPistolReload()
 {
-	
-	pistolReload_sfx.play();
+	soundInstances.push_back(sf::Sound(pistolReload_buff));
+	soundInstances.back().play();
 }
 
 void SoundManager::PlayPistolQuickReload()
 {
-	
-	pistolQuickReload_sfx.play();
+	soundInstances.push_back(sf::Sound(pistolQuickReload_buff));
+	soundInstances.back().play();
 }
 
 void SoundManager::PlayInfoSoundEffect()
 {
-	
-	infoSoundEffect_sfx.play();
+	soundInstances.push_back(sf::Sound(infoSoundEffect_buff));
+	soundInstances.back().play();
+}
+
+void SoundManager::PlayMenuShotSoundEffect()
+{
+	soundInstances.push_back(sf::Sound(menuGunShot_buff));
+	soundInstances.back().play();
+}
+
+void SoundManager::PlayMetalClangSoundEffect()
+{
+	soundInstances.push_back(sf::Sound(metalClang_buff));
+	soundInstances.back().play();
+}
+void SoundManager::PlayWoodClangSoundEffect()
+{
+	soundInstances.push_back(sf::Sound(woodClang_buff));
+	soundInstances.back().play();
 }
 
 int SoundManager::GetVolume()
@@ -127,6 +164,9 @@ void SoundManager::SetVolume()
 	pistolReload_sfx.setVolume(volume);
 	pistolQuickReload_sfx.setVolume(volume);
 	infoSoundEffect_sfx.setVolume(volume);
+	menuGunShot_sfx.setVolume(volume);
+	metalClang_sfx.setVolume(volume);
+	woodClang_sfx.setVolume(volume);
 }
 
 

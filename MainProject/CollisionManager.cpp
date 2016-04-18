@@ -7,6 +7,7 @@
 #include "CollisionManager.h"
 #include "Player.h"
 #include "ScoreManager.h"
+#include "SoundManager.h"
 
 bool CollisionManager::instanceFlag = false;
 CollisionManager* CollisionManager::instance = NULL;
@@ -38,8 +39,6 @@ bool CollisionManager::CheckTargetCollision(sf::Vector2f bulletPos, static int g
 
 	for (targetITER = targets.begin(); targetITER != targets.end(); )
 	{
-		//if ((bulletPos.x > (*targetITER)->GetPosition().x && bulletPos.x < (*targetITER)->GetPosition().x + (*targetITER)->GetWidth()
-		//	&& bulletPos.y >(*targetITER)->GetPosition().y + 10 && bulletPos.y < (*targetITER)->GetPosition().y + (*targetITER)->GetHeight()))
 		if ((*targetITER)->GetGlobalBounds().contains(bulletPos))
 			{
 				(*targetITER)->SetHealth();
@@ -78,18 +77,22 @@ void CollisionManager::CheckTargetColourCollision(sf::Vector2f bulletPos, list<T
 	{
 		if (distanceBotTarg <= ((*targetITER)->GetWidth() / 2) / (50.0f / 7.0f))
 		{
+			SoundManager::GetInstance()->PlayMetalClangSoundEffect();
 			ScoreManager::GetInstance()->AddScore(25, bulletPos, "yellow", "bottom");
 		}
 		else if (distanceBotTarg <= ((*targetITER)->GetWidth() / 2) / (50.0f / 14.0f))
 		{
+			SoundManager::GetInstance()->PlayWoodClangSoundEffect();
 			ScoreManager::GetInstance()->AddScore(20, bulletPos, "red", "bottom");
 		}
 		else if (distanceBotTarg <= ((*targetITER)->GetWidth() / 2) / (50.0f / 21.0f))
 		{
+			SoundManager::GetInstance()->PlayWoodClangSoundEffect();
 			ScoreManager::GetInstance()->AddScore(15, bulletPos, "blue", "bottom");
 		}
 		else //if (distance <= ((*targetITER)->GetWidth() / 2) / (50.0f / 30.0f))
 		{
+			SoundManager::GetInstance()->PlayWoodClangSoundEffect();
 			ScoreManager::GetInstance()->AddScore(10, bulletPos, "white", "bottom");
 		}
 	}
@@ -97,52 +100,27 @@ void CollisionManager::CheckTargetColourCollision(sf::Vector2f bulletPos, list<T
 	{
 		if (distanceTopTarg <= ((*targetITER)->GetWidth() / 2) / (50.0f / 3.0f))
 		{
+			SoundManager::GetInstance()->PlayMetalClangSoundEffect();
 			ScoreManager::GetInstance()->AddScore(50, bulletPos, "yellow", "top");
 		}
 		else if (distanceTopTarg <= ((*targetITER)->GetWidth() / 2) / (50.0f / 6.0f))
 		{
+			SoundManager::GetInstance()->PlayWoodClangSoundEffect();
 			ScoreManager::GetInstance()->AddScore(40, bulletPos, "red", "top");
 		}
 		else if (distanceTopTarg <= ((*targetITER)->GetWidth() / 2) / (50.0f / 10.0f))
 		{
+			SoundManager::GetInstance()->PlayWoodClangSoundEffect();
 			ScoreManager::GetInstance()->AddScore(25, bulletPos, "blue", "top");
 		}
 		else //if (distance <= ((*targetITER)->GetWidth() / 2) / (50.0f / 30.0f))
 		{
+			SoundManager::GetInstance()->PlayWoodClangSoundEffect();
 			ScoreManager::GetInstance()->AddScore(20, bulletPos, "white", "top");
 		}
 	}
+	else
+		SoundManager::GetInstance()->PlayWoodClangSoundEffect();
 
 
 }
-
-//bool CollisionManager::CheckReloadCollision(sf::Vector2f crosshairPos, sf::Vector2f reloadPos, sf::FloatRect reloadBounds)
-//{
-//	if ((crosshairPos.x > reloadPos.x && crosshairPos.x < reloadPos.x + reloadBounds.width
-//		&& crosshairPos.y > reloadPos.y && crosshairPos.y < reloadPos.y + reloadBounds.height))
-//	{
-//		return true;
-//	}
-//	return false;
-//}
-
-//bool CollisionManager::CheckMenuElementCollision(sf::Vector2i crosshairPos, sf::Sprite &element)
-//{
-//	if (crosshairPos.x > element.getPosition().x && crosshairPos.x < element.getPosition().x + element.getGlobalBounds().width
-//		&& crosshairPos.y > element.getPosition().y - element.getGlobalBounds().height / 2 && crosshairPos.y < element.getPosition().y + element.getGlobalBounds().height/2)
-//	{
-//		return true;
-//	}
-//	else
-//		return false;
-//}
-
-//bool CollisionManager::CheckMenuElementCollision(sf::Vector2i crosshairPos, sf::FloatRect bounds)
-//{
-//	if (bounds.contains(sf::Vector2f(crosshairPos)))
-//	{
-//		return true;
-//	}
-//	else
-//		return false;
-//}

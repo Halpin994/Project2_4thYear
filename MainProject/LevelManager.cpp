@@ -98,19 +98,42 @@ void LevelManager::CreateLevel(string lvl)
 
 void LevelManager::Draw(sf::RenderWindow& window)
 {
-	level->Draw(window, 0);
-	level->Draw(window, 1);
-	level->Draw(window, 2);
-	level->Draw(window, 3);
-	level->Draw(window, 4);
-	BulletManager::GetInstance()->Draw(window);
-	level->DrawOverlayUI(window);
+	if (level->CheckEndState() == true)
+	{
+		level->DrawLayer(window, 0);
+		level->DrawLayer(window, 1);
+		level->DrawLayer(window, 2);
+		level->DrawLayer(window, 3);
+		level->DrawLayer(window, 4);
+		level->Draw(window);
+		level->DrawResult(window);
+	}
+	else
+	{
+		level->DrawLayer(window, 0);
+		level->DrawLayer(window, 1);
+		level->DrawLayer(window, 2);
+		level->DrawLayer(window, 3);
+		level->DrawLayer(window, 4);
+		BulletManager::GetInstance()->Draw(window);
+		level->Draw(window);
+		level->DrawOverlayUI(window);
+	}
+
 }
 
-void LevelManager::Update(Player* player, float time)
+void LevelManager::Update(float time, sf::RenderWindow& window)
 {
-	level->Update(player, time);
-	level->CheckEndState();
+	if (level->CheckEndState() == true)
+	{
+
+	}
+	else
+	{
+		level->Update(time, window);
+		level->CheckEndState();
+	}
+
 
 	//if (GetCurrentLevel()->GetLevelType() == "Level1-Highscore")
 	//{

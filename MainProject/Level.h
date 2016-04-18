@@ -12,18 +12,12 @@ class Level
 {
 public:
 
-	//static Level* GetInstance();
-
-	//~Level()
-	//{
-	//	instanceFlag = false;
-	//}
-	//enum LevelStates { LEVEL1, LEVEL2 };
 	Level(string lvl);
 	void Load();
 	void SetUp();
-	void Draw(sf::RenderWindow& window, int layer);
-	void Update(Player *player, double frameTime);
+	void Draw(sf::RenderWindow& window);
+	void DrawLayer(sf::RenderWindow& window, int layer);
+	void Update(double frameTime, sf::RenderWindow& window);
 	void Restart();
 	void DrawResult(sf::RenderWindow& window);
 	void Level::DrawOverlayUI(sf::RenderWindow& window);
@@ -43,42 +37,6 @@ public:
 	string Level::GetLevelType();
 
 private:
-	//{
-	//	levelState = LevelStates::LEVEL1;
-
-	//	tut_ShootInfoDisplayed = false;
-	//	tut_ReloadInfoDisplayed = false;
-	//	tut_QuickReloadDisplayed = false;
-
-	//	tut_ShootInfoDraw = false;
-	//	tut_ReloadInfoDraw = false;
-	//	tut_QuickReloadDraw = false;
-
-	//	gameTime = 0;
-	//	gameOverTime = 0;
-
-	//	targetRespawnTime = 0.4;
-	//	targetRespawn = targetRespawnTime;
-	//}
-
-	//static bool instanceFlag;
-	//static Level* instance;
-
-
-	sf::Texture rangeBgTexture;
-	sf::Texture level1BgTexture;
-	sf::Sprite bgSprite;
-
-	sf::Texture texture_level1Layer1;
-	sf::Texture texture_level1Layer2;
-	sf::Texture texture_level1Layer3;
-	sf::Texture texture_level1Layer4;
-
-	sf::Sprite spr_level1Layer1;
-	sf::Sprite spr_level1Layer2;
-	sf::Sprite spr_level1Layer3;
-	sf::Sprite spr_level1Layer4;
-
 	bool tut_ShootInfoDisplayed;
 	bool tut_ReloadInfoDisplayed;
 	bool tut_QuickReloadDisplayed;
@@ -108,6 +66,9 @@ private:
 
 	//Sprite stuff
 
+	sf::Texture statsTexture;
+	sf::Sprite statsSprite;
+
 	sf::Texture shootInfoTexture;
 	sf::Sprite shootInfoSprite;
 	sf::Texture reloadInfoTexture;
@@ -117,18 +78,12 @@ private:
 
 	sf::Sprite infoSprite;
 
+	Player* player;
+
 	list<Target*> targets;
 	list<std::pair<sf::Sprite, int>> levelSprites;
 
 	sf::String currentLevel;
-
-	//std::multimap<sf::Sprite, int> myMap;
-	//myMap.insert(std::pair<char, char>('A', 'B'));
-	//myMap.insert(std::pair<char, char>('A', 'C'));
-
-	//LevelStates levelState;
-
-	//Sprite stuff
 };
 
 #endif 

@@ -1,5 +1,6 @@
 #include <iostream>
 #include <list>
+#include <deque>
 
 using namespace std;
 
@@ -21,6 +22,8 @@ public:
 	void SoundManager::Load();
 	void SoundManager::SetUp();
 
+	void SoundManager::Update();
+
 	void SoundManager::PlayPistolGunShot();
 	void SoundManager::PlayClick();
 	void SoundManager::PlayOutOfAmmo();
@@ -28,6 +31,9 @@ public:
 	void SoundManager::PlayPistolReload();
 	void SoundManager::PlayPistolQuickReload();
 	void SoundManager::PlayInfoSoundEffect();
+	void SoundManager::PlayMenuShotSoundEffect();
+	void SoundManager::PlayMetalClangSoundEffect();
+	void SoundManager::PlayWoodClangSoundEffect();
 	void SoundManager::IncreaseVolume();
 	void SoundManager::DecreaseVolume();
 	int SoundManager::GetVolume();
@@ -44,6 +50,8 @@ private:
 	static bool instanceFlag;
 	static SoundManager* instance;
 
+	std::deque<sf::Sound> soundInstances;
+
 	sf::SoundBuffer pistolGunShot_buff;
 	sf::Sound pistolGunShot_sfx;
 	sf::SoundBuffer click_buff;
@@ -56,9 +64,15 @@ private:
 	sf::Sound pistolReload_sfx;
 	sf::SoundBuffer pistolQuickReload_buff;
 	sf::Sound pistolQuickReload_sfx;
-
 	sf::SoundBuffer infoSoundEffect_buff;
 	sf::Sound infoSoundEffect_sfx;
+
+	sf::SoundBuffer menuGunShot_buff;
+	sf::Sound menuGunShot_sfx;
+	sf::SoundBuffer metalClang_buff;
+	sf::Sound metalClang_sfx;
+	sf::SoundBuffer woodClang_buff;
+	sf::Sound woodClang_sfx;
 
 	int volume;
 };

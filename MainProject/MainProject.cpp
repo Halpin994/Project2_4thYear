@@ -30,7 +30,6 @@ int main()
 	GameStateManager::GetInstance()->SetGameState(GameStateManager::GameStates::MAIN_MENU);
 	sf::Clock clock;
 	Menu *menu = new Menu();
-	Player *player = new Player();
 
 	SoundManager::GetInstance(); //calling constructor for sm to load assets
 
@@ -75,35 +74,37 @@ int main()
 
 		//	break;
 		case GameStateManager::GameStates::GAME: //Game state
+			if (LevelManager::GetInstance()->GetCurrentLevel() != NULL)
+			{
+				LevelManager::GetInstance()->Update(time, window);
+				//player->Update(window, time);
 
-			LevelManager::GetInstance()->Update(player, time);
-			player->Update(window, time);
+				window.clear(); //clear the previous screen
 
-			window.clear(); //clear the previous screen
+				LevelManager::GetInstance()->Draw(window);
+				//player->Draw(window);
+				//Level::GetInstance()->DrawOverlayUI(window);
 
-			LevelManager::GetInstance()->Draw(window);
-			player->Draw(window);
-			//Level::GetInstance()->DrawOverlayUI(window);
-
-			window.display(); //display the updated screen
+				window.display(); //display the updated screen
+			}
 			break;
 		case GameStateManager::GameStates::GAMEOVER: //Gameover state
 			window.clear(); //clear the previous screen
 			//Level::GetInstance()->DrawResult(window);
 			window.display(); //display the updated screen
-			if (sf::Keyboard::isKeyPressed(sf::Keyboard::R))
-			{
-				player->Restart();
-				//Level::GetInstance()->Restart();
-				GameStateManager::GetInstance()->SetGameState(GameStateManager::GameStates::GAME);
-			}
-			else if (sf::Keyboard::isKeyPressed(sf::Keyboard::C))
-			{
-				//Level::GetInstance()->SetLevel(1);
-				player->Restart();
-				//Level::GetInstance()->Restart();
-				GameStateManager::GetInstance()->SetGameState(GameStateManager::GameStates::GAME);
-			}
+			//if (sf::Keyboard::isKeyPressed(sf::Keyboard::R))
+			//{
+			//	player->Restart();
+			//	//Level::GetInstance()->Restart();
+			//	GameStateManager::GetInstance()->SetGameState(GameStateManager::GameStates::GAME);
+			//}
+			//else if (sf::Keyboard::isKeyPressed(sf::Keyboard::C))
+			//{
+			//	//Level::GetInstance()->SetLevel(1);
+			//	player->Restart();
+			//	//Level::GetInstance()->Restart();
+			//	GameStateManager::GetInstance()->SetGameState(GameStateManager::GameStates::GAME);
+			//}
 			break;
 		//case GameStateManager::GameStates::LEVEL_SELECT:
 

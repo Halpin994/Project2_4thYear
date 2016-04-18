@@ -32,7 +32,7 @@ void Button::Update(sf::Vector2f crosshairPos, Menu* menu)
 		{
 			clicked = false;
 			highlighted = true;
-			buttonText.setColor(sf::Color(255,255,0,255));
+			buttonText.setColor(sf::Color(255,129,0,255));
 			SoundManager::GetInstance()->PlayClick();
 		}
 		else if (sf::Mouse::isButtonPressed(sf::Mouse::Left) && clicked == false)
@@ -41,7 +41,7 @@ void Button::Update(sf::Vector2f crosshairPos, Menu* menu)
 			(menu->*btn_Func)();
 			menu->SetFirstButtonPressed(buttonText.getString());
 
-			SoundManager::GetInstance()->PlayPistolGunShot();
+			SoundManager::GetInstance()->PlayMenuShotSoundEffect();
 			clicked = true;
 		}
 	}
