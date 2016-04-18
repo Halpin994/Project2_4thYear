@@ -40,7 +40,7 @@ Gun::Gun(int type)
 		crosshairSprite.setTexture(pistolImage); 
 		crhRecoilSpeed = 150;
 		crhRecoilDirection = sf::Vector2f(0, 1);
-		crhRecoilMax = 8;
+		crhRecoilMax = -8;
 		crhOffset = sf::Vector2f(0, 0);
 	break;
 
@@ -68,7 +68,7 @@ Gun::Gun(int type)
 		crosshairSprite.setTexture(smgImage);
 		crhRecoilSpeed = 350;
 		crhRecoilDirection = sf::Vector2f(0, 1);
-		crhRecoilMax = 10;
+		crhRecoilMax = -10;
 		crhOffset = sf::Vector2f(0, 0);
 		updateFireRate = false;
 	break;
@@ -213,23 +213,24 @@ void Gun::CalculateCrosshairRecoil(sf::RenderWindow& window, float frameTime)
 
 void Gun::UpdateCrosshairRecoil()
 {
-	if (crhRecoilUp == true && getcrhRecoilDistance() < 5)
+
+	if (crhOffset.y > crhRecoilMax && crhRecoilUp == false)
+	{
+		scale += myScale;
+		crhOffset.x += myOffset.x;
+		crhOffset.y -= myOffset.y;
+		if (crhOffset.y < crhRecoilMax)
+		{
+			crhRecoilUp = true;
+		}
+		crosshairSprite.setScale(scale, scale);
+	}
+	else if (crhRecoilUp == true && crhOffset.y > 0)
 	{
 		crhOffset = sf::Vector2f(0, 0);
 		crhRecoilUp = false;
 		scale = scaleDefault;
 		crosshair_RecoilActive = false;
-		crosshairSprite.setScale(scale, scale);
-	}
-	if (getcrhRecoilDistance() < crhRecoilMax && crhRecoilUp == false)
-	{
-		scale += myScale;
-		crhOffset.x += myOffset.x;
-		crhOffset.y -= myOffset.y;
-		if (getcrhRecoilDistance() > crhRecoilMax)
-		{
-			crhRecoilUp = true;
-		}
 		crosshairSprite.setScale(scale, scale);
 	}
 	else if (crhRecoilUp == true)
@@ -239,6 +240,8 @@ void Gun::UpdateCrosshairRecoil()
 		crhOffset.y += myOffset.y;
 		crosshairSprite.setScale(scale, scale);
 	}
+
+
 }
 
 //! Normalize a vector passed on call
