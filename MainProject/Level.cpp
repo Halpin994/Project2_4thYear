@@ -5,6 +5,7 @@
 #include <iostream>
 #include "Level.h"
 #include "TargetManager.h"
+#include "LevelManager.h"
 #include "SoundManager.h"
 #include "BulletManager.h"
 #include "ScoreManager.h"
@@ -36,12 +37,10 @@
 Level::Level(string lvl)
 {
 	gameTime = 0;
-	gameOverTime = 10.0f;
 	list<Target*> targets = list<Target*>();
 	Load();
 	SetUp();
 	currentLevel = lvl;
-	levelEnd = false;
 	player = new Player();
 
 	//gameOverTime = 0;
@@ -110,7 +109,7 @@ void Level::SetUp()
 	//}
 
 	statsSprite.setTexture(statsTexture);
-	statsSprite.setPosition(sf::Vector2f(0, 0));
+	statsSprite.setPosition(sf::Vector2f(350, 50));
 
 	gameTimeText.setFont(font);
 	gameTimeText.setCharacterSize(50);
@@ -220,7 +219,6 @@ void Level::Update(double frameTime, sf::RenderWindow& window)
 		frameRateSum += frameTime;
 		if (frameNum == 100)
 		{
-			
 			frameRate = 1.0f / (frameRateSum / 100.0f);
 			frameNum = 0;
 			frameRateSum = 0;
@@ -249,31 +247,48 @@ void Level::AddLevelSprite(sf::Texture* levelImage, int layer, sf::Vector2f posi
 	levelSprites.push_back(std::make_pair(s, layer));
 }
 
+void Level::AddStatText(sf::String text)
+{
+	sf::Text stat;
+	
+	if (text == "Accuracy")
+	{
+		prevStatPos = statsSprite.getPosition() + sf::Vector2f(35, 100);
+		ss.str(std::string());
+		float acc = roundf(LevelManager::GetInstance()->GetAccuracy() * 100) / 100;
+		ss << "Accuracy: " << acc << "%";
+		stat.setString(ss.str());
+		stat.setPosition(prevStatPos);
+	}
+	else if (text == "Score")
+	{
+		ss.str(std::string());
+		float score = roundf(ScoreManager::GetInstance()->GetScore() * 100) / 100;
+		ss << "Score: " << score;
+		stat.setString(ss.str());
+		stat.setPosition(prevStatPos + sf::Vector2f(0,40));
+
+	}
+	stat.setFont(font);
+	stat.setColor(sf::Color::Yellow);
+	stat.setCharacterSize(34);
+	prevStatPos = stat.getPosition();
+	stats.push_back(stat);
+}
+
 list<Target*> Level::GetListOfTargets()
 {
 	return targets;
 }
 
-bool Level::CheckEndState()
-{
-	if (currentLevel == "Highscore" && gameTime >= gameOverTime)
-	{
-		levelEnd = true;
-	}
-	else if (currentLevel == "Highspeed" && targets.size() == 0)
-	{
-		levelEnd = true;
-	}
-	else if (currentLevel == "Headshots")
-	{
-		levelEnd = true;
-	}
-	return levelEnd;
-}
-
 void Level::DrawResult(sf::RenderWindow& window)
 {
 	window.draw(statsSprite);
+
+	for (sf::Text t : stats)
+	{
+		window.draw(t);
+	}
 
 	//sf::Text buttonText;
 	//buttonText.setString("Press R to restart the level \n\nPress C to continue to level 2");
@@ -363,7 +378,12 @@ void Level::Restart()
 //	}
 //}
 
-string Level::GetLevelType()
+sf::String Level::GetLevelType()
 {
 	return currentLevel;
+}
+
+double Level::GetLevelTime()
+{
+	return gameTime;
 }

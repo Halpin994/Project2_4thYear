@@ -4,7 +4,10 @@
 #include <iostream>
 #include <sstream>
 #include <list>
+#include <map>
 #include "Button.h"
+#include "Achievement.h"
+
 using namespace std;
 
 
@@ -38,6 +41,9 @@ public:
 	void Menu::SetFirstButtonPressed(sf::String button);
 	//GameStateManager stateManager;
 
+	list<Achievement*> achievements;
+	static Achievement* crapShot;
+	static Achievement* crackShot;
 private:
 	sf::Texture menuBG_tex;
 	//sf::Texture volumeOption_tex;

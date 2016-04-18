@@ -21,7 +21,7 @@ public:
 		multiplier = 1.0f;
 		topTarget_multiplier = 1.0f;
 		bottomTarget_multiplier = 0.4f;
-		base_multiplier = 0.1f;
+		base_multiplier = 0.2f;
 	}
 	~ScoreManager()
 	{

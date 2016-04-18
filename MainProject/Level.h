@@ -32,9 +32,10 @@ public:
 	list<Target*> Level::GetListOfTargets();
 
 	//void Level::SetEndState(string lvl);
-	bool Level::CheckEndState();
 
-	string Level::GetLevelType();
+	sf::String Level::GetLevelType();
+	double Level::GetLevelTime();
+	void Level::AddStatText(sf::String text);
 
 private:
 	bool tut_ShootInfoDisplayed;
@@ -45,13 +46,12 @@ private:
 	bool tut_ReloadInfoDraw;
 	bool tut_QuickReloadDraw;
 
-	bool levelEnd;
+	//bool levelEnd;
 
 	float tut_displayTime;
 	float tut_displayTimer;
 
 	double gameTime;
-	float gameOverTime;
 	float frameRate;
 	float frameRateSum;
 	int frameNum;
@@ -63,6 +63,10 @@ private:
 	sf::Text gameTimeText;
 	sf::Text frameRateText;
 	std::stringstream ss;
+
+	std::list<sf::Text> stats;
+
+	sf::Vector2f prevStatPos;
 
 	//Sprite stuff
 

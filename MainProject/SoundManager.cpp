@@ -46,17 +46,6 @@ void SoundManager::Load()
 }
 void SoundManager::SetUp()
 {
-	pistolGunShot_sfx.setBuffer(pistolGunShot_buff);
-	click_sfx.setBuffer(click_buff);
-	noAmmo_sfx.setBuffer(noAmmo_buff);
-	fallingShell_sfx.setBuffer(fallingShell_buff);
-	pistolReload_sfx.setBuffer(pistolReload_buff);
-	pistolQuickReload_sfx.setBuffer(pistolQuickReload_buff);
-	infoSoundEffect_sfx.setBuffer(infoSoundEffect_buff);
-	menuGunShot_sfx.setBuffer(menuGunShot_buff);
-	metalClang_sfx.setBuffer(metalClang_buff);
-	woodClang_sfx.setBuffer(woodClang_buff);
-
 	SetVolume();
 }
 
@@ -157,16 +146,7 @@ int SoundManager::GetVolume()
 
 void SoundManager::SetVolume()
 {
-	pistolGunShot_sfx.setVolume(volume);
-	click_sfx.setVolume(volume);
-	noAmmo_sfx.setVolume(volume);
-	fallingShell_sfx.setVolume(volume);
-	pistolReload_sfx.setVolume(volume);
-	pistolQuickReload_sfx.setVolume(volume);
-	infoSoundEffect_sfx.setVolume(volume);
-	menuGunShot_sfx.setVolume(volume);
-	metalClang_sfx.setVolume(volume);
-	woodClang_sfx.setVolume(volume);
+	sf::Listener::setGlobalVolume(volume);
 }
 
 

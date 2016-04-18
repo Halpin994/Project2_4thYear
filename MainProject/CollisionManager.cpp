@@ -5,6 +5,7 @@
 #include <iostream>
 
 #include "CollisionManager.h"
+#include "LevelManager.h"
 #include "Player.h"
 #include "ScoreManager.h"
 #include "SoundManager.h"
@@ -79,21 +80,25 @@ void CollisionManager::CheckTargetColourCollision(sf::Vector2f bulletPos, list<T
 		{
 			SoundManager::GetInstance()->PlayMetalClangSoundEffect();
 			ScoreManager::GetInstance()->AddScore(25, bulletPos, "yellow", "bottom");
+			LevelManager::GetInstance()->AddShotFired(sf::String("botYellow"));
 		}
 		else if (distanceBotTarg <= ((*targetITER)->GetWidth() / 2) / (50.0f / 14.0f))
 		{
 			SoundManager::GetInstance()->PlayWoodClangSoundEffect();
 			ScoreManager::GetInstance()->AddScore(20, bulletPos, "red", "bottom");
+			LevelManager::GetInstance()->AddShotFired(sf::String("botRed"));
 		}
 		else if (distanceBotTarg <= ((*targetITER)->GetWidth() / 2) / (50.0f / 21.0f))
 		{
 			SoundManager::GetInstance()->PlayWoodClangSoundEffect();
 			ScoreManager::GetInstance()->AddScore(15, bulletPos, "blue", "bottom");
+			LevelManager::GetInstance()->AddShotFired(sf::String("botBlue"));
 		}
 		else //if (distance <= ((*targetITER)->GetWidth() / 2) / (50.0f / 30.0f))
 		{
 			SoundManager::GetInstance()->PlayWoodClangSoundEffect();
 			ScoreManager::GetInstance()->AddScore(10, bulletPos, "white", "bottom");
+			LevelManager::GetInstance()->AddShotFired(sf::String("botWhite"));
 		}
 	}
 	else if (distanceTopTarg <= ((*targetITER)->GetWidth() / 2) / (50.0f / 14.0f))
@@ -102,21 +107,25 @@ void CollisionManager::CheckTargetColourCollision(sf::Vector2f bulletPos, list<T
 		{
 			SoundManager::GetInstance()->PlayMetalClangSoundEffect();
 			ScoreManager::GetInstance()->AddScore(50, bulletPos, "yellow", "top");
+			LevelManager::GetInstance()->AddShotFired(sf::String("topYellow"));
 		}
 		else if (distanceTopTarg <= ((*targetITER)->GetWidth() / 2) / (50.0f / 6.0f))
 		{
 			SoundManager::GetInstance()->PlayWoodClangSoundEffect();
 			ScoreManager::GetInstance()->AddScore(40, bulletPos, "red", "top");
+			LevelManager::GetInstance()->AddShotFired(sf::String("topRed"));
 		}
 		else if (distanceTopTarg <= ((*targetITER)->GetWidth() / 2) / (50.0f / 10.0f))
 		{
 			SoundManager::GetInstance()->PlayWoodClangSoundEffect();
 			ScoreManager::GetInstance()->AddScore(25, bulletPos, "blue", "top");
+			LevelManager::GetInstance()->AddShotFired(sf::String("topBlue"));
 		}
 		else //if (distance <= ((*targetITER)->GetWidth() / 2) / (50.0f / 30.0f))
 		{
 			SoundManager::GetInstance()->PlayWoodClangSoundEffect();
 			ScoreManager::GetInstance()->AddScore(20, bulletPos, "white", "top");
+			LevelManager::GetInstance()->AddShotFired(sf::String("topWhite"));
 		}
 	}
 	else

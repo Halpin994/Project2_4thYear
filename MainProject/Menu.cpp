@@ -15,6 +15,9 @@ void (Menu::*playGameFunc)() = &Menu::PlayGame;
 void (Menu::*quitFunc)() = &Menu::Quit;
 void (Menu::*selectLevelFunc)() = &Menu::SelectLevel;
 void (Menu::*selectLevelTypeFunc)() = &Menu::SelectLevelType;
+Achievement* Menu::crapShot = new CrapShot();
+Achievement* Menu::crackShot = new CrackShot();
+
 
 Menu::Menu()
 {
@@ -28,9 +31,11 @@ Menu::Menu()
 	mainButtonsAlive = true;
 	levelButtonsAlive = false;
 	levelTypeButtonsAlive = false;
-
 	Load();
 	SetUp();
+
+	achievements.push_back(crapShot);
+	achievements.push_back(crackShot);
 }
 
 void Menu::Quit()
@@ -183,6 +188,16 @@ void Menu::Draw(sf::RenderWindow& window)
 		{
 			b->Draw(window);
 		}
+	}
+	int i = 0; // i is used to space out achievements 
+	for (Achievement* achievement : achievements)
+	{
+		if (achievement->unlocked)
+		{
+			achievement->SetPosition(sf::Vector2f(50 + (100 * i), 50));
+			achievement->Draw(window);
+			i++;
+		}	
 	}
 
 	window.draw(crosshair_spr);
