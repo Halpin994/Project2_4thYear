@@ -67,7 +67,7 @@ void LevelManager::CreateLevel(string lvl, Menu* menu)
 
 		ScoreManager::GetInstance()->SetScore(0);
 		BulletManager::GetInstance()->CleanUp();
-		gameOverTime = 8.0f;
+		gameOverTime = 15.0f;
 		targRespawnTime = 0.5;
 		levelEnd = false;
 	}
