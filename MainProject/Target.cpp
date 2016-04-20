@@ -23,7 +23,7 @@ void Target::SetUp(sf::Vector2f targetPos, sf::Texture* targetImage, sf::Texture
 	targetSprite.setPosition(targetPos.x - targetSprite.getGlobalBounds().width / 2, targetPos.y);
 	bulletWoodTexture = bulletImage;
 	targetLayer = layer;
-	timeToLive = 100;
+	timeToLive = 0.05;
 	//if (targetLayer == 1)
 	//{
 	//	targetSprite.setScale(0.52, 0.52);
@@ -51,7 +51,7 @@ void Target::Draw(sf::RenderWindow& window)
 
 void Target::Update(float ft)
 {
-	//timeToLive -= ft;
+	timeToLive -= ft;
 }
 
 //! Get the target position
@@ -114,7 +114,7 @@ float Target::GetHealth()
 
 void Target::SetHealth()
 {
-	targetHealth -= 20;
+	targetHealth -= 25;
 }
 
 void Target::AddBullet(sf::Vector2f pos, static int bulletType)

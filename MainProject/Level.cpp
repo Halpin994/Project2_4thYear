@@ -259,6 +259,11 @@ void Level::AddStatText(sf::String text)
 		ss << "Accuracy: " << acc << "%";
 		stat.setString(ss.str());
 		stat.setPosition(prevStatPos);
+		stat.setFont(font);
+		stat.setColor(sf::Color::Yellow);
+		stat.setCharacterSize(34);
+		prevStatPos = stat.getPosition();
+		stats.push_back(stat);
 	}
 	else if (text == "Score")
 	{
@@ -267,13 +272,109 @@ void Level::AddStatText(sf::String text)
 		ss << "Score: " << score;
 		stat.setString(ss.str());
 		stat.setPosition(prevStatPos + sf::Vector2f(0,40));
-
+		stat.setFont(font);
+		stat.setColor(sf::Color::Yellow);
+		stat.setCharacterSize(34);
+		prevStatPos = stat.getPosition();
+		stats.push_back(stat);
 	}
-	stat.setFont(font);
-	stat.setColor(sf::Color::Yellow);
-	stat.setCharacterSize(34);
-	prevStatPos = stat.getPosition();
-	stats.push_back(stat);
+	else if (text == "Time")
+	{
+		ss.str(std::string());
+		//float gameTime = roundf(ScoreManager::GetInstance()->GetScore() * 100) / 100;
+		ss << "Time: " << gameTime;
+		stat.setString(ss.str());
+		stat.setPosition(prevStatPos + sf::Vector2f(0, 40));
+		stat.setFont(font);
+		stat.setColor(sf::Color::Yellow);
+		stat.setCharacterSize(34);
+		prevStatPos = stat.getPosition();
+		stats.push_back(stat);
+	}
+	if (text == "Highscore")
+	{
+		firstHighScorePos = prevStatPos + sf::Vector2f(0, 50);
+		for (int i = 0; i < ScoreManager::GetInstance()->GetHighScores().size(); i++)
+		{
+			ss.str(std::string());
+			ss << "#" << i + 1 << ": ";
+			stat.setString(ss.str());
+			stat.setPosition(firstHighScorePos + sf::Vector2f(0, 35 * i));
+			stat.setFont(font);
+			stat.setColor(sf::Color::White);
+			stat.setCharacterSize(28);
+			stats.push_back(stat);
+		}
+
+		firstScorePos = firstHighScorePos + sf::Vector2f(100, 0);
+		for (int i = 0; i < ScoreManager::GetInstance()->GetHighScores().size(); i++)
+		{
+			ss.str(std::string());
+			ss << ScoreManager::GetInstance()->GetHighScores()[i]->GetScore();
+			stat.setString(ss.str());
+			stat.setPosition(firstScorePos + sf::Vector2f(0, 35 * i));
+			stat.setFont(font);
+			stat.setColor(sf::Color::Red);
+			stat.setCharacterSize(28);
+			stats.push_back(stat);
+		}
+	}
+	else if (text == "Highspeed")
+	{
+		firstHighScorePos = prevStatPos + sf::Vector2f(0, 50);
+		for (int i = 0; i < ScoreManager::GetInstance()->GetHighTimes().size(); i++)
+		{
+			ss.str(std::string());
+			ss << "#" << i + 1 << ": ";
+			stat.setString(ss.str());
+			stat.setPosition(firstHighScorePos + sf::Vector2f(0, 35 * i));
+			stat.setFont(font);
+			stat.setColor(sf::Color::White);
+			stat.setCharacterSize(28);
+			stats.push_back(stat);
+		}
+
+		firstScorePos = firstHighScorePos + sf::Vector2f(100, 0);
+		for (int i = 0; i < ScoreManager::GetInstance()->GetHighTimes().size(); i++)
+		{
+			ss.str(std::string());
+			ss << ScoreManager::GetInstance()->GetHighTimes()[i]->GetTime();
+			stat.setString(ss.str());
+			stat.setPosition(firstScorePos + sf::Vector2f(0, 35 * i));
+			stat.setFont(font);
+			stat.setColor(sf::Color::Red);
+			stat.setCharacterSize(28);
+			stats.push_back(stat);
+		}
+	}
+	else if (text == "Headshots")
+	{
+		firstHighScorePos = prevStatPos + sf::Vector2f(0, 50);
+		for (int i = 0; i < ScoreManager::GetInstance()->GetHeadshotScores().size(); i++)
+		{
+			ss.str(std::string());
+			ss << "#" << i + 1 << ": ";
+			stat.setString(ss.str());
+			stat.setPosition(firstHighScorePos + sf::Vector2f(0, 35 * i));
+			stat.setFont(font);
+			stat.setColor(sf::Color::White);
+			stat.setCharacterSize(28);
+			stats.push_back(stat);
+		}
+
+		firstScorePos = firstHighScorePos + sf::Vector2f(100, 0);
+		for (int i = 0; i < ScoreManager::GetInstance()->GetHeadshotScores().size(); i++)
+		{
+			ss.str(std::string());
+			ss << ScoreManager::GetInstance()->GetHeadshotScores()[i]->GetScore();
+			stat.setString(ss.str());
+			stat.setPosition(firstScorePos + sf::Vector2f(0, 35 * i));
+			stat.setFont(font);
+			stat.setColor(sf::Color::Red);
+			stat.setCharacterSize(28);
+			stats.push_back(stat);
+		}
+	}
 }
 
 list<Target*> Level::GetListOfTargets()
@@ -310,27 +411,27 @@ void Level::DrawResult(sf::RenderWindow& window)
 	//window.draw(buttonText);
 }
 
-void Level::Restart()
-{
-	gameTime = 0;
-	gameTimeText.setPosition(900, 635);
-	targetRespawn = targetRespawnTime;
-
-	list<BulletHole*>& bulletHoles = BulletManager::GetInstance()->GetListOfBullets();
-	list<BulletHole*>::iterator bulletITER = bulletHoles.begin();
-	for (bulletITER = bulletHoles.begin(); bulletITER != bulletHoles.end();)
-	{
-		delete (*bulletITER);
-		bulletITER = bulletHoles.erase(bulletITER);
-	}
-	//if (levelState == LevelStates::TUTORIAL)
-	//{
-	//	TargetManager::GetInstance()->AddTargets(sf::Vector2f(395, 180), 100, 0);
-	//	TargetManager::GetInstance()->AddTargets(sf::Vector2f(600, 180), 100, 0);
-	//	TargetManager::GetInstance()->AddTargets(sf::Vector2f(810, 180), 100, 0);
-	//}
-	SetUp();
-}
+//void Level::Restart()
+//{
+//	gameTime = 0;
+//	gameTimeText.setPosition(900, 635);
+//	targetRespawn = targetRespawnTime;
+//
+//	list<BulletHole*>& bulletHoles = BulletManager::GetInstance()->GetListOfBullets();
+//	list<BulletHole*>::iterator bulletITER = bulletHoles.begin();
+//	for (bulletITER = bulletHoles.begin(); bulletITER != bulletHoles.end();)
+//	{
+//		delete (*bulletITER);
+//		bulletITER = bulletHoles.erase(bulletITER);
+//	}
+//	//if (levelState == LevelStates::TUTORIAL)
+//	//{
+//	//	TargetManager::GetInstance()->AddTargets(sf::Vector2f(395, 180), 100, 0);
+//	//	TargetManager::GetInstance()->AddTargets(sf::Vector2f(600, 180), 100, 0);
+//	//	TargetManager::GetInstance()->AddTargets(sf::Vector2f(810, 180), 100, 0);
+//	//}
+//	SetUp();
+//}
 
 //void Level::UpdateTut(Player *player, float frameTime)
 //{

@@ -11,8 +11,6 @@
 using namespace std;
 
 
-//typedef  void (Menu::*MenuMemFunc)();
-//class Button;
 class Menu
 {
 public:
@@ -44,6 +42,8 @@ public:
 	list<Achievement*> achievements;
 	static Achievement* crapShot;
 	static Achievement* crackShot;
+
+	bool cleanMeUp;
 private:
 	sf::Texture menuBG_tex;
 	//sf::Texture volumeOption_tex;

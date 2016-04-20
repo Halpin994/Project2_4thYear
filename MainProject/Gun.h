@@ -32,6 +32,8 @@ public:
 	bool getShotFired();
 	int getGunType();
 
+	void Gun::Reload();
+
 	sf::Vector2f getGunPos();
 private:
 	int clipSize;

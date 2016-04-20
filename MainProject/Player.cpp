@@ -30,6 +30,10 @@ Player::Player()
 	normalReloadTime = 2.0;
 	normalReloadTimer = normalReloadTime;
 
+	quickReloadActive = false;
+	normalReloadClicked = false;
+	quickReloadClicked = false;
+
 	gameTime = 0;
 	gameOverTime = 0;
 
@@ -118,22 +122,24 @@ void Player::Draw(sf::RenderWindow& window)
 		}
 	}
 
+	if (currentGun->getCurrentClip() == currentGun->getMaxClip() || normalReloadClicked == true)
+	{
+		window.draw(reloadUnavailableSprite);
+	}
+	if (normalReloadClicked == false && quickReloadActive == false && currentGun->getCurrentClip() < currentGun->getMaxClip())
+	{
+		window.draw(reloadNormalSprite);
+	}
+	if (quickReloadActive == true)
+	{
+		window.draw(reloadQuickSprite);
+	}
+
 	//window.draw(pistolClipSprite);
 	window.draw(gunClipText);
 	currentGun->Draw(window);
 
-	//if (pistolClip == pistolClipSize || normalReloadClicked == true)
-	//{
-	//	window.draw(reloadUnavailableSprite);
-	//}
-	//if (normalReloadClicked == false && quickReloadActive == false && pistolClip < pistolClipSize)
-	//{
-	//	window.draw(reloadNormalSprite);
-	//}
-	//if (quickReloadActive == true)
-	//{
-	//	window.draw(reloadQuickSprite);
-	//}
+
 
 }
 
@@ -154,12 +160,66 @@ void Player::Update(sf::RenderWindow& window, float frameTime)
 	{
 		rightMousePressed = false;
 	}
+	if (sf::Mouse::isButtonPressed(sf::Mouse::Right))
+	{
+		currentGun = guns[Gun::SMG];
+	}
 	if (sf::Mouse::isButtonPressed(sf::Mouse::Left) && leftMousePressed == false)
 	{
-		currentGun->Shoot();
-		if (currentGun->getGunType() == Gun::PISTOL)
+		if (reloadNormalSprite.getGlobalBounds().contains(currentGun->getGunPos()))
 		{
-			leftMousePressed = true;
+			if (currentGun->getCurrentClip() < currentGun->getMaxClip())
+			{
+				if (quickReloadActive == true)
+				{
+					SoundManager::GetInstance()->PlayPistolQuickReload();
+					currentGun->Reload();
+					quickReloadClicked = true;
+					quickReloadTimer = quickReloadTime;
+					normalReloadTimer = normalReloadTime;
+					quickReloadActive = false;
+					normalReloadClicked = false;
+					leftMousePressed = true;
+				}
+				else if (quickReloadActive == false)
+				{
+					SoundManager::GetInstance()->PlayPistolReload();
+					normalReloadClicked = true;
+					leftMousePressed = true;
+				}
+			}
+		}
+		else if (quickReloadActive == false && normalReloadClicked == false)
+		{
+			currentGun->Shoot();
+			if (currentGun->getGunType() == Gun::PISTOL)
+			{
+				leftMousePressed = true;
+			}
+		}
+	}
+
+	if (currentGun->getCurrentClip() == 0 && quickReloadTimer > 0)
+	{
+		quickReloadTimer -= frameTime;
+		quickReloadActive = true;
+		if (quickReloadTimer < 0)
+		{
+			quickReloadTimer = 0;
+			quickReloadActive = false;
+		}
+	}
+
+	if (normalReloadClicked == true)
+	{
+		normalReloadTimer -= frameTime;
+		if (normalReloadTimer < 0)
+		{
+			currentGun->Reload();
+			quickReloadTimer = quickReloadTime;
+			normalReloadTimer = normalReloadTime;
+			quickReloadActive = false;
+			normalReloadClicked = false;
 		}
 	}
 

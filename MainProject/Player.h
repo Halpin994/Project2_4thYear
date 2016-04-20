@@ -45,8 +45,6 @@ public:
 	Gun* Player::getCurrentGun();
 
 private:
-	//sf::Texture crosshairImage;
-	//sf::Sprite crosshairSprite;
 	sf::Texture clipBulletImage;
 	sf::Sprite clipBulletSprite;
 	sf::Texture pistolClipImage;
@@ -58,38 +56,13 @@ private:
 	sf::Sprite reloadNormalSprite;
 	sf::Texture reloadUnavailableImage;
 	sf::Sprite reloadUnavailableSprite;
-	
-	//sf::Vector2f crhRecoilDirection;
-	//sf::Vector2f crhOffset;
-	//sf::Vector2f myOffset;
 
 	bool rightMousePressed;
 	bool leftMousePressed;
-	//bool crhRecoilActive;
-	//bool recoilTimerActive;
-
-	//bool crhRecoilCalculated;
-	//bool crhRecoilUp;
-
-	//bool outOfControl;
 
 	bool quickReloadActive;
 	bool quickReloadClicked;
 	bool normalReloadClicked;
-
-	//float random;
-	//float randomXSway;
-
-	//float crhRecoilSpeed;
-	//float crhRecoilDistance;
-
-	//float pistolRecoilCoolDownTime;
-	//float recoilCoolDown;
-
-	//float yPistolRecoil;
-	//float yPistolRecoilStrength;
-	//float yPistolRecoilStrengthTemp;
-	//float pistolRecoilMultiplier;
 
 	float quickReloadTime;
 	float quickReloadTimer;
@@ -100,30 +73,12 @@ private:
 	float gameTime;
 	float gameOverTime;
 
-	//float smgFireRate;
-	//float smgFireRateTimer;
-
-	//float targetRespawn;
-	//float targetRespawnTime;
-
-	//int recoilType;
-
-	//enum class Crosshairs { redCircleCross, redDot, clearDot, redHorizon, whiteHorizon, greenHorizon, greenHalfCirc, pistol, smg, predator};
-	//Crosshairs crosshairType;
-	//Crosshairs currentCrosshair;
-
-	//int pistolClipSize;
-	//int pistolClip;
-
 	sf::Font font;
 	sf::Text gunClipText;
-	//sf::Text gameTimeText;
 	std::stringstream ss;
 
-	//list<Gun*> guns;
 	map<int, Gun*> guns;
 	Gun* currentGun;
-
 };
 
 #endif 

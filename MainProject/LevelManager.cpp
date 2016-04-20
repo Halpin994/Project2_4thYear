@@ -7,6 +7,7 @@
 #include "GameStateManager.h"
 #include "TargetManager.h"
 #include "BulletManager.h"
+#include "ScoreManager.h"
 #include "SoundManager.h"
 #include "Level.h"
 #include "Menu.h"
@@ -33,7 +34,7 @@ LevelManager::LevelManager()
 
 }
 
-void LevelManager::CreateLevel(string lvl)
+void LevelManager::CreateLevel(string lvl, Menu* menu)
 {
 	numOfTotalShots = 0;
 	topTargYellowHits = 0;
@@ -46,12 +47,17 @@ void LevelManager::CreateLevel(string lvl)
 	bottomTargWhiteHits = 0;
 	delete level;
 
+	menu->cleanMeUp = true;
+
 	if (lvl == "Level1-Highscore")
 	{
+		currentLevelandType = lvl;
+		ScoreManager::GetInstance()->LoadHighScoreTable(lvl);
 		currentLevel = 1;
 		targetImage.loadFromFile("Assets/Images/Game/target.png");
 		bulletImage.loadFromFile("Assets/Images/Game/bulletHole_wood.png");
 		level = new Level("Highscore");
+		currentLevelType = "Highscore";
 		level->AddTarget(sf::Vector2f(395, 180), &targetImage, &bulletImage, 100, 1);
 		level->AddTarget(sf::Vector2f(600, 180), &targetImage, &bulletImage, 100, 1);
 		level->AddTarget(sf::Vector2f(810, 180), &targetImage, &bulletImage, 100, 1);
@@ -59,19 +65,54 @@ void LevelManager::CreateLevel(string lvl)
 		layer0_Image.loadFromFile("Assets/Images/Game/basicRange.png");
 		level->AddLevelSprite(&layer0_Image, 0, sf::Vector2f(0, 0));
 
-		gameOverTime = 15.0f;
+		ScoreManager::GetInstance()->SetScore(0);
+		BulletManager::GetInstance()->CleanUp();
+		gameOverTime = 8.0f;
 		targRespawnTime = 0.5;
 		levelEnd = false;
 	}
-	if (lvl == "Level1-Highspeed")
+	else if (lvl == "Level1-Highspeed")
 	{
+		currentLevelandType = lvl;
+		currentLevel = 1;
+		ScoreManager::GetInstance()->LoadHighScoreTable(lvl);
 		targetImage.loadFromFile("Assets/Images/Game/target.png");
 		bulletImage.loadFromFile("Assets/Images/Game/bulletHole_wood.png");
-		delete level;
 		level = new Level("Highspeed");
+		currentLevelType = "Highspeed";
+		level->AddTarget(sf::Vector2f(395, 180), &targetImage, &bulletImage, 50, 1);
+		level->AddTarget(sf::Vector2f(600, 180), &targetImage, &bulletImage, 50, 1);
+		level->AddTarget(sf::Vector2f(810, 180), &targetImage, &bulletImage, 50, 1);
+
+		ScoreManager::GetInstance()->SetScore(0);
+		BulletManager::GetInstance()->CleanUp();
+		TargetManager::GetInstance()->resetTargetsEliminated();
+
+		targRespawnTime = 0.1;
+
+		layer0_Image.loadFromFile("Assets/Images/Game/basicRange.png");
+		level->AddLevelSprite(&layer0_Image, 0, sf::Vector2f(0, 0));
+
+		levelEnd = false;
+	}
+	else if (lvl == "Level1-Headshots")
+	{
+		currentLevelandType = lvl;
+		currentLevel = 1;
+		ScoreManager::GetInstance()->LoadHighScoreTable(lvl);
+		targetImage.loadFromFile("Assets/Images/Game/target.png");
+		bulletImage.loadFromFile("Assets/Images/Game/bulletHole_wood.png");
+		level = new Level("Headshots");
+		currentLevelType = "Headshots";
 		level->AddTarget(sf::Vector2f(395, 180), &targetImage, &bulletImage, 100, 1);
 		level->AddTarget(sf::Vector2f(600, 180), &targetImage, &bulletImage, 100, 1);
 		level->AddTarget(sf::Vector2f(810, 180), &targetImage, &bulletImage, 100, 1);
+
+		ScoreManager::GetInstance()->SetScore(0);
+		BulletManager::GetInstance()->CleanUp();
+		TargetManager::GetInstance()->resetTargetsEliminated();
+
+		targRespawnTime = 1.0;
 
 		layer0_Image.loadFromFile("Assets/Images/Game/basicRange.png");
 		level->AddLevelSprite(&layer0_Image, 0, sf::Vector2f(0, 0));
@@ -136,11 +177,12 @@ void LevelManager::Draw(sf::RenderWindow& window)
 	else
 	{
 		level->DrawLayer(window, 0);
+		BulletManager::GetInstance()->Draw(window);
 		level->DrawLayer(window, 1);
 		level->DrawLayer(window, 2);
 		level->DrawLayer(window, 3);
 		level->DrawLayer(window, 4);
-		BulletManager::GetInstance()->Draw(window);
+		
 		level->Draw(window);
 		level->DrawOverlayUI(window);
 	}
@@ -151,7 +193,7 @@ void LevelManager::Update(float time, sf::RenderWindow& window)
 {
 	if (CheckEndState() == true)
 	{
-		if (sf::Mouse::isButtonPressed(sf::Mouse::Left))
+		if (sf::Mouse::isButtonPressed(sf::Mouse::Right))
 		{
 			GameStateManager::GetInstance()->SetGameState(GameStateManager::GameStates::MAIN_MENU);
 		}
@@ -162,7 +204,7 @@ void LevelManager::Update(float time, sf::RenderWindow& window)
 		CheckEndState();
 	}
 
-	if (level->GetLevelType() == sf::String("Highscore") && currentLevel == 1)
+	if (currentLevelandType == "Level1-Highscore")
 	{
 		if (level->GetListOfTargets().size() == 0)
 		{
@@ -170,49 +212,78 @@ void LevelManager::Update(float time, sf::RenderWindow& window)
 			if (targRespawnTime < 0)
 			{
 				SoundManager::GetInstance()->PlayClick();
-				level->AddTarget(sf::Vector2f(395, 180), &targetImage, &bulletImage, 100, 1);
-				level->AddTarget(sf::Vector2f(600, 180), &targetImage, &bulletImage, 100, 1);
-				level->AddTarget(sf::Vector2f(810, 180), &targetImage, &bulletImage, 100, 1);
+				level->AddTarget(sf::Vector2f(395, 180), &targetImage, &bulletImage, 125, 1);
+				level->AddTarget(sf::Vector2f(600, 180), &targetImage, &bulletImage, 125, 1);
+				level->AddTarget(sf::Vector2f(810, 180), &targetImage, &bulletImage, 125, 1);
 				targRespawnTime = 0.5;
 			}
 		}
 	}
-
-	//if (GetCurrentLevel()->GetLevelType() == "Level1-Highscore")
-	//{
-	//	if (TargetManager::GetInstance()->GetSizeOfTargets() == 0)
-	//	{
-	//		targetRespawn -= frameTime;
-	//		if (targetRespawn < 0)
-	//		{
-	//			AddTarget(sf::Vector2f(395, 180), &targetImage, &bulletImage, 100, 1);
-	//			AddTarget(sf::Vector2f(600, 180), &targetImage, &bulletImage, 100, 1);
-	//			AddTarget(sf::Vector2f(810, 180), &targetImage, &bulletImage, 100, 1);
-	//			SoundManager::GetInstance()->PlayClick();
-	//			targetRespawn = targetRespawnTime;
-	//		}
-	//	}
-	//}
+	else if (currentLevelandType == "Level1-Highspeed")
+	{
+		if (level->GetListOfTargets().size() == 0)
+		{
+			targRespawnTime -= time;
+			if (targRespawnTime < 0)
+			{
+				SoundManager::GetInstance()->PlayClick();
+				level->AddTarget(sf::Vector2f(395, 180), &targetImage, &bulletImage, 50, 1);
+				level->AddTarget(sf::Vector2f(600, 180), &targetImage, &bulletImage, 50, 1);
+				level->AddTarget(sf::Vector2f(810, 180), &targetImage, &bulletImage, 50, 1);
+				targRespawnTime = 0.1;
+			}
+		}
+	}
+	else if (currentLevelandType == "Level1-Headshots")
+	{
+		if (level->GetListOfTargets().size() == 0)
+		{
+			targRespawnTime -= time;
+			if (targRespawnTime < 0)
+			{
+				level->AddTarget(sf::Vector2f(395, 180), &targetImage, &bulletImage, 100, 1);
+				level->AddTarget(sf::Vector2f(600, 180), &targetImage, &bulletImage, 100, 1);
+				level->AddTarget(sf::Vector2f(810, 180), &targetImage, &bulletImage, 100, 1);
+				targRespawnTime = 1.0;
+			}
+		}
+	}
 }
 
 bool LevelManager::CheckEndState()
 {
 	if (levelEnd == false)
 	{
-		if (level->GetLevelType() == sf::String("Highscore") && level->GetLevelTime() >= gameOverTime)
+		if (currentLevelandType == "Level1-Highscore" && level->GetLevelTime() >= gameOverTime)
 		{
+			SoundManager::GetInstance()->PlayClick();
 			levelEnd = true;
 			level->AddStatText("Accuracy");
 			level->AddStatText("Score");
+			ScoreManager::GetInstance()->AddToHighScores(ScoreManager::GetInstance()->GetScore(), true);
+			ScoreManager::GetInstance()->SaveHighScoreTable(currentLevelandType);
+			level->AddStatText("Highscore");
+		}
+		else if (currentLevelandType == "Level1-Highspeed" && TargetManager::GetInstance()->GetNumOfTargsEliminated() >= 9)
+		{
 			SoundManager::GetInstance()->PlayClick();
-		}
-		else if (level->GetLevelType() == sf::String("Highspeed") && level->GetListOfTargets().size() == 0)
-		{
 			levelEnd = true;
+			level->AddStatText("Accuracy");
+			level->AddStatText("Time");
+			ScoreManager::GetInstance()->AddToFastestTimes(level->GetLevelTime(), true);
+			ScoreManager::GetInstance()->SaveHighScoreTable(currentLevelandType);
+			level->AddStatText("Highspeed");
 		}
-		else if (level->GetLevelType() == sf::String("Headshots"))
+		else if (currentLevelandType == "Level1-Headshots" && TargetManager::GetInstance()->GetNumOfTargsEliminated() >= 3)
 		{
+			SoundManager::GetInstance()->PlayClick();
 			levelEnd = true;
+			level->AddStatText("Accuracy");
+			level->AddStatText("Score");
+			level->AddStatText("Time");
+			ScoreManager::GetInstance()->AddToHeadshotScores(ScoreManager::GetInstance()->GetScore(), true);
+			ScoreManager::GetInstance()->SaveHighScoreTable(currentLevelandType);
+			level->AddStatText("Headshots");
 		}
 	}
 	return levelEnd;
@@ -301,5 +372,15 @@ float LevelManager::GetAccuracy()
 		}
 	}
 	return Accuracy;
+}
+
+sf::String LevelManager::GetCurrentLevelType()
+{
+	return currentLevelandType;
+}
+
+sf::String LevelManager::GetCurrentType()
+{
+	return currentLevelType;
 }
 

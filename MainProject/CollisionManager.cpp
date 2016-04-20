@@ -42,15 +42,16 @@ bool CollisionManager::CheckTargetCollision(sf::Vector2f bulletPos, static int g
 	{
 		if ((*targetITER)->GetGlobalBounds().contains(bulletPos))
 			{
-				(*targetITER)->SetHealth();
 				(*targetITER)->AddBullet(bulletPos, gunType);
-				CheckTargetColourCollision(bulletPos, targetITER);
-				//if ((*targetITER)->GetHealth() <= 0)
-				//{
-				//	TargetManager::GetInstance()->targetsEliminatedPlus();
-				//	delete (*targetITER);
-				//	targetITER = targets.erase(targetITER);
-				//}
+
+				if ((LevelManager::GetInstance()->GetCurrentType() == "Highscore") || (LevelManager::GetInstance()->GetCurrentType() == "Highspeed"))
+				{
+					CheckTargetColourCollision(bulletPos, targetITER);
+				}
+				if (LevelManager::GetInstance()->GetCurrentType() == "Headshots")
+				{
+					CheckHeadshotCollision(bulletPos, targetITER);
+				}
 				return true;
 			}
 		else
@@ -61,8 +62,49 @@ bool CollisionManager::CheckTargetCollision(sf::Vector2f bulletPos, static int g
 	return false;
 }
 
+void CollisionManager::CheckHeadshotCollision(sf::Vector2f bulletPos, list<Target*>::iterator targetITER)
+{
+	float distanceTopTarg = sqrtf(
+		powf(bulletPos.x - ((*targetITER)->GetPosition().x + ((*targetITER)->GetWidth() / 2)), 2)
+		+
+		powf(bulletPos.y - ((*targetITER)->GetPosition().y + ((*targetITER)->GetHeight() / (170.0f / 53.0f))), 2)
+		);
+
+	if (distanceTopTarg <= ((*targetITER)->GetWidth() / 2) / (50.0f / 14.0f))
+	{
+		if (distanceTopTarg <= ((*targetITER)->GetWidth() / 2) / (50.0f / 3.0f))
+		{
+			SoundManager::GetInstance()->PlayMetalClangSoundEffect();
+			ScoreManager::GetInstance()->AddScore(50, bulletPos, "yellow", "top");
+			LevelManager::GetInstance()->AddShotFired(sf::String("topYellow"));
+		}
+		else if (distanceTopTarg <= ((*targetITER)->GetWidth() / 2) / (50.0f / 6.0f))
+		{
+			SoundManager::GetInstance()->PlayWoodClangSoundEffect();
+			ScoreManager::GetInstance()->AddScore(40, bulletPos, "red", "top");
+			LevelManager::GetInstance()->AddShotFired(sf::String("topRed"));
+		}
+		else if (distanceTopTarg <= ((*targetITER)->GetWidth() / 2) / (50.0f / 10.0f))
+		{
+			SoundManager::GetInstance()->PlayWoodClangSoundEffect();
+			ScoreManager::GetInstance()->AddScore(25, bulletPos, "blue", "top");
+			LevelManager::GetInstance()->AddShotFired(sf::String("topBlue"));
+		}
+		else
+		{
+			SoundManager::GetInstance()->PlayWoodClangSoundEffect();
+			ScoreManager::GetInstance()->AddScore(20, bulletPos, "white", "top");
+			LevelManager::GetInstance()->AddShotFired(sf::String("topWhite"));
+		}
+
+		(*targetITER)->SetHealth();
+	}
+}
+
 void CollisionManager::CheckTargetColourCollision(sf::Vector2f bulletPos, list<Target*>::iterator targetITER)
 {
+	(*targetITER)->SetHealth();
+
 	float distanceBotTarg = sqrtf(
 		powf(bulletPos.x - ((*targetITER)->GetPosition().x + ((*targetITER)->GetWidth() / 2)), 2)
 		+ 
@@ -100,6 +142,11 @@ void CollisionManager::CheckTargetColourCollision(sf::Vector2f bulletPos, list<T
 			ScoreManager::GetInstance()->AddScore(10, bulletPos, "white", "bottom");
 			LevelManager::GetInstance()->AddShotFired(sf::String("botWhite"));
 		}
+
+		if (LevelManager::GetInstance()->GetCurrentType() == "Highspeed")
+		{
+			(*targetITER)->SetHealth();
+		}
 	}
 	else if (distanceTopTarg <= ((*targetITER)->GetWidth() / 2) / (50.0f / 14.0f))
 	{
@@ -108,6 +155,10 @@ void CollisionManager::CheckTargetColourCollision(sf::Vector2f bulletPos, list<T
 			SoundManager::GetInstance()->PlayMetalClangSoundEffect();
 			ScoreManager::GetInstance()->AddScore(50, bulletPos, "yellow", "top");
 			LevelManager::GetInstance()->AddShotFired(sf::String("topYellow"));
+			if (LevelManager::GetInstance()->GetCurrentType() == "Highspeed")
+			{
+				(*targetITER)->SetHealth();
+			}
 		}
 		else if (distanceTopTarg <= ((*targetITER)->GetWidth() / 2) / (50.0f / 6.0f))
 		{
@@ -127,9 +178,14 @@ void CollisionManager::CheckTargetColourCollision(sf::Vector2f bulletPos, list<T
 			ScoreManager::GetInstance()->AddScore(20, bulletPos, "white", "top");
 			LevelManager::GetInstance()->AddShotFired(sf::String("topWhite"));
 		}
+
+		if (LevelManager::GetInstance()->GetCurrentType() == "Highspeed")
+		{
+			(*targetITER)->SetHealth();
+		}
 	}
 	else
+	{
 		SoundManager::GetInstance()->PlayWoodClangSoundEffect();
-
-
+	}
 }

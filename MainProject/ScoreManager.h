@@ -2,15 +2,20 @@
 #define SCOREMANAGER
 
 #include <iostream>
+#include <fstream>
 #include <list>
 
 #include "ScorePopup.h"
+#include "Score.h"
 
 class ScoreManager
 {
 public:
 	ScoreManager()
 	{
+		highscores[10];
+		hightimes[10];
+
 		score = 0;
 		font.loadFromFile("Assets/imagine_font.ttf");
 
@@ -43,10 +48,32 @@ public:
 	void ScoreManager::Update(float ft, Player *player);
 	sf::Vector2f ScoreManager::GetScorePos();
 
+	void ScoreManager::LoadHighScoreTable(sf::String string);
+	void ScoreManager::SaveHighScoreTable(sf::String string);
+	void ScoreManager::AddToHighScores(float, bool);
+	void ScoreManager::AddToFastestTimes(float time, bool sort);
+	void ScoreManager::AddToHeadshotScores(float score, bool sort);
+
+	void ScoreManager::ClearScoreTable(vector<Score*>& scores);
+	void ScoreManager::ClearTimeTable();
+	void ScoreManager::SortScores(vector<Score*>& scores);
+	void ScoreManager::SortTimes();
+
+	vector<Score*> ScoreManager::GetHighScores();
+	vector<Score*> ScoreManager::GetHighTimes();
+	vector<Score*> ScoreManager::GetHeadshotScores();
+
 private:
 
 	static bool instanceFlag;
 	static ScoreManager* instance;
+
+	vector<Score*> highscores;
+	vector<Score*> hightimes;
+	vector<Score*> headshotScores;
+
+	ofstream writeFile;
+	ifstream readFile;
 
 	float score;
 	float prevPoints;

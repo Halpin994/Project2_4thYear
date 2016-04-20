@@ -26,6 +26,7 @@ public:
 	//bool CollisionManager::CheckMenuElementCollision(sf::Vector2i crosshairPos, sf::Sprite &element);
 	bool CollisionManager::CheckMenuElementCollision(sf::Vector2i crosshairPos, sf::Vector2f pos, sf::FloatRect bounds);
 	void CollisionManager::CheckTargetColourCollision(sf::Vector2f bulletPos, list<Target*>::iterator targetITER);
+	void CollisionManager::CheckHeadshotCollision(sf::Vector2f bulletPos, list<Target*>::iterator targetITER);
 
 private:
 	static bool instanceFlag;

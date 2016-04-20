@@ -28,6 +28,8 @@ public:
 	list<Target*>& TargetManager::GetListOfTargets();
 	int TargetManager::GetSizeOfTargets();
 	void TargetManager::targetsEliminatedPlus();
+	int TargetManager::GetNumOfTargsEliminated();
+	void TargetManager::resetTargetsEliminated();
 	void TargetManager::Update(float ft, list<Target*>* targets);
 
 private:

@@ -19,7 +19,7 @@ Gun::Gun(int type)
 	{
 	case PISTOL:
 		gunType = PISTOL;
-		clipSize = 20;
+		clipSize = 12;
 		current_Clip = clipSize;
 		recoilCooldownTime = 0.7;
 		recoilCooldownTimer = 0;
@@ -46,7 +46,7 @@ Gun::Gun(int type)
 
 	case SMG:
 		gunType = SMG;
-		clipSize = 130;
+		clipSize = 25;
 		current_Clip = clipSize;
 		recoilCooldownTime = 0.5;
 		recoilCooldownTimer = 0;
@@ -166,17 +166,9 @@ sf::Vector2f Gun::BulletRecoil()
 		outOfControlYMax = -2;
 		outOfControlYMin = -50;
 
-		//float randomXSway = rand() % 1000;
-		//randomXSway = (randomXSway / 10) - 50;
-		//float randomXSway = rand() % (outOfControlXMax - (outOfControlXMin)) + (outOfControlXMin);
-		//(float(rand()) / float(RAND_MAX)) * (Max - Min)) + Min;
 		float randomXSway = ((float(rand()) / float(RAND_MAX)) * (outOfControlXMax - outOfControlXMin)) + outOfControlXMin;
-		//float randomYSway = rand() % 1000;
-		//randomYSway = (randomYSway / 50) - 10;
-		//float randomYSway = rand() % (outOfControlYMax - (outOfControlYMin)) + (outOfControlYMin);
 		float randomYSway = ((float(rand()) / float(RAND_MAX)) * (outOfControlYMax - outOfControlYMin)) + outOfControlYMin;
 		cout << randomYSway << endl;
-		//randomYSway = randomYSway / 100;
 		rec = sf::Vector2f(randomXSway, yRecoil + randomYSway);
 	}
 	return rec;
@@ -242,6 +234,11 @@ void Gun::UpdateCrosshairRecoil()
 	}
 
 
+}
+
+void Gun::Reload()
+{
+	current_Clip = clipSize;
 }
 
 //! Normalize a vector passed on call

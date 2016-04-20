@@ -57,6 +57,15 @@ void BulletManager::Draw(sf::RenderWindow& window)
 	}
 }
 
+void BulletManager::CleanUp()
+{
+	for (BulletHole* b : bulletHoles)
+	{
+		delete b;
+	}
+	bulletHoles.clear();
+}
+
 list<BulletHole*>& BulletManager::GetListOfBullets()
 {
 	return bulletHoles;

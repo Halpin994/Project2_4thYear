@@ -15,9 +15,9 @@ void (Menu::*playGameFunc)() = &Menu::PlayGame;
 void (Menu::*quitFunc)() = &Menu::Quit;
 void (Menu::*selectLevelFunc)() = &Menu::SelectLevel;
 void (Menu::*selectLevelTypeFunc)() = &Menu::SelectLevelType;
+
 Achievement* Menu::crapShot = new CrapShot();
 Achievement* Menu::crackShot = new CrackShot();
-
 
 Menu::Menu()
 {
@@ -28,6 +28,7 @@ Menu::Menu()
 	AddButton(MainFirstPos + MainSpacing, sf::String("OPTIONS"), 56, font, quitFunc, mainButtons);
 	AddButton(MainFirstPos + MainSpacing + MainSpacing, sf::String("QUIT"), 56, font, quitFunc, mainButtons);
 
+	cleanMeUp = false;
 	mainButtonsAlive = true;
 	levelButtonsAlive = false;
 	levelTypeButtonsAlive = false;
@@ -49,19 +50,19 @@ void Menu::SelectLevelType()
 	{
 		if (secondButtonPressed == "Highscore")
 		{
-			LevelManager::GetInstance()->CreateLevel(sf::String("Level1-Highscore"));
+			LevelManager::GetInstance()->CreateLevel(sf::String("Level1-Highscore"), this);
 			GameStateManager::GetInstance()->SetGameState(GameStateManager::GameStates::GAME);
 		}
 		else if (secondButtonPressed == "Highspeed")
 		{
-			LevelManager::GetInstance()->CreateLevel(sf::String("Level1-Highspeed"));
+			LevelManager::GetInstance()->CreateLevel(sf::String("Level1-Highspeed"), this);
+			GameStateManager::GetInstance()->SetGameState(GameStateManager::GameStates::GAME);
 		}
 		else if (secondButtonPressed == "Headshots")
 		{
-
+			LevelManager::GetInstance()->CreateLevel(sf::String("Level1-Headshots"), this);
+			GameStateManager::GetInstance()->SetGameState(GameStateManager::GameStates::GAME);
 		}
-
-
 	}
 }
 
@@ -194,10 +195,10 @@ void Menu::Draw(sf::RenderWindow& window)
 	{
 		if (achievement->unlocked)
 		{
-			achievement->SetPosition(sf::Vector2f(50 + (100 * i), 50));
+			achievement->SetPosition(sf::Vector2f(50 + (100 * i), 600));
 			achievement->Draw(window);
 			i++;
-		}	
+		}
 	}
 
 	window.draw(crosshair_spr);
@@ -212,6 +213,28 @@ void Menu::Draw(sf::RenderWindow& window)
 void Menu::Update(sf::RenderWindow& window)
 {
 	crosshair_spr.setPosition(sf::Mouse::getPosition(window).x, sf::Mouse::getPosition(window).y);
+	if (cleanMeUp == true)
+	{
+		if (levelButtonsAlive)
+		{
+			for (Button *b : levelButtons)
+			{
+				delete b;
+			}
+			levelButtons.clear();
+			levelButtonsAlive = false;
+		}
+		if (levelTypeButtonsAlive)
+		{
+			for (Button *b : levelTypeButtons)
+			{
+				delete b;
+			}
+			levelTypeButtons.clear();
+			levelTypeButtonsAlive = false;
+		}
+		cleanMeUp = false;
+	}
 
 	if (mainButtonsAlive)
 	{

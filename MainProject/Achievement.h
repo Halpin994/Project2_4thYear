@@ -28,7 +28,7 @@ class CrackShot : public Achievement
 public:
 	CrackShot()
 	{
-		myTexture.loadFromFile("Assets/Images/Game/target.png");
+		myTexture.loadFromFile("Assets/Images/Game/crackshot.png");
 		mySprite.setTexture(myTexture);
 	}
 	~CrackShot();
@@ -39,7 +39,7 @@ class CrapShot : public Achievement
 public:
 	CrapShot()
 	{
-		myTexture.loadFromFile("Assets/Images/Game/target2.png");
+		myTexture.loadFromFile("Assets/Images/Game/crapshot.png");
 		mySprite.setTexture(myTexture);
 	}
 	~CrapShot();

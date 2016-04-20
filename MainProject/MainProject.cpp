@@ -5,12 +5,11 @@
 #include "Menu.h"
 #include "LevelManager.h"
 #include "Target.h"
+#include <iostream>
 #include "GameStateManager.h"
 #include "BulletManager.h"
 #include "TargetManager.h"
 #include "SoundManager.h"
-
-//typedef  void (Menu::*MenuMemFunc)();
 
 //! (Brief desc)
 /*!
@@ -33,8 +32,15 @@ int main()
 
 	SoundManager::GetInstance(); //calling constructor for sm to load assets
 
-	while (window.isOpen())
+	while (window.isOpen() )
 	{
+		//don't update unless we have focus
+		//if (!window.hasFocus())
+		//{
+		//	clock.restart();
+		//	continue;
+		//}
+
 		double time = clock.restart().asMilliseconds() / 1000.0f;
 		//cout << time << endl;
 

@@ -77,20 +77,22 @@ void TargetManager::Update(float ft, list<Target*>* targets)
 {
 	for (std::list<Target*>::iterator targetIter = targets->begin(), endIter = targets->end(); targetIter != endIter;)
 	{
-		//Pull the pointer from the iterator
-		//Target* currentTarget = (*targetIter);
-
 		//If we have a TTL, update
 		if ((*targetIter)->GetHealth() > 0)
 		{
-			(*targetIter)->Update(ft);
+			//(*targetIter)->Update(ft);
 
 			//And then update the iterator here
 			targetIter++;
 		}
+		else if ((*targetIter)->GetHealth() <= 0 && (*targetIter)->GetTimeToLive() > 0)
+		{
+			(*targetIter)->Update(ft);
+			targetIter++;
+		}
 		else
 		{
-			
+			targetsEliminatedPlus();
 			//Delete target
 			delete (*targetIter);
 			//Update iterator by erasing
@@ -113,9 +115,14 @@ void TargetManager::Update(float ft, list<Target*>* targets)
 void TargetManager::targetsEliminatedPlus()
 {
 	targetsEliminated++;
-	if (targetsEliminated == 6)
-	{
-		targetsEliminated = 0;
-		GameStateManager::GetInstance()->SetGameState(GameStateManager::GameStates::GAMEOVER);
-	}
+}
+
+void TargetManager::resetTargetsEliminated()
+{
+	targetsEliminated = 0;
+}
+
+int TargetManager::GetNumOfTargsEliminated()
+{
+	return targetsEliminated;
 }

@@ -66,7 +66,13 @@ private:
 
 	std::list<sf::Text> stats;
 
+	sf::Vector2f firstPrevStatPos;
+	sf::Vector2f firstHighScorePos;
+	sf::Vector2f firstScorePos;
+
 	sf::Vector2f prevStatPos;
+	sf::Vector2f prevHighScorePos;
+	sf::Vector2f prevScorePos;
 
 	//Sprite stuff
 

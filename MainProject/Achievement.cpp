@@ -8,7 +8,6 @@ Achievement::Achievement()
 	unlocked = false;
 }
 
-
 Achievement::~Achievement()
 {
 }
